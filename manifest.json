@@ -1,0 +1,48 @@
+
+{
+	"name": "keepassxc-mail",
+	"description": "MailExtension to talk to keepassxc",
+	"version": "0.1.0",
+	"icons": {
+		"48": "icons/icon.svg",
+		"96": "icons/icon.svg"
+	},
+	"background": {
+		"scripts": [
+			"from-keepassxc-browser/nacl.min.js",
+			"from-keepassxc-browser/nacl-util.min.js",
+			"global.js",
+			"from-keepassxc-browser/keepass.js",
+			"main.js"
+		]
+	},
+	"options_ui": {
+		"browser_style": true,
+		"page": "options/options.html"
+	},
+	"author": "Korbinian Kapsner",
+	"permissions": [
+		"nativeMessaging",
+		"storage",
+		"https://api.github.com/"
+	],
+	"experiment_apis": {
+	  	"keepassxc": {
+			"schema": "experiment/schema.json",
+			"parent": {
+				"scopes": ["addon_parent"],
+				"paths": [["keepassxc"]],
+				"script": "experiment/implementation.js"
+			}
+		}
+	},
+	"applications": {
+		"gecko": {
+			"id": "keepassxc-mail@kkapsner.de",
+			"strict_min_version": "68.1.0",
+			"strict_max_version": "72.*"
+		}
+	},
+	"default_locale": "en",
+	"manifest_version": 2
+}

@@ -1,0 +1,32 @@
+{
+  "name": "keepassxc-mail",
+  "version": "0.1.0",
+  "description": "MailExtension to talk to keepassxc",
+  "main": "main.js",
+  "scripts": {
+    "build": "node .tools/build.js",
+    "eslint": "eslint ./ --ext .js,.html,.php"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kkapsner/keepassxc-mail.git"
+  },
+  "keywords": [
+    "keepassxc",
+    "MailExtension",
+    "Thunderbird",
+    "password manager"
+  ],
+  "author": "Korbinian Kapsner",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/kkapsner/keepassxc-mail/issues"
+  },
+  "homepage": "https://github.com/kkapsner/keepassxc-mail#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-eslint-comments": "^3.1.2",
+    "eslint-plugin-html": "^6.0.0",
+    "eslint-plugin-promise": "^4.2.1"
+  }
+}

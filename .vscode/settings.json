@@ -1,0 +1,29 @@
+{
+	"cSpell.enabled": true,
+	"cSpell.words": [
+		"HKCU",
+		"Msgs",
+		"hbox",
+		"keebird",
+		"keepass",
+		"keepassxc",
+		"menulist",
+		"menupopup",
+		"nacl",
+		"nntp",
+		"stringbundle",
+		"tooltiptext",
+		"wcap"
+	],
+	"cSpell.language": "en,de,en-GB",
+	"cSpell.ignorePaths": [
+		"**/package-lock.json",
+		"**/node_modules/**",
+		"**/from-keepassxc-browser/**",
+		"**/vscode-extension/**",
+		"**/.git/objects/**",
+		".vscode",
+		".eslintrc.json"
+	],
+	"eslint.lintTask.enable": true
+}

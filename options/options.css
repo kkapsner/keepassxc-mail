@@ -1,0 +1,14 @@
+body, html {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-size: 10pt;
+}
+
+h1 {
+	font-size: 1.5em;
+	font-weight: bold;
+	margin-top: 0;
+}
