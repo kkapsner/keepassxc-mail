@@ -47,6 +47,22 @@ cat ~/Library/Application Support/Mozilla/NativeMessagingHosts/org.keepassxc.kee
 	~/Library/Application Support/Mozilla/NativeMessagingHosts/de.kkapsner.keepassxc_mail.json
 ```
 
+## Finding entries in the password database
+
+KeePassXC-Mail uses the following schema to find matching entries for a given server:
+
+ * `imap://{server name}`
+ * `smtp://{server name}`
+ * `pop3://{server name}`
+ * `http://{server name}`
+ * `https://{server name}`
+ * `nntp-1://{server name}`
+ * `nntp-2://{server name}`
+
+### Tipp
+
+If you have the same user and password for receiving (imap/pop3) and sending (smtp) and do not want to duplicate your entries you can go to the "Browser Integration" section of the entry definition in KeePassXC and add the second URL there. 
+
 ## Icon
 
 Icon is based on the icon of [KeePassXC-Browser](https://github.com/keepassxreboot/keepassxc-browser/blob/develop/keepassxc-browser/icons/keepassxc.svg) - just the colors are changed to some colors of the Thunderbird.
