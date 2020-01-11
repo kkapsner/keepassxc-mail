@@ -1,0 +1,3 @@
+Version 0.1.0:
+
+First MVP that supports IMAP, POP3, SMTP and calendar password prompts.
