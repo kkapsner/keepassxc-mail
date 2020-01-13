@@ -226,16 +226,16 @@ function getTranslation(name, variables){
 	});
 }
 
-this.keepassxc = class extends ExtensionCommon.ExtensionAPI {
+this.credentials = class extends ExtensionCommon.ExtensionAPI {
 	getAPI(context) {
 		return {
-			keepassxc: {
+			credentials: {
 				async setTranslation(name, translation) {
 					translations[name.toLowerCase()] = translation;
 				},
 				onCredentialRequested: new ExtensionCommon.EventManager({
 					context,
-					name: "keepassxc.onCredentialRequested",
+					name: "credentials.onCredentialRequested",
 					register(fire) {
 						async function callback(event, window, credentialInfo){
 							try {
@@ -268,7 +268,7 @@ function buildDialogGui(window, credentialInfo){
 	
 	/* add ui elements to dialog */
 	const row = document.createElementNS(xulNS, "row");
-	row.setAttribute("id", "keepassxc-mail-row");
+	row.setAttribute("id", "credentials-row");
 	row.setAttribute("flex", "1");
 	
 	// spacer to take up first column in layout
@@ -278,13 +278,13 @@ function buildDialogGui(window, credentialInfo){
 	
 	// this box displays labels and also the list of entries when fetched
 	const box = document.createElementNS(xulNS, "hbox");
-	box.setAttribute("id", "keepassxc-mail-box");
+	box.setAttribute("id", "credentials-box");
 	box.setAttribute("align", "center");
 	box.setAttribute("flex", "1");
 	box.setAttribute("pack", "start");
 	
 	const description = document.createElementNS(xulNS, "description");
-	description.setAttribute("id", "keepassxc-mail-description");
+	description.setAttribute("id", "credentials-description");
 	description.setAttribute("align", "start");
 	description.setAttribute("flex", "1");
 	description.setAttribute("value", getTranslation("loadingPasswords"));
@@ -298,7 +298,7 @@ function buildDialogGui(window, credentialInfo){
 		passwordRequestEmitter.emit("password-requested", window, credentialInfo);
 		window.sizeToContent();
 	});
-	retryButton.setAttribute("id", "keepassxc-mail-retry-button");
+	retryButton.setAttribute("id", "credentials-retry-button");
 	retryButton.style.display = "none";
 	box.appendChild(retryButton);
 	row.appendChild(box);
@@ -317,9 +317,9 @@ function updateGUI(window, credentialInfo, credentialDetails){
 	
 	const xulNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 	const document = window.document;
-	const row = document.getElementById("keepassxc-mail-row");
-	const box = document.getElementById("keepassxc-mail-box");
-	const description = document.getElementById("keepassxc-mail-description");
+	const row = document.getElementById("credentials-row");
+	const box = document.getElementById("credentials-box");
+	const description = document.getElementById("credentials-description");
 	if (!(row && box && description)) {
 		return;
 	}
@@ -344,7 +344,7 @@ function updateGUI(window, credentialInfo, credentialDetails){
 	});
 	if (!uniqueCredentials.length){
 		description.setAttribute("value", getTranslation("noPasswordsFound"));
-		document.getElementById("keepassxc-mail-retry-button").style.display = "";
+		document.getElementById("credentials-retry-button").style.display = "";
 		window.sizeToContent();
 		return;
 	}
@@ -358,7 +358,7 @@ function updateGUI(window, credentialInfo, credentialDetails){
 	}
 
 	const list = document.createElementNS(xulNS, "menulist");
-	list.setAttribute("id", "keepassxc-mail-list");
+	list.setAttribute("id", "credentials-list");
 	const popup = document.createElementNS(xulNS, "menupopup");
 
 	uniqueCredentials.forEach(function(credentials){

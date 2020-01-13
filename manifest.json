@@ -27,11 +27,11 @@
 		"https://api.github.com/"
 	],
 	"experiment_apis": {
-	  	"keepassxc": {
+	  	"credentials": {
 			"schema": "experiment/schema.json",
 			"parent": {
 				"scopes": ["addon_parent"],
-				"paths": [["keepassxc"]],
+				"paths": [["credentials"]],
 				"script": "experiment/implementation.js"
 			}
 		}

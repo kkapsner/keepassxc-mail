@@ -39,11 +39,11 @@ const keepassReady = (async () => {
 ].forEach(function(stringName){
 	"use strict";
 	
-	browser.keepassxc.setTranslation(stringName, browser.i18n.getMessage(stringName));
+	browser.credentials.setTranslation(stringName, browser.i18n.getMessage(stringName));
 });
 
 const lastRequest = {};
-browser.keepassxc.onCredentialRequested.addListener(async function(credentialInfo){
+browser.credentials.onCredentialRequested.addListener(async function(credentialInfo){
 	"use strict";
 	await keepassReady;
 	let credentialsForHost = await keepass.retrieveCredentials(false, [credentialInfo.host]);

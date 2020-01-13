@@ -1,6 +1,6 @@
 [
 	{
-		"namespace": "keepassxc",
+		"namespace": "credentials",
 		"functions": [
 			{
 				"name": "setTranslation",
