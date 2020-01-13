@@ -47,6 +47,16 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 	"use strict";
 	await keepassReady;
 	let credentialsForHost = await keepass.retrieveCredentials(false, [credentialInfo.host]);
+	
+	const presentIds = new Map();
+	credentialsForHost = credentialsForHost.filter(function(credentials){
+		const alreadyPresent = presentIds.has(credentials.uuid);
+		if (alreadyPresent){
+			return false;
+		}
+		presentIds.set(credentials.uuid, true);
+		return true;
+	});
 	if (credentialInfo.login){
 		credentialsForHost = credentialsForHost.filter(function(credential){
 			return credential.login === credentialInfo.login;

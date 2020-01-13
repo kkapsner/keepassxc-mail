@@ -334,23 +334,16 @@ function updateGUI(window, credentialInfo, credentialDetails){
 		}
 		document.getElementById("password1Textbox").value = credentials.password;
 	}
-	const uniqueCredentials = [];
-	const presentIds = new Map();
-	credentialDetails.credentials.forEach(function(credentials){
-		if (!presentIds.has(credentials.uuid)){
-			presentIds.set(credentials.uuid, true);
-			uniqueCredentials.push(credentials);
-		}
-	});
-	if (!uniqueCredentials.length){
+	const credentials = credentialDetails.credentials;
+	if (!credentials.length){
 		description.setAttribute("value", getTranslation("noPasswordsFound"));
 		document.getElementById("credentials-retry-button").style.display = "";
 		window.sizeToContent();
 		return;
 	}
 	
-	fillCredentials(uniqueCredentials[0]);
-	if (uniqueCredentials.length === 1){
+	fillCredentials(credentials[0]);
+	if (credentials.length === 1){
 		if (credentialDetails.autoSubmit){
 			row.parentNode._buttons.accept.click();
 		}
@@ -361,7 +354,7 @@ function updateGUI(window, credentialInfo, credentialDetails){
 	list.setAttribute("id", "credentials-list");
 	const popup = document.createElementNS(xulNS, "menupopup");
 
-	uniqueCredentials.forEach(function(credentials){
+	credentials.forEach(function(credentials){
 		const item = document.createElementNS(xulNS, "menuitem");
 		item.setAttribute("label", getTranslation("entryLabel", credentials));
 		item.setAttribute("tooltiptext", getTranslation("entryTooltip", credentials));
