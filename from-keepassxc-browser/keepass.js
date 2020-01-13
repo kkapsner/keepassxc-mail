@@ -1170,8 +1170,9 @@ keepass.updateDatabase = async function() {
 
 keepass.updateDatabaseHashToContent = async function() {
     try {
+        return;
         const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-        if (false && tabs.length) {
+        if (tabs.length) {
             // Send message to content script
             browser.tabs.sendMessage(tabs[0].id, {
                 action: 'check_database_hash',
