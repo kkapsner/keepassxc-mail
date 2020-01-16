@@ -344,7 +344,7 @@ function updateGUI(window, credentialInfo, credentialDetails){
 	
 	fillCredentials(credentials[0]);
 	if (credentials.length === 1){
-		if (credentialDetails.autoSubmit){
+		if (credentialDetails.autoSubmit && !credentials[0].skipAutoSubmit){
 			row.parentNode._buttons.accept.click();
 		}
 		return;
@@ -360,6 +360,9 @@ function updateGUI(window, credentialInfo, credentialDetails){
 		item.setAttribute("tooltiptext", getTranslation("entryTooltip", credentials));
 		item.addEventListener("command", function(){
 			fillCredentials(credentials);
+			if (credentialDetails.autoSubmit && !credentials.skipAutoSubmit){
+				row.parentNode._buttons.accept.click();
+			}
 		});
 		popup.appendChild(item);
 	});

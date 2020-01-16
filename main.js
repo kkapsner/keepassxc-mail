@@ -46,27 +46,22 @@ const lastRequest = {};
 browser.credentials.onCredentialRequested.addListener(async function(credentialInfo){
 	"use strict";
 	await keepassReady;
-	let credentialsForHost = await keepass.retrieveCredentials(false, [credentialInfo.host]);
-	
 	const presentIds = new Map();
-	credentialsForHost = credentialsForHost.filter(function(credentials){
-		const alreadyPresent = presentIds.has(credentials.uuid);
-		if (alreadyPresent){
-			return false;
-		}
-		presentIds.set(credentials.uuid, true);
-		return true;
-	});
-	if (credentialInfo.login){
-		credentialsForHost = credentialsForHost.filter(function(credential){
-			return credential.login === credentialInfo.login;
+	const credentialsForHost = (await keepass.retrieveCredentials(false, [credentialInfo.host]))
+		.filter(function(credentials){
+			const alreadyPresent = presentIds.has(credentials.uuid);
+			if (alreadyPresent){
+				return false;
+			}
+			presentIds.set(credentials.uuid, true);
+			return true;
+		})
+		.filter(function(credential){
+			return credentialInfo.login? credential.login === credentialInfo.login: credential.login;
+		}).map(function(credential){
+			credential.skipAutoSubmit = credential.skipAutoSubmit === "true";
+			return credential;
 		});
-	}
-	else {
-		credentialsForHost = credentialsForHost.filter(function(credential){
-			return credential.login;
-		});
-	}
 	
 	let autoSubmit = (await browser.storage.local.get({autoSubmit: false})).autoSubmit;
 	if (autoSubmit){
