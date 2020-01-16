@@ -41,10 +41,11 @@ cat ~/.mozilla/native-messaging-hosts/org.keepassxc.keepassxc_browser.json |\
 
 Run the following command in a terminal:
 ```Shell
-cat ~/Library/Application Support/Mozilla/NativeMessagingHosts/org.keepassxc.keepassxc_browser.json |\
+cat ~/Library/Application\ Support/Mozilla/NativeMessagingHosts/org.keepassxc.keepassxc_browser.json |\
 	sed s/keepassxc-browser@keepassxc.org/keepassxc-mail@kkapsner.de/ |\
 	sed s/org.keepassxc.keepassxc_browser/de.kkapsner.keepassxc_mail/ >\
-	~/Library/Application Support/Mozilla/NativeMessagingHosts/de.kkapsner.keepassxc_mail.json
+	~/Library/Application\ Support/Mozilla/NativeMessagingHosts/de.kkapsner.keepassxc_mail.json
+ln -s ~/Library/Application\ Support/Mozilla/NativeMessagingHosts/ ~/Library/Mozilla/
 ```
 
 ## Finding entries in the password database
