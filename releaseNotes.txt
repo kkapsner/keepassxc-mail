@@ -1,5 +1,9 @@
 Version 0.1.1:
-	
+
+new features:
+
+	- added support for "Provider for Google Calendar"
+
 fixes:
 
 	- respect skipAutoSubmit

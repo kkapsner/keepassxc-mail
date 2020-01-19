@@ -22,7 +22,7 @@ const getCredentialInfo = function(){
 	function getBundleString(bundleName, stringName){
 		return bundles[bundleName].GetStringFromName(stringName);
 	}
-	function addDialogType({protocol, title, dialog, hostPlaceholder, loginPlaceholder}){
+	function getDialogType({protocol, title, dialog, hostPlaceholder, loginPlaceholder}){
 		const hostPosition = hostPlaceholder? dialog.indexOf(hostPlaceholder): -1;
 		const loginPosition = loginPlaceholder? dialog.indexOf(loginPlaceholder): -1;
 		let dialogRegExpString = dialog.replace(/([\\+*?[^\]$(){}=!|.])/g, "\\$1");
@@ -34,14 +34,17 @@ const getCredentialInfo = function(){
 		}
 		const dialogRegExp = new RegExp(dialogRegExpString);
 		
-		dialogTypes.push({
+		return {
 			protocol,
 			title,
 			dialog,
 			dialogRegExp,
 			hostGroup: hostPosition === -1? false: loginPosition === -1 || loginPosition > hostPosition? 1: 2,
 			loginGroup: loginPosition === -1? false: hostPosition === -1 || hostPosition > loginPosition? 1: 2,
-		});
+		};
+	}
+	function addDialogType(data){
+		dialogTypes.push(getDialogType(data));
 	}
 	
 	addDialogType({
@@ -129,7 +132,7 @@ const getCredentialInfo = function(){
 		loginPlaceholder: "%1$S"
 	});
 	
-	return function getDialogInfo(window){
+	return function getCredentialInfo(window){
 		if (["promptPassword", "promptUserAndPass"].indexOf(window.args.promptType) === -1){
 			return false;
 		}
@@ -165,6 +168,102 @@ const getCredentialInfo = function(){
 	};
 }();
 
+const getGuiOperations = function(){
+	"use strict";
+	
+	return function(window){
+		const document = window.document;
+		const commonDialog = document.getElementById("commonDialog");
+		return {
+			window,
+			guiParent: commonDialog,
+			submit: function(){
+				commonDialog._buttons.accept.click();
+			},
+			fillCredentials: function(credentialInfo, credentials){
+				if (
+					!credentialInfo.login ||
+					credentialInfo.loginChangeable
+				){
+					document.getElementById("loginTextbox").value = credentials.login;
+				}
+				document.getElementById("password1Textbox").value = credentials.password;
+			}
+		};
+	};
+}();
+
+const getCredentialInfoForGdata = function(){
+	"use strict";
+	
+	return function getCredentialInfoForGdata(window){
+		const request = window.arguments[0].wrappedJSObject;
+		
+		return {
+			host: request.url,
+			login: request.account.extraAuthParams.filter(p => p[0] === "login_hint").map(p => p[1])[0],
+			loginChangeable: true
+		};
+	};
+}();
+const getGuiOperationsForGdata = function(){
+	"use strict";
+	
+	const { cal } = ChromeUtils.import("resource://calendar/modules/calUtils.jsm");
+	const STATE_STOP = Components.interfaces.nsIWebProgressListener.STATE_STOP;
+	
+	return function(window){
+		const requestFrame = window.document.getElementById("requestFrame");
+		let resolveLoginForm;
+		let resolvePasswordForm;
+		const loginFormPromise = new Promise(function(resolve){resolveLoginForm = resolve;});
+		const passwordFormPromise = new Promise(function(resolve){resolvePasswordForm = resolve;});
+	
+		const progressListener = {
+			QueryInterface: cal.generateQI([
+				Components.interfaces.nsIWebProgressListener,
+				Components.interfaces.nsISupportsWeakReference
+			]),
+			onStateChange: function(aWebProgress, aRequest, stateFlags, aStatus){
+				if (!(stateFlags & STATE_STOP)) return;
+				
+				const form = requestFrame.contentDocument.forms[0];
+				if (!form) return;
+				
+				if (form.Email){
+					resolveLoginForm(form);
+				}
+				if (form.Passwd){
+					resolvePasswordForm(form);
+				}
+			},
+		};
+		requestFrame.addProgressListener(progressListener, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
+		
+		const document = window.document;
+		return {
+			progressListener,
+			window,
+			guiParent: document.getElementById("browserRequest"),
+			submit: async function(){
+				const loginForm = await loginFormPromise;
+				loginForm.signIn.click();
+				
+				const passwordForm = await passwordFormPromise;
+				passwordForm.signIn.click();
+			},
+			fillCredentials: async function(credentialInfo, credentials){
+				const loginForm = await loginFormPromise;
+				loginForm.Email.value = credentials.login;
+				
+				const passwordForm = await passwordFormPromise;
+				passwordForm.Passwd.value = credentials.password;
+				
+			}
+		};
+	};
+}();
+
 const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
 const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 	constructor() {
@@ -172,9 +271,9 @@ const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 		this.callbackCount = 0;
 	}
 
-	handleEvent(window, credentialInfo) {
-		passwordRequestEmitter.emit("password-dialog-opened", window, credentialInfo);
-		passwordRequestEmitter.emit("password-requested", window, credentialInfo);
+	handleEvent(guiOperations, credentialInfo) {
+		passwordRequestEmitter.emit("password-dialog-opened", guiOperations, credentialInfo);
+		passwordRequestEmitter.emit("password-requested", guiOperations, credentialInfo);
 	}
 
 	add(callback) {
@@ -187,7 +286,16 @@ const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 				onLoadWindow: function(window) {
 					const credentialInfo = getCredentialInfo(window);
 					if (credentialInfo){
-						passwordRequestEmitter.handleEvent(window, credentialInfo);
+						passwordRequestEmitter.handleEvent(getGuiOperations(window), credentialInfo);
+					}
+				},
+			});
+			ExtensionSupport.registerWindowListener("gdataPasswordDialogListener", {
+				chromeURLs: ["chrome://gdata-provider/content/browserRequest.xul"],
+				onLoadWindow: function(window) {
+					const credentialInfo = getCredentialInfoForGdata(window);
+					if (credentialInfo){
+						passwordRequestEmitter.handleEvent(getGuiOperationsForGdata(window), credentialInfo);
 					}
 				},
 			});
@@ -200,6 +308,7 @@ const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 
 		if (this.callbackCount === 0) {
 			ExtensionSupport.unregisterWindowListener("passwordDialogListener");
+			ExtensionSupport.unregisterWindowListener("gdataPasswordDialogListener");
 		}
 	}
 };
@@ -237,10 +346,10 @@ this.credentials = class extends ExtensionCommon.ExtensionAPI {
 					context,
 					name: "credentials.onCredentialRequested",
 					register(fire) {
-						async function callback(event, window, credentialInfo){
+						async function callback(event, guiOperations, credentialInfo){
 							try {
 								const credentialDetails = await fire.async(credentialInfo);
-								updateGUI(window, credentialInfo, credentialDetails);
+								updateGUI(guiOperations, credentialInfo, credentialDetails);
 							}
 							catch (e){
 								console.log(e);
@@ -260,16 +369,16 @@ this.credentials = class extends ExtensionCommon.ExtensionAPI {
 };
 
 
-function buildDialogGui(window, credentialInfo){
+function buildDialogGui(guiOperations, credentialInfo){
 	"use strict";
 	
 	const xulNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+	const window = guiOperations.window;
 	const document = window.document;
 	
 	/* add ui elements to dialog */
 	const row = document.createElementNS(xulNS, "row");
 	row.setAttribute("id", "credentials-row");
-	row.setAttribute("flex", "1");
 	
 	// spacer to take up first column in layout
 	const spacer = document.createElementNS(xulNS, "spacer");
@@ -295,7 +404,7 @@ function buildDialogGui(window, credentialInfo){
 	retryButton.addEventListener("command", function(){
 		retryButton.style.display = "none";
 		description.setAttribute("value", getTranslation("loadingPasswords"));
-		passwordRequestEmitter.emit("password-requested", window, credentialInfo);
+		passwordRequestEmitter.emit("password-requested", guiOperations, credentialInfo);
 		window.sizeToContent();
 	});
 	retryButton.setAttribute("id", "credentials-retry-button");
@@ -303,19 +412,20 @@ function buildDialogGui(window, credentialInfo){
 	box.appendChild(retryButton);
 	row.appendChild(box);
 	
-	document.getElementById("commonDialog").appendChild(row);
+	guiOperations.guiParent.appendChild(row);
 	
 	window.sizeToContent();
 }
-passwordRequestEmitter.on("password-dialog-opened", function(event, window, credentialInfo){
+passwordRequestEmitter.on("password-dialog-opened", function(event, guiOperations, credentialInfo){
 	"use strict";
 	
-	buildDialogGui(window, credentialInfo);
+	buildDialogGui(guiOperations, credentialInfo);
 });
-function updateGUI(window, credentialInfo, credentialDetails){
+function updateGUI(guiOperations, credentialInfo, credentialDetails){
 	"use strict";
 	
 	const xulNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+	const window = guiOperations.window;
 	const document = window.document;
 	const row = document.getElementById("credentials-row");
 	const box = document.getElementById("credentials-box");
@@ -326,13 +436,7 @@ function updateGUI(window, credentialInfo, credentialDetails){
 	
 	function fillCredentials(credentials){
 		description.value = getTranslation("pickedEntry", credentials);
-		if (
-			!credentialInfo.login ||
-			credentialInfo.loginChangeable
-		){
-			document.getElementById("loginTextbox").value = credentials.login;
-		}
-		document.getElementById("password1Textbox").value = credentials.password;
+		guiOperations.fillCredentials(credentialInfo, credentials);
 	}
 	const credentials = credentialDetails.credentials;
 	if (!credentials.length){
@@ -345,7 +449,7 @@ function updateGUI(window, credentialInfo, credentialDetails){
 	fillCredentials(credentials[0]);
 	if (credentials.length === 1){
 		if (credentialDetails.autoSubmit && !credentials[0].skipAutoSubmit){
-			row.parentNode._buttons.accept.click();
+			guiOperations.submit();
 		}
 		return;
 	}
@@ -361,7 +465,7 @@ function updateGUI(window, credentialInfo, credentialDetails){
 		item.addEventListener("command", function(){
 			fillCredentials(credentials);
 			if (credentialDetails.autoSubmit && !credentials.skipAutoSubmit){
-				row.parentNode._buttons.accept.click();
+				guiOperations.submit();
 			}
 		});
 		popup.appendChild(item);
