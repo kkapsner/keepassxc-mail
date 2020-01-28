@@ -264,34 +264,12 @@ const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 		this.callbackCount = 0;
 	}
 
-	handleEvent(guiOperations, credentialInfo) {
-		passwordRequestEmitter.emit("password-dialog-opened", guiOperations, credentialInfo);
-		passwordRequestEmitter.emit("password-requested", guiOperations, credentialInfo);
-	}
-
 	add(callback) {
 		this.on("password-requested", callback);
 		this.callbackCount++;
 
 		if (this.callbackCount === 1) {
-			ExtensionSupport.registerWindowListener("passwordDialogListener", {
-				chromeURLs: ["chrome://global/content/commonDialog.xul"],
-				onLoadWindow: function(window) {
-					const credentialInfo = getCredentialInfo(window);
-					if (credentialInfo){
-						passwordRequestEmitter.handleEvent(getGuiOperations(window), credentialInfo);
-					}
-				},
-			});
-			ExtensionSupport.registerWindowListener("gdataPasswordDialogListener", {
-				chromeURLs: ["chrome://gdata-provider/content/browserRequest.xul"],
-				onLoadWindow: function(window) {
-					const credentialInfo = getCredentialInfoForGdata(window);
-					if (credentialInfo){
-						passwordRequestEmitter.handleEvent(getGuiOperationsForGdata(window), credentialInfo);
-					}
-				},
-			});
+			registerWindowListener();
 		}
 	}
 
@@ -300,11 +278,57 @@ const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 		this.callbackCount--;
 
 		if (this.callbackCount === 0) {
-			ExtensionSupport.unregisterWindowListener("passwordDialogListener");
-			ExtensionSupport.unregisterWindowListener("gdataPasswordDialogListener");
+			unregisterWindowListener();
 		}
 	}
 };
+
+async function requestCredentials(credentialInfo){
+	const eventData = await passwordRequestEmitter.emit(
+		"password-requested", credentialInfo
+	);
+	return eventData.reduce(function(details, currentDetails){
+		if (!currentDetails){
+			return details;
+		}
+		details.autoSubmit &= currentDetails.autoSubmit;
+		if (currentDetails.credentials && currentDetails.credentials.length){
+			details.credentials = details.credentials.concat(currentDetails.credentials);
+		}
+		return details;
+	}, {autoSubmit: true, credentials: []});
+}
+
+const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
+function registerWindowListener(){
+	async function handleEvent(guiOperations, credentialInfo) {
+		buildDialogGui(guiOperations, credentialInfo);
+		const credentialDetails = await requestCredentials(credentialInfo);
+		updateGUI(guiOperations, credentialInfo, credentialDetails);
+	}
+	ExtensionSupport.registerWindowListener("passwordDialogListener", {
+		chromeURLs: ["chrome://global/content/commonDialog.xul"],
+		onLoadWindow: function(window) {
+			const credentialInfo = getCredentialInfo(window);
+			if (credentialInfo){
+				handleEvent(getGuiOperations(window), credentialInfo);
+			}
+		},
+	});
+	ExtensionSupport.registerWindowListener("gdataPasswordDialogListener", {
+		chromeURLs: ["chrome://gdata-provider/content/browserRequest.xul"],
+		onLoadWindow: function(window) {
+			const credentialInfo = getCredentialInfoForGdata(window);
+			if (credentialInfo){
+				handleEvent(getGuiOperationsForGdata(window), credentialInfo);
+			}
+		},
+	});
+}
+function unregisterWindowListener(){
+	ExtensionSupport.unregisterWindowListener("passwordDialogListener");
+	ExtensionSupport.unregisterWindowListener("gdataPasswordDialogListener");
+}
 
 const translations = {};
 function getTranslation(name, variables){
@@ -337,13 +361,13 @@ this.credentials = class extends ExtensionCommon.ExtensionAPI {
 					context,
 					name: "credentials.onCredentialRequested",
 					register(fire) {
-						async function callback(event, guiOperations, credentialInfo){
+						async function callback(event, credentialInfo){
 							try {
-								const credentialDetails = await fire.async(credentialInfo);
-								updateGUI(guiOperations, credentialInfo, credentialDetails);
+								return await fire.async(credentialInfo);
 							}
 							catch (e){
-								console.log(e);
+								console.error(e);
+								return false;
 							}
 						}
 
@@ -390,10 +414,11 @@ function buildDialogGui(guiOperations, credentialInfo){
 	
 	const retryButton = document.createElementNS(xulNS, "button");
 	retryButton.setAttribute("label", getTranslation("retry"));
-	retryButton.addEventListener("command", function(){
+	retryButton.addEventListener("command", async function(){
 		retryButton.style.display = "none";
 		description.setAttribute("value", getTranslation("loadingPasswords"));
-		passwordRequestEmitter.emit("password-requested", guiOperations, credentialInfo);
+		const credentialDetails = await requestCredentials(credentialInfo);
+		updateGUI(guiOperations, credentialInfo, credentialDetails);
 		window.sizeToContent();
 	});
 	retryButton.setAttribute("id", "credentials-retry-button");
@@ -405,9 +430,6 @@ function buildDialogGui(guiOperations, credentialInfo){
 	
 	window.sizeToContent();
 }
-passwordRequestEmitter.on("password-dialog-opened", function(event, guiOperations, credentialInfo){
-	buildDialogGui(guiOperations, credentialInfo);
-});
 function updateGUI(guiOperations, credentialInfo, credentialDetails){
 	const xulNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 	const window = guiOperations.window;
