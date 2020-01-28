@@ -1,10 +1,9 @@
 /* globals ChromeUtils, Components*/
+"use strict";
 
 const { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 
 const getCredentialInfo = function(){
-	"use strict";
-	
 	const stringBundleService = Components.classes["@mozilla.org/intl/stringbundle;1"]
 		.getService(Components.interfaces.nsIStringBundleService);
 	
@@ -169,8 +168,6 @@ const getCredentialInfo = function(){
 }();
 
 const getGuiOperations = function(){
-	"use strict";
-	
 	return function(window){
 		const document = window.document;
 		const commonDialog = document.getElementById("commonDialog");
@@ -194,8 +191,6 @@ const getGuiOperations = function(){
 }();
 
 const getCredentialInfoForGdata = function(){
-	"use strict";
-	
 	return function getCredentialInfoForGdata(window){
 		const request = window.arguments[0].wrappedJSObject;
 		
@@ -207,8 +202,6 @@ const getCredentialInfoForGdata = function(){
 	};
 }();
 const getGuiOperationsForGdata = function(){
-	"use strict";
-	
 	const { cal } = ChromeUtils.import("resource://calendar/modules/calUtils.jsm");
 	const STATE_STOP = Components.interfaces.nsIWebProgressListener.STATE_STOP;
 	
@@ -315,8 +308,6 @@ const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 
 const translations = {};
 function getTranslation(name, variables){
-	"use strict";
-	
 	const translation = translations[name.toLowerCase()] || name;
 	if (!variables){
 		return translation;
@@ -370,8 +361,6 @@ this.credentials = class extends ExtensionCommon.ExtensionAPI {
 
 
 function buildDialogGui(guiOperations, credentialInfo){
-	"use strict";
-	
 	const xulNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 	const window = guiOperations.window;
 	const document = window.document;
@@ -417,13 +406,9 @@ function buildDialogGui(guiOperations, credentialInfo){
 	window.sizeToContent();
 }
 passwordRequestEmitter.on("password-dialog-opened", function(event, guiOperations, credentialInfo){
-	"use strict";
-	
 	buildDialogGui(guiOperations, credentialInfo);
 });
 function updateGUI(guiOperations, credentialInfo, credentialDetails){
-	"use strict";
-	
 	const xulNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 	const window = guiOperations.window;
 	const document = window.document;

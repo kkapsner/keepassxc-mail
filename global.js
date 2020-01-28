@@ -1,3 +1,5 @@
+"use strict";
+
 const AssociatedAction = {
 	NOT_ASSOCIATED: 0,
 	ASSOCIATED: 1,
@@ -6,6 +8,5 @@ const AssociatedAction = {
 };
 
 function tr(key, params) {
-	"use strict";
 	return browser.i18n.getMessage(key, params);
 }

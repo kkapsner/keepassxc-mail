@@ -56,7 +56,7 @@
 		"require-atomic-updates": "off",
 		"semi": ["error", "always"],
 		"space-in-parens": ["error", "never"],
-		"strict": ["error", "function"],
+		"strict": ["error", "global"],
 		"valid-typeof": "warn"
 	},
 	"overrides": [

@@ -1,7 +1,9 @@
 /* globals keepass */
+"use strict";
+
 const page = {
 	tabs: [],
-	clearCredentials: () => {"use strict";},
+	clearCredentials: () => {},
 	settings: {
 		autoReconnect: true,
 		checkUpdateKeePassXC: 0
@@ -9,8 +11,8 @@ const page = {
 };
 
 const browserAction = {
-	show: () => {"use strict";},
-	showDefault: () => {"use strict";}
+	show: () => {},
+	showDefault: () => {}
 };
 
 keepass.nativeHostName = "de.kkapsner.keepassxc_mail";
@@ -18,8 +20,6 @@ keepass.nativeHostName = "de.kkapsner.keepassxc_mail";
 // enable access to keepass object in option page
 window.keepass = keepass;
 const keepassReady = (async () => {
-	"use strict";
-	
 	try {
 		await keepass.migrateKeyRing();
 		await keepass.reconnect(null, 5000); // 5 second timeout for the first connect
@@ -37,14 +37,11 @@ const keepassReady = (async () => {
 	"pickedEntry", "entryLabel", "entryTooltip",
 	"loadingPasswords", "noPasswordsFound", "retry"
 ].forEach(function(stringName){
-	"use strict";
-	
 	browser.credentials.setTranslation(stringName, browser.i18n.getMessage(stringName));
 });
 
 const lastRequest = {};
 browser.credentials.onCredentialRequested.addListener(async function(credentialInfo){
-	"use strict";
 	await keepassReady;
 	const presentIds = new Map();
 	const credentialsForHost = (await keepass.retrieveCredentials(false, [credentialInfo.host]))

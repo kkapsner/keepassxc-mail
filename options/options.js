@@ -1,6 +1,5 @@
+"use strict";
 function createConnectionDisplay(connection){
-	"use strict";
-	
 	const container = document.createElement("div");
 	
 	const lastUsedDate = new Date(connection.lastUsed);
@@ -12,8 +11,6 @@ function createConnectionDisplay(connection){
 	return container;
 }
 async function updateConnections(){
-	"use strict";
-	
 	const keyRing = (await browser.storage.local.get({"keyRing": {}})).keyRing;
 	
 	const connections = document.getElementById("connections");
@@ -25,25 +22,17 @@ updateConnections();
 
 const actions = {
 	reconnect: function(){
-		"use strict";
-		
 		browser.extension.getBackgroundPage().keepass.reconnect();
 	},
 	associate: function(){
-		"use strict";
-		
 		browser.extension.getBackgroundPage().keepass.associate();
 		updateConnections();
 	}
 };
 document.querySelectorAll(".action").forEach(async function(button){
-	"use strict";
-	
 	button.addEventListener("click", actions[button.id]);
 });
 document.querySelectorAll("input.setting").forEach(async function(input){
-	"use strict";
-	
 	const settingName = input.id;
 	const currentValue = await browser.storage.local.get([settingName]);
 	switch (typeof currentValue[settingName]){
@@ -73,7 +62,5 @@ document.querySelectorAll("input.setting").forEach(async function(input){
 });
 
 document.querySelectorAll("*[data-translation]").forEach(function(node){
-	"use strict";
-	
 	node.textContent = browser.i18n.getMessage(node.dataset.translation);
 });
