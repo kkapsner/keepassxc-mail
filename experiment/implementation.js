@@ -2,6 +2,8 @@
 "use strict";
 
 const { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
+const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
+const { cal } = ChromeUtils.import("resource://calendar/modules/calUtils.jsm");
 
 const getCredentialInfo = function(){
 	const stringBundleService = Components.classes["@mozilla.org/intl/stringbundle;1"]
@@ -208,7 +210,6 @@ const getCredentialInfoForGdata = function(){
 	};
 }();
 const getGuiOperationsForGdata = function(){
-	const { cal } = ChromeUtils.import("resource://calendar/modules/calUtils.jsm");
 	const STATE_STOP = Components.interfaces.nsIWebProgressListener.STATE_STOP;
 	
 	return function(window){
@@ -263,7 +264,6 @@ const getGuiOperationsForGdata = function(){
 	};
 }();
 
-const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
 const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 	constructor() {
 		super();
@@ -305,7 +305,6 @@ async function requestCredentials(credentialInfo){
 	}, {autoSubmit: true, credentials: []});
 }
 
-const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
 function registerWindowListener(){
 	async function handleEvent(guiOperations, credentialInfo) {
 		buildDialogGui(guiOperations, credentialInfo);
