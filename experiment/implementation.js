@@ -19,7 +19,13 @@ const getCredentialInfo = function(){
 	
 	const dialogTypes = [];
 	function getBundleString(bundleName, stringName){
-		return bundles[bundleName].GetStringFromName(stringName);
+		try {
+			return bundles[bundleName].GetStringFromName(stringName);
+		}
+		catch(e){
+			console.log("unable to get", stringName, "from bundle", bundleName);
+			return stringName;
+		}
 	}
 	function getDialogType({protocol, title, dialog, hostPlaceholder, loginPlaceholder}){
 		const hostPosition = hostPlaceholder? dialog.indexOf(hostPlaceholder): -1;
