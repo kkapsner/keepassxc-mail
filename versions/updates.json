@@ -1,0 +1,12 @@
+{
+	"addons": {
+		"keepassxc-mail@kkapsner.de": {
+			"updates": [
+				{
+					"version": "0.1.2",
+					"update_link": "https://keepassxc-mail.kkapsner.de/versions/keepassxc-mail-0.1.2.xpi"
+				}
+			]
+		}
+	}
+}
