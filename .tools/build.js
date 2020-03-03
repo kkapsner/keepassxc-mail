@@ -3,20 +3,7 @@ const process = require("process");
 const path = require("path");
 const util = require("util");
 
-function promisifyModule(module, functionNames, propertieNames){
-	const promisifiedModule = {};
-	functionNames.forEach(function(functionName){
-		promisifiedModule[functionName] = util.promisify(module[functionName]);
-	});
-	propertieNames.forEach(function(propertyName){
-		promisifiedModule[propertyName] = module[propertyName];
-	});
-	return promisifiedModule;
-}
-
-const fs = promisifyModule(require("fs"), ["access", "mkdir", "unlink"], ["constants"]);
-
-
+const fs = require("fs");
 
 async function run(){
 	"use strict";
@@ -26,11 +13,11 @@ async function run(){
 	
 	const outputFolder = path.join(baseFolder, "mail-ext-artifacts");
 	try {
-		await fs.access(outputFolder, fs.constants.F_OK);
+		await fs.promises.access(outputFolder, fs.constants.F_OK);
 	}
 	catch (e){
 		if (e.code === "ENOENT"){
-			await fs.mkdir(outputFolder);
+			await fs.promises.mkdir(outputFolder);
 		}
 		else {
 			throw e;
@@ -40,11 +27,11 @@ async function run(){
 	const fileName = `${manifest.name}-${manifest.version}.xpi`.replace(/\s+/g, "-");
 	const filePath = path.join(outputFolder, fileName);
 	try {
-		await fs.unlink(filePath);
+		await fs.promises.unlink(filePath);
 	}
 	catch (e){}
 	
-	const exclude = ["mail-ext-artifacts/", "node_modules/*", ".*", "**/.*", "package*"];
+	const exclude = ["mail-ext-artifacts/", "node_modules/*", ".*", "**/.*", "package*", "src/"];
 	
 	const args = ["-r", filePath, "./", "--exclude", ...exclude];
 	
