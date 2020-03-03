@@ -4,6 +4,7 @@
 		"Gdata",
 		"HKCU",
 		"Msgs",
+		"XPCOM",
 		"hbox",
 		"keebird",
 		"keepass",
@@ -12,6 +13,7 @@
 		"menupopup",
 		"nacl",
 		"nntp",
+		"oauth",
 		"stringbundle",
 		"tooltiptext",
 		"wcap"

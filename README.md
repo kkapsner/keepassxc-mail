@@ -59,6 +59,7 @@ KeePassXC-Mail uses the following schema to find matching entries for a given se
  * `https://{server name}`
  * `nntp-1://{server name}`
  * `nntp-2://{server name}`
+ * `oauth://{account}`
 
 ### Tipp
 

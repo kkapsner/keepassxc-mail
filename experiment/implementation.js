@@ -4,6 +4,7 @@
 const { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
 const { cal } = ChromeUtils.import("resource://calendar/modules/calUtils.jsm");
+const { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
 
 const getCredentialInfo = function(){
 	const stringBundleService = Components.classes["@mozilla.org/intl/stringbundle;1"]
@@ -264,6 +265,60 @@ const getGuiOperationsForGdata = function(){
 	};
 }();
 
+const originalPasswordManagerGet = cal.auth.passwordManagerGet;
+const originalPasswordManagerSave = cal.auth.passwordManagerSave;
+XPCOMUtils.defineLazyGlobalGetters(this, ["XMLHttpRequest"]);
+
+function changePasswordManager(){
+	function getAuthCredentialInfo(login, host){
+		return {
+			login: login,
+			host: host.replace(/^oauth:([^/]{2})/, "oauth://$1")
+		};
+	}
+	cal.auth.passwordManagerGet = function(login, passwordObject, host, realm){
+		if (host.startsWith("oauth:")){
+			let password = false;
+			requestCredentials(getAuthCredentialInfo(login, host)).then(function(credentialDetails){
+				password = true;
+				if (credentialDetails.credentials.length){
+					password = credentialDetails.credentials[0].password;
+				}
+				return password;
+			}).catch(function(){
+				password = true;
+			});
+			while (!password){
+				try {
+					let xhr = new XMLHttpRequest();
+					xhr.open("GET", "https://[::]", false);
+					xhr.send();
+					xhr = null;
+				}
+				catch(e){
+					// ignore XHR errors as we just want to wait synchronously
+				}
+			}
+			if ((typeof password) === "string"){
+				passwordObject.value = password;
+				return true;
+			}
+		}
+		return originalPasswordManagerGet.call(this, login, passwordObject, host, realm);
+	};
+	// cal.auth.passwordManagerSave = function(login, passwordObject, host, realm){
+	// 	if (host.startsWith("oauth:")){
+	// 		console.log({login, passwordObject, host, realm});
+	// 	}
+		
+	// 	return originalPasswordManagerSave.call(this, login, passwordObject, host, realm);
+	// };
+}
+function restorePasswordmanager(){
+	cal.auth.passwordManagerGet = originalPasswordManagerGet;
+	cal.auth.passwordManagerSave = originalPasswordManagerSave;
+}
+
 const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 	constructor() {
 		super();
@@ -276,6 +331,7 @@ const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 
 		if (this.callbackCount === 1) {
 			registerWindowListener();
+			changePasswordManager();
 		}
 	}
 
@@ -285,6 +341,7 @@ const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 
 		if (this.callbackCount === 0) {
 			unregisterWindowListener();
+			restorePasswordmanager();
 		}
 	}
 };
