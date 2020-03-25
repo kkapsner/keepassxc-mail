@@ -6,7 +6,7 @@ new features:
 
 fixes:
 
-	- 
+	- enable usage of KeePass with KeePassNatMsg
 
 Version 0.1.2:
 
