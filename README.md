@@ -21,7 +21,7 @@ Run the following commands in the PowerShell:
 cat (Join-Path -path (get-item env:USERPROFILE).value -childPath AppData\Local\KeePassXC\org.keepassxc.keepassxc_browser_tor-browser.json) |
 	%{$_ -replace "keepassxc-browser@keepassxc.org","keepassxc-mail@kkapsner.de"} |
 	%{$_ -replace "org.keepassxc.keepassxc_browser","de.kkapsner.keepassxc_mail"} |
-	Out-File -filePath (Join-Path -path (get-item env:USERPROFILE).value -childPath AppData\Local\KeePassXC\de.kkapsner.keepassxc_mail.json)
+	Out-File -filePath (Join-Path -path (get-item env:USERPROFILE).value -childPath AppData\Local\KeePassXC\de.kkapsner.keepassxc_mail.json) -Encoding ASCII
 
 New-Item -path 'HKCU:\Software\Mozilla\NativeMessagingHosts\de.kkapsner.keepassxc_mail' -type Directory
 Set-ItemProperty -path 'HKCU:\Software\Mozilla\NativeMessagingHosts\de.kkapsner.keepassxc_mail' -name '(default)' -value (Join-Path -path (get-item env:USERPROFILE).value -ChildPath AppData\Local\KeePassXC\de.kkapsner.keepassxc_mail.json)
