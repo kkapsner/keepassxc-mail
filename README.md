@@ -12,6 +12,8 @@ Based on [KeePassXC-Browser](https://github.com/keepassxreboot/keepassxc-browser
  2. Afterwards the configuration file for the Native Messaging has to be created.
  3. At the end the addon can be installed in Thunderbird (download the latest xpi [here](https://github.com/kkapsner/keepassxc-mail/releases/latest)).
 
+*Lightning has to be installed for KeePassXC-Mail to work.*
+
 ## Native Messaging configuration
 
 ### Windows
