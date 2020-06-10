@@ -20,9 +20,9 @@ Based on [KeePassXC-Browser](https://github.com/keepassxreboot/keepassxc-browser
 Run the following commands in the PowerShell:
 ```PowerShell
 cat (Join-Path -path (get-item env:USERPROFILE).value -childPath AppData\Local\KeePassXC\org.keepassxc.keepassxc_browser_tor-browser.json) |
-	%{$_ -replace "keepassxc-browser@keepassxc.org","keepassxc-mail@kkapsner.de"} |
-	%{$_ -replace "org.keepassxc.keepassxc_browser","de.kkapsner.keepassxc_mail"} |
-	Out-File -filePath (Join-Path -path (get-item env:USERPROFILE).value -childPath AppData\Local\KeePassXC\de.kkapsner.keepassxc_mail.json) -Encoding ASCII
+ %{$_ -replace "keepassxc-browser@keepassxc.org","keepassxc-mail@kkapsner.de"} |
+ %{$_ -replace "org.keepassxc.keepassxc_browser","de.kkapsner.keepassxc_mail"} |
+ Out-File -filePath (Join-Path -path (get-item env:USERPROFILE).value -childPath AppData\Local\KeePassXC\de.kkapsner.keepassxc_mail.json) -Encoding ASCII
 
 New-Item -path 'HKCU:\Software\Mozilla\NativeMessagingHosts\de.kkapsner.keepassxc_mail' -type Directory
 Set-ItemProperty -path 'HKCU:\Software\Mozilla\NativeMessagingHosts\de.kkapsner.keepassxc_mail' -name '(default)' -value (Join-Path -path (get-item env:USERPROFILE).value -ChildPath AppData\Local\KeePassXC\de.kkapsner.keepassxc_mail.json)
@@ -32,20 +32,20 @@ Set-ItemProperty -path 'HKCU:\Software\Mozilla\NativeMessagingHosts\de.kkapsner.
 
 Run the following command in a terminal:
 ```Shell
-cat ~/.mozilla/native-messaging-hosts/org.keepassxc.keepassxc_browser.json |\
-	sed s/keepassxc-browser@keepassxc.org/keepassxc-mail@kkapsner.de/ |\
-	sed s/org.keepassxc.keepassxc_browser/de.kkapsner.keepassxc_mail/ >\
-	~/.mozilla/native-messaging-hosts/de.kkapsner.keepassxc_mail.json
+cat ~/.mozilla/native-messaging-hosts/org.keepassxc.keepassxc_browser.json \
+ | sed s/keepassxc-browser@keepassxc.org/keepassxc-mail@kkapsner.de/ \
+ | sed s/org.keepassxc.keepassxc_browser/de.kkapsner.keepassxc_mail/ \
+ > ~/.mozilla/native-messaging-hosts/de.kkapsner.keepassxc_mail.json
 ```
 
 ### Mac OS X
 
 Run the following command in a terminal:
 ```Shell
-cat ~/Library/Application\ Support/Mozilla/NativeMessagingHosts/org.keepassxc.keepassxc_browser.json |\
-	sed s/keepassxc-browser@keepassxc.org/keepassxc-mail@kkapsner.de/ |\
-	sed s/org.keepassxc.keepassxc_browser/de.kkapsner.keepassxc_mail/ >\
-	~/Library/Application\ Support/Mozilla/NativeMessagingHosts/de.kkapsner.keepassxc_mail.json
+cat ~/Library/Application\ Support/Mozilla/NativeMessagingHosts/org.keepassxc.keepassxc_browser.json \
+ | sed s/keepassxc-browser@keepassxc.org/keepassxc-mail@kkapsner.de/ \
+ | sed s/org.keepassxc.keepassxc_browser/de.kkapsner.keepassxc_mail/ \
+ > ~/Library/Application\ Support/Mozilla/NativeMessagingHosts/de.kkapsner.keepassxc_mail.json
 ln -s ~/Library/Application\ Support/Mozilla/NativeMessagingHosts/ ~/Library/Mozilla/
 ```
 
