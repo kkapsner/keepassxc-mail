@@ -14,6 +14,7 @@ async function updateConnections(){
 	const keyRing = (await browser.storage.local.get({"keyRing": {}})).keyRing;
 	
 	const connections = document.getElementById("connections");
+	connections.innerHTML = "";
 	Object.keys(keyRing).forEach(function(hash){
 		connections.appendChild(createConnectionDisplay(keyRing[hash]));
 	});
