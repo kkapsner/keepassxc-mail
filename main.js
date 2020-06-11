@@ -17,6 +17,48 @@ const browserAction = {
 
 keepass.nativeHostName = "de.kkapsner.keepassxc_mail";
 
+async function checkKeyRingStorage(){
+	function objectsEqual(obj1, obj2){
+		const keys1 = Object.keys(obj1);
+		const keys2 = Object.keys(obj2);
+		if (keys1.length !== keys2.length){
+			return false;
+		}
+		return keys1.every(function(key){
+			const value1 = obj1[key];
+			const value2 = obj2[key];
+			if ((typeof value1) !== (typeof value2)){
+				return false;
+			}
+			if ((typeof value1) === "object"){
+				return objectsEqual(value1, value2);
+			}
+			return value1 === value2;
+		});
+	}
+	async function wait(ms){
+		return new Promise(function(resolve){
+			window.setTimeout(resolve, ms);
+		});
+	}
+	// check if the key ring actually saved in the storage
+	const databaseHashes = Object.keys(keepass.keyRing);
+	if (databaseHashes.length){
+		let storedKeyRing = (await browser.storage.local.get({keyRing: {}})).keyRing;
+		while (!objectsEqual(keepass.keyRing, storedKeyRing)){
+			await wait(500);
+			console.log("Store key ring");
+			try {
+				await browser.storage.local.set({keyRing: keepass.keyRing});
+				storedKeyRing = (await browser.storage.local.get({keyRing: {}})).keyRing;
+			}
+			catch (e){
+				console.log("storing key ring failed:", e);
+			}
+		}
+	}
+}
+
 // enable access to keepass object in option page
 window.keepass = keepass;
 const keepassReady = (async () => {
@@ -25,6 +67,7 @@ const keepassReady = (async () => {
 		await keepass.reconnect(null, 5000); // 5 second timeout for the first connect
 		await keepass.enableAutomaticReconnect();
 		await keepass.associate();
+		checkKeyRingStorage();
 	}
 	catch (e) {
 		console.log("init failed", e);
