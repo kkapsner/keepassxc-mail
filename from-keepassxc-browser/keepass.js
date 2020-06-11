@@ -106,7 +106,7 @@ keepass.sendNativeMessage = function(request, enableTimeout = false, timeoutValu
         })(ev, requestAction);
         ev.addListener(listener);
 
-        let messageTimeout = timeoutValue || keepass.messageTimeout;
+        const messageTimeout = timeoutValue || keepass.messageTimeout;
 
         // Handle timeouts
         if (enableTimeout) {
@@ -255,7 +255,7 @@ keepass.retrieveCredentials = async function(tab, args = []) {
             keepass.setcurrentKeePassXCVersion(parsed.version);
 
             if (keepass.verifyResponse(parsed, incrementedNonce)) {
-                entries = parsed.entries;
+                entries = removeDuplicateEntries(parsed.entries);
                 keepass.updateLastUsed(keepass.databaseHash);
                 if (entries.length === 0) {
                     // Questionmark-icon is not triggered, so we have to trigger for the normal symbol
@@ -533,7 +533,7 @@ keepass.getDatabaseHash = async function(tab, args = []) {
                 keepass.setcurrentKeePassXCVersion(parsed.version);
                 keepass.databaseHash = parsed.hash || '';
 
-                if (oldDatabaseHash && oldDatabaseHash != keepass.databaseHash) {
+                if (oldDatabaseHash && oldDatabaseHash !== keepass.databaseHash) {
                     keepass.associated.value = false;
                     keepass.associated.hash = null;
                 }
@@ -839,6 +839,8 @@ keepass.saveKey = function(hash, id, key) {
         keepass.keyRing[hash].id = id;
         keepass.keyRing[hash].key = key;
         keepass.keyRing[hash].hash = hash;
+        keepass.keyRing[hash].created = new Date().valueOf();
+        keepass.keyRing[hash].lastUsed = new Date().valueOf();
     }
     browser.storage.local.set({ 'keyRing': keepass.keyRing });
 };
@@ -849,6 +851,7 @@ keepass.updateLastUsed = function(hash) {
         browser.storage.local.set({ 'keyRing': keepass.keyRing });
     }
 };
+
 // Update the databaseHash from legacy hash
 keepass.updateDatabaseHash = function(oldHash, newHash) {
     if (!oldHash || !newHash || oldHash === newHash) {
@@ -1108,8 +1111,8 @@ keepass.decrypt = function(input, nonce) {
 
 keepass.enableAutomaticReconnect = function() {
     // Disable for Windows if KeePassXC is older than 2.3.4
-    if (!page.settings.autoReconnect ||
-        (navigator.platform.toLowerCase().includes('win') && !keepass.compareVersion('2.3.4', keepass.currentKeePassXC))) {
+    if (!page.settings.autoReconnect
+        || (navigator.platform.toLowerCase().includes('win') && !keepass.compareVersion('2.3.4', keepass.currentKeePassXC))) {
         return;
     }
 
@@ -1169,8 +1172,7 @@ keepass.updateDatabase = async function() {
 };
 
 keepass.updateDatabaseHashToContent = async function() {
-    try {
-        return;
+    /*try {
         const tabs = await browser.tabs.query({ active: true, currentWindow: true });
         if (tabs.length) {
             // Send message to content script
@@ -1184,7 +1186,7 @@ keepass.updateDatabaseHashToContent = async function() {
         }
     } catch (err) {
         console.log('updateDatabaseHashToContent failed: ', err);
-    }
+    }*/
 };
 
 keepass.compareVersion = function(minimum, current, canBeEqual = true) {
@@ -1214,4 +1216,18 @@ keepass.buildRequest = function(action, encrypted, nonce, clientID, triggerUnloc
 
 keepass.getIsKeePassXCAvailable = async function() {
     return keepass.isKeePassXCAvailable;
+};
+
+const removeDuplicateEntries = function(arr) {
+    const newArray = [];
+
+    for (const a of arr) {
+        if (newArray.some(i => i.uuid === a.uuid)) {
+            continue;
+        }
+
+        newArray.push(a);
+    }
+
+    return newArray;
 };
