@@ -36,10 +36,12 @@ document.querySelectorAll(".action").forEach(async function(button){
 document.querySelectorAll("input.setting").forEach(async function(input){
 	const settingName = input.id;
 	const currentValue = await browser.storage.local.get([settingName]);
-	switch (typeof currentValue[settingName]){
-		case "undefined":
-			currentValue[settingName] = JSON.parse(input.dataset.defaultValue);
-			break;
+	let type = typeof currentValue[settingName];
+	if (type === "undefined"){
+		currentValue[settingName] = JSON.parse(input.dataset.defaultValue);
+		type = typeof currentValue[settingName];
+	}
+	switch (type){
 		case "boolean":
 			input.checked = currentValue[settingName];
 			break;
