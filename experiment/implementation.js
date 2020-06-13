@@ -186,6 +186,14 @@ const getGuiOperations = function(){
 			submit: function(){
 				commonDialog._buttons.accept.click();
 			},
+			registerOnSubmit: function(callback){
+				commonDialog._buttons.accept.addEventListener("command", function(){
+					callback(
+						document.getElementById("loginTextbox").value,
+						document.getElementById("password1Textbox").value
+					);
+				});
+			},
 			fillCredentials: function(credentialInfo, credentials){
 				if (
 					!credentialInfo.login ||
@@ -253,6 +261,7 @@ const getGuiOperationsForGdata = function(){
 				const passwordForm = await passwordFormPromise;
 				passwordForm.signIn.click();
 			},
+			registerOnSubmit: function(){},
 			fillCredentials: async function(credentialInfo, credentials){
 				const loginForm = await loginFormPromise;
 				loginForm.Email.value = credentials.login;
@@ -265,17 +274,19 @@ const getGuiOperationsForGdata = function(){
 	};
 }();
 
+const passwordEmitter = new ExtensionCommon.EventEmitter();
+
 const originalPasswordManagerGet = cal.auth.passwordManagerGet;
 const originalPasswordManagerSave = cal.auth.passwordManagerSave;
 XPCOMUtils.defineLazyGlobalGetters(this, ["XMLHttpRequest"]);
 
+function getAuthCredentialInfo(login, host){
+	return {
+		login: login,
+		host: host.replace(/^oauth:([^/]{2})/, "oauth://$1")
+	};
+}
 function changePasswordManager(){
-	function getAuthCredentialInfo(login, host){
-		return {
-			login: login,
-			host: host.replace(/^oauth:([^/]{2})/, "oauth://$1")
-		};
-	}
 	cal.auth.passwordManagerGet = function(login, passwordObject, host, realm){
 		if (host.startsWith("oauth:")){
 			let password = false;
@@ -306,13 +317,16 @@ function changePasswordManager(){
 		}
 		return originalPasswordManagerGet.call(this, login, passwordObject, host, realm);
 	};
-	// cal.auth.passwordManagerSave = function(login, passwordObject, host, realm){
-	// 	if (host.startsWith("oauth:")){
-	// 		console.log({login, passwordObject, host, realm});
-	// 	}
+	cal.auth.passwordManagerSave = function(login, password, host, realm){
+		if (host.startsWith("oauth:")){
+			const credentialInfo = getAuthCredentialInfo(login, host);
+			credentialInfo.password = password;
+			passwordEmitter.emit("password", credentialInfo);
+			return false;
+		}
 		
-	// 	return originalPasswordManagerSave.call(this, login, passwordObject, host, realm);
-	// };
+		return originalPasswordManagerSave.call(this, login, password, host, realm);
+	};
 }
 function restorePasswordmanager(){
 	cal.auth.passwordManagerGet = originalPasswordManagerGet;
@@ -367,6 +381,19 @@ function registerWindowListener(){
 		buildDialogGui(guiOperations, credentialInfo);
 		const credentialDetails = await requestCredentials(credentialInfo);
 		updateGUI(guiOperations, credentialInfo, credentialDetails);
+		if (guiOperations.registerOnSubmit){
+			guiOperations.registerOnSubmit(function(login, password){
+				if (!credentialDetails.credentials.some(function(credentials){
+					return login === credentials.login && password === credentials.password;
+				})){
+					passwordEmitter.emit("password", {
+						login,
+						password,
+						host: credentialInfo.host
+					});
+				}
+			});
+		}
 	}
 	ExtensionSupport.registerWindowListener("passwordDialogListener", {
 		chromeURLs: ["chrome://global/content/commonDialog.xul"],
@@ -432,14 +459,33 @@ this.credentials = class extends ExtensionCommon.ExtensionAPI {
 								return false;
 							}
 						}
-
+						
 						passwordRequestEmitter.add(callback);
 						return function() {
 							passwordRequestEmitter.remove(callback);
 						};
 					},
 				}).api(),
-
+				onNewCredential: new ExtensionCommon.EventManager({
+					context,
+					name: "credentials.onNewCredential",
+					register(fire) {
+						async function callback(event, credentialInfo){
+							try {
+								return await fire.async(credentialInfo);
+							}
+							catch (e){
+								console.error(e);
+								return false;
+							}
+						}
+						
+						passwordEmitter.on("password", callback);
+						return function() {
+							passwordEmitter.off("password", callback);
+						};
+					},
+				}).api(),
 			},
 		};
 	}

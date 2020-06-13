@@ -21,26 +21,54 @@
 				]
 			}
 		],
-		"events": [{
-			"name": "onCredentialRequested",
-			"description": "Fires when credentials are requested",
-			"type": "function",
-			"parameters": [{
-				"name": "credentialInformation",
-				"description": "Information about the requested credentials",
-				"type": "object",
-				"properties": {
-					"host": {
-						"description": "The host including protocol for which credentials are requested",
-						"type": "string"
-					},
-					"login": {
-						"description": "The login for which credentials are requested",
-						"optional": true,
-						"type": "string"
+		"events": [
+			{
+				"name": "onCredentialRequested",
+				"description": "Fires when credentials are requested",
+				"type": "function",
+				"parameters": [{
+					"name": "credentialInformation",
+					"description": "Information about the requested credentials",
+					"type": "object",
+					"properties": {
+						"host": {
+							"description": "The host including protocol for which credentials are requested",
+							"type": "string"
+						},
+						"login": {
+							"description": "The login for which credentials are requested",
+							"optional": true,
+							"type": "string"
+						}
 					}
-				}
-			}]
-		}]
+				}]
+			},
+			{
+				"name": "onNewCredential",
+				"description": "Fires when new credentials are entered",
+				"type": "function",
+				"parameters": [{
+					"name": "credentialInformation",
+					"description": "Information about the entered credentials",
+					"type": "object",
+					"properties": {
+						"host": {
+							"description": "The host including protocol for which credentials were entered.",
+							"type": "string"
+						},
+						"login": {
+							"description": "The login for which credentials were entered.",
+							"optional": true,
+							"type": "string"
+						},
+						"password": {
+							"description": "The password that was entered.",
+							"optional": true,
+							"type": "string"
+						}
+					}
+				}]
+			}
+		]
 	}
 ]

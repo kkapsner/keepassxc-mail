@@ -106,5 +106,9 @@
 	"options.autoSubmit.label": {
 		"message": "Automatisch absenden",
 		"description": "Auto submit"
+	},
+	"options.saveNewCredentials.label": {
+		"message": "Neue Passwörter speichern",
+		"description": "Save new credentails"
 	}
 }

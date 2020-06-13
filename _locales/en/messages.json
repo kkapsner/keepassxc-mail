@@ -106,5 +106,9 @@
 	"options.autoSubmit.label": {
 		"message": "Auto submit",
 		"description": "Auto submit"
+	},
+	"options.saveNewCredentials.label": {
+		"message": "Save new credentials",
+		"description": "Save new credentials"
 	}
 }
