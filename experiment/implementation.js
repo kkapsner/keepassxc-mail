@@ -187,12 +187,18 @@ const getGuiOperations = function(){
 				commonDialog._buttons.accept.click();
 			},
 			registerOnSubmit: function(callback){
-				commonDialog._buttons.accept.addEventListener("command", function(){
-					callback(
-						document.getElementById("loginTextbox").value,
-						document.getElementById("password1Textbox").value
-					);
-				});
+				let submitted = false;
+				function submit(){
+					if (!submitted){
+						submitted = true;
+						callback(
+							document.getElementById("loginTextbox").value,
+							document.getElementById("password1Textbox").value
+						);
+					}
+				}
+				commonDialog._buttons.accept.addEventListener("command", submit);
+				commonDialog.addEventListener("dialogaccept", submit);
 			},
 			fillCredentials: function(credentialInfo, credentials){
 				if (
@@ -383,6 +389,12 @@ function registerWindowListener(){
 		updateGUI(guiOperations, credentialInfo, credentialDetails);
 		if (guiOperations.registerOnSubmit){
 			guiOperations.registerOnSubmit(function(login, password){
+				if (
+					credentialInfo.login &&
+					!credentialInfo.loginChangeable
+				){
+					login = credentialInfo.login;
+				}
 				if (!credentialDetails.credentials.some(function(credentials){
 					return login === credentials.login && password === credentials.password;
 				})){
