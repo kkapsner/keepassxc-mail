@@ -3,8 +3,11 @@
 
 const { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
-const { cal } = ChromeUtils.import("resource://calendar/modules/calUtils.jsm");
 const { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
+
+const windowListeners = [];
+const setupFunctions = [];
+const passwordEmitter = new ExtensionCommon.EventEmitter();
 
 const getCredentialInfo = function(){
 	const stringBundleService = Components.classes["@mozilla.org/intl/stringbundle;1"]
@@ -26,7 +29,7 @@ const getCredentialInfo = function(){
 			return bundles[bundleName].GetStringFromName(stringName);
 		}
 		catch(e){
-			console.log("unable to get", stringName, "from bundle", bundleName);
+			console.log("KeePassXC-Mail: unable to get", stringName, "from bundle", bundleName);
 			return stringName;
 		}
 	}
@@ -212,175 +215,13 @@ const getGuiOperations = function(){
 		};
 	};
 }();
+windowListeners.push({
+	name: "passwordDialogListener",
+	chromeURLs: ["chrome://global/content/commonDialog.xul"],
+	getCredentialInfo,
+	getGuiOperations
+});
 
-const getCredentialInfoForGdata = function(){
-	return function getCredentialInfoForGdata(window){
-		const request = window.arguments[0].wrappedJSObject;
-		
-		return {
-			host: request.url,
-			login: request.account.extraAuthParams.filter(p => p[0] === "login_hint").map(p => p[1])[0],
-			loginChangeable: true
-		};
-	};
-}();
-const getGuiOperationsForGdata = function(){
-	const STATE_STOP = Components.interfaces.nsIWebProgressListener.STATE_STOP;
-	
-	return function(window){
-		const requestFrame = window.document.getElementById("requestFrame");
-		let resolveLoginForm;
-		let resolvePasswordForm;
-		const loginFormPromise = new Promise(function(resolve){resolveLoginForm = resolve;});
-		const passwordFormPromise = new Promise(function(resolve){resolvePasswordForm = resolve;});
-	
-		const progressListener = {
-			QueryInterface: cal.generateQI([
-				Components.interfaces.nsIWebProgressListener,
-				Components.interfaces.nsISupportsWeakReference
-			]),
-			onStateChange: function(aWebProgress, aRequest, stateFlags, aStatus){
-				if (!(stateFlags & STATE_STOP)) return;
-				
-				const form = requestFrame.contentDocument.forms[0];
-				if (!form) return;
-				
-				if (form.Email){
-					resolveLoginForm(form);
-				}
-				if (form.Passwd){
-					resolvePasswordForm(form);
-				}
-			},
-		};
-		requestFrame.addProgressListener(progressListener, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
-		
-		const document = window.document;
-		return {
-			progressListener,
-			window,
-			guiParent: document.getElementById("browserRequest"),
-			submit: async function(){
-				const loginForm = await loginFormPromise;
-				loginForm.signIn.click();
-				
-				const passwordForm = await passwordFormPromise;
-				passwordForm.signIn.click();
-			},
-			registerOnSubmit: function(){},
-			fillCredentials: async function(credentialInfo, credentials){
-				const loginForm = await loginFormPromise;
-				loginForm.Email.value = credentials.login;
-				
-				const passwordForm = await passwordFormPromise;
-				passwordForm.Passwd.value = credentials.password;
-				
-			}
-		};
-	};
-}();
-
-const passwordEmitter = new ExtensionCommon.EventEmitter();
-
-const originalPasswordManagerGet = cal.auth.passwordManagerGet;
-const originalPasswordManagerSave = cal.auth.passwordManagerSave;
-XPCOMUtils.defineLazyGlobalGetters(this, ["XMLHttpRequest"]);
-
-function getAuthCredentialInfo(login, host){
-	return {
-		login: login,
-		host: host.replace(/^oauth:([^/]{2})/, "oauth://$1")
-	};
-}
-function changePasswordManager(){
-	cal.auth.passwordManagerGet = function(login, passwordObject, host, realm){
-		if (host.startsWith("oauth:")){
-			let password = false;
-			requestCredentials(getAuthCredentialInfo(login, host)).then(function(credentialDetails){
-				password = true;
-				if (credentialDetails.credentials.length){
-					password = credentialDetails.credentials[0].password;
-				}
-				return password;
-			}).catch(function(){
-				password = true;
-			});
-			while (!password){
-				try {
-					let xhr = new XMLHttpRequest();
-					xhr.open("GET", "https://[::]", false);
-					xhr.send();
-					xhr = null;
-				}
-				catch(e){
-					// ignore XHR errors as we just want to wait synchronously
-				}
-			}
-			if ((typeof password) === "string"){
-				passwordObject.value = password;
-				return true;
-			}
-		}
-		return originalPasswordManagerGet.call(this, login, passwordObject, host, realm);
-	};
-	cal.auth.passwordManagerSave = function(login, password, host, realm){
-		if (host.startsWith("oauth:")){
-			const credentialInfo = getAuthCredentialInfo(login, host);
-			credentialInfo.password = password;
-			passwordEmitter.emit("password", credentialInfo);
-			return false;
-		}
-		
-		return originalPasswordManagerSave.call(this, login, password, host, realm);
-	};
-}
-function restorePasswordmanager(){
-	cal.auth.passwordManagerGet = originalPasswordManagerGet;
-	cal.auth.passwordManagerSave = originalPasswordManagerSave;
-}
-
-const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
-	constructor() {
-		super();
-		this.callbackCount = 0;
-	}
-
-	add(callback) {
-		this.on("password-requested", callback);
-		this.callbackCount++;
-
-		if (this.callbackCount === 1) {
-			registerWindowListener();
-			changePasswordManager();
-		}
-	}
-
-	remove(callback) {
-		this.off("password-requested", callback);
-		this.callbackCount--;
-
-		if (this.callbackCount === 0) {
-			unregisterWindowListener();
-			restorePasswordmanager();
-		}
-	}
-};
-
-async function requestCredentials(credentialInfo){
-	const eventData = await passwordRequestEmitter.emit(
-		"password-requested", credentialInfo
-	);
-	return eventData.reduce(function(details, currentDetails){
-		if (!currentDetails){
-			return details;
-		}
-		details.autoSubmit &= currentDetails.autoSubmit;
-		if (currentDetails.credentials && currentDetails.credentials.length){
-			details.credentials = details.credentials.concat(currentDetails.credentials);
-		}
-		return details;
-	}, {autoSubmit: true, credentials: []});
-}
 
 function registerWindowListener(){
 	async function handleEvent(guiOperations, credentialInfo) {
@@ -407,28 +248,213 @@ function registerWindowListener(){
 			});
 		}
 	}
-	ExtensionSupport.registerWindowListener("passwordDialogListener", {
-		chromeURLs: ["chrome://global/content/commonDialog.xul"],
-		onLoadWindow: function(window) {
-			const credentialInfo = getCredentialInfo(window);
-			if (credentialInfo){
-				handleEvent(getGuiOperations(window), credentialInfo);
-			}
-		},
-	});
-	ExtensionSupport.registerWindowListener("gdataPasswordDialogListener", {
-		chromeURLs: ["chrome://gdata-provider/content/browserRequest.xul"],
-		onLoadWindow: function(window) {
-			const credentialInfo = getCredentialInfoForGdata(window);
-			if (credentialInfo){
-				handleEvent(getGuiOperationsForGdata(window), credentialInfo);
-			}
-		},
+	
+	windowListeners.forEach(function(listener){
+		ExtensionSupport.registerWindowListener(listener.name, {
+			chromeURLs: listener.chromeURLs,
+			onLoadWindow: function(window) {
+				const credentialInfo = listener.getCredentialInfo(window);
+				if (credentialInfo){
+					handleEvent(listener.getGuiOperations(window), credentialInfo);
+				}
+			},
+		});
 	});
 }
 function unregisterWindowListener(){
-	ExtensionSupport.unregisterWindowListener("passwordDialogListener");
-	ExtensionSupport.unregisterWindowListener("gdataPasswordDialogListener");
+	windowListeners.forEach(function(listener){
+		ExtensionSupport.unregisterWindowListener(listener.name);
+	});
+}
+setupFunctions.push({
+	setup: registerWindowListener,
+	shutdown: unregisterWindowListener
+});
+
+try {
+	// gdata support
+	const { cal } = ChromeUtils.import("resource://calendar/modules/calUtils.jsm");
+	const getCredentialInfoForGdata = function(){
+		return function getCredentialInfoForGdata(window){
+			const request = window.arguments[0].wrappedJSObject;
+			
+			return {
+				host: request.url,
+				login: request.account.extraAuthParams.filter(p => p[0] === "login_hint").map(p => p[1])[0],
+				loginChangeable: true
+			};
+		};
+	}();
+	const getGuiOperationsForGdata = function(){
+		const STATE_STOP = Components.interfaces.nsIWebProgressListener.STATE_STOP;
+		
+		return function(window){
+			const requestFrame = window.document.getElementById("requestFrame");
+			let resolveLoginForm;
+			let resolvePasswordForm;
+			const loginFormPromise = new Promise(function(resolve){resolveLoginForm = resolve;});
+			const passwordFormPromise = new Promise(function(resolve){resolvePasswordForm = resolve;});
+		
+			const progressListener = {
+				QueryInterface: cal.generateQI([
+					Components.interfaces.nsIWebProgressListener,
+					Components.interfaces.nsISupportsWeakReference
+				]),
+				onStateChange: function(aWebProgress, aRequest, stateFlags, aStatus){
+					if (!(stateFlags & STATE_STOP)) return;
+					
+					const form = requestFrame.contentDocument.forms[0];
+					if (!form) return;
+					
+					if (form.Email){
+						resolveLoginForm(form);
+					}
+					if (form.Passwd){
+						resolvePasswordForm(form);
+					}
+				},
+			};
+			requestFrame.addProgressListener(progressListener, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
+			
+			const document = window.document;
+			return {
+				progressListener,
+				window,
+				guiParent: document.getElementById("browserRequest"),
+				submit: async function(){
+					const loginForm = await loginFormPromise;
+					loginForm.signIn.click();
+					
+					const passwordForm = await passwordFormPromise;
+					passwordForm.signIn.click();
+				},
+				registerOnSubmit: function(){},
+				fillCredentials: async function(credentialInfo, credentials){
+					const loginForm = await loginFormPromise;
+					loginForm.Email.value = credentials.login;
+					
+					const passwordForm = await passwordFormPromise;
+					passwordForm.Passwd.value = credentials.password;
+					
+				}
+			};
+		};
+	}();
+	windowListeners.push({
+		name: "gdataPasswordDialogListener",
+		chromeURLs: ["chrome://gdata-provider/content/browserRequest.xul"],
+		getCredentialInfo: getCredentialInfoForGdata,
+		getGuiOperations: getGuiOperationsForGdata
+	});
+
+	const originalPasswordManagerGet = cal.auth.passwordManagerGet;
+	const originalPasswordManagerSave = cal.auth.passwordManagerSave;
+	XPCOMUtils.defineLazyGlobalGetters(this, ["XMLHttpRequest"]);
+	
+	const getAuthCredentialInfo = function getAuthCredentialInfo(login, host){
+		return {
+			login: login,
+			host: host.replace(/^oauth:([^/]{2})/, "oauth://$1")
+		};
+	};
+	const changePasswordManager = function changePasswordManager(){
+		cal.auth.passwordManagerGet = function(login, passwordObject, host, realm){
+			if (host.startsWith("oauth:")){
+				let password = false;
+				requestCredentials(getAuthCredentialInfo(login, host)).then(function(credentialDetails){
+					password = true;
+					if (credentialDetails.credentials.length){
+						password = credentialDetails.credentials[0].password;
+					}
+					return password;
+				}).catch(function(){
+					password = true;
+				});
+				while (!password){
+					try {
+						let xhr = new XMLHttpRequest();
+						xhr.open("GET", "https://[::]", false);
+						xhr.send();
+						xhr = null;
+					}
+					catch(e){
+						// ignore XHR errors as we just want to wait synchronously
+					}
+				}
+				if ((typeof password) === "string"){
+					passwordObject.value = password;
+					return true;
+				}
+			}
+			return originalPasswordManagerGet.call(this, login, passwordObject, host, realm);
+		};
+		cal.auth.passwordManagerSave = function(login, password, host, realm){
+			if (host.startsWith("oauth:")){
+				const credentialInfo = getAuthCredentialInfo(login, host);
+				credentialInfo.password = password;
+				passwordEmitter.emit("password", credentialInfo);
+				return false;
+			}
+			
+			return originalPasswordManagerSave.call(this, login, password, host, realm);
+		};
+	};
+	const restorePasswordmanager = function restorePasswordmanager(){
+		cal.auth.passwordManagerGet = originalPasswordManagerGet;
+		cal.auth.passwordManagerSave = originalPasswordManagerSave;
+	};
+	setupFunctions.push({
+		setup: changePasswordManager,
+		shutdown: restorePasswordmanager
+	});
+}
+catch (error){
+	console.log("KeePassXC-Mail: unable to register support for gdata", error);
+}
+
+const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
+	constructor() {
+		super();
+		this.callbackCount = 0;
+	}
+
+	add(callback) {
+		this.on("password-requested", callback);
+		this.callbackCount++;
+
+		if (this.callbackCount === 1) {
+			setupFunctions.forEach(function(setupFunction){
+				setupFunction.setup();
+			});
+		}
+	}
+
+	remove(callback) {
+		this.off("password-requested", callback);
+		this.callbackCount--;
+
+		if (this.callbackCount === 0) {
+			setupFunctions.forEach(function(setupFunction){
+				setupFunction.shutdown();
+			});
+		}
+	}
+};
+
+async function requestCredentials(credentialInfo){
+	const eventData = await passwordRequestEmitter.emit(
+		"password-requested", credentialInfo
+	);
+	return eventData.reduce(function(details, currentDetails){
+		if (!currentDetails){
+			return details;
+		}
+		details.autoSubmit &= currentDetails.autoSubmit;
+		if (currentDetails.credentials && currentDetails.credentials.length){
+			details.credentials = details.credentials.concat(currentDetails.credentials);
+		}
+		return details;
+	}, {autoSubmit: true, credentials: []});
 }
 
 const translations = {};
