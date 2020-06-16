@@ -574,6 +574,16 @@ function buildDialogGui(guiOperations, credentialInfo){
 	
 	guiOperations.guiParent.appendChild(row);
 	
+	// hide "save password" checkbox
+	const checkbox = document.getElementById("checkbox");
+	if (checkbox){
+		checkbox.checked = false;
+	}
+	const checkboxContainer = document.getElementById("checkboxContainer");
+	if (checkboxContainer){
+		checkboxContainer.hidden = true;
+	}
+	
 	window.sizeToContent();
 }
 function updateGUI(guiOperations, credentialInfo, credentialDetails){

@@ -2,7 +2,7 @@ Version 0.1.4:
 
 new features:
 
-	- 
+	- hide the "save password" checkbox
 
 fixes:
 
