@@ -3,7 +3,7 @@
 
 const { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
-const { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
+const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
 const windowListeners = [];
 const setupFunctions = [];
@@ -349,7 +349,6 @@ try {
 
 	const originalPasswordManagerGet = cal.auth.passwordManagerGet;
 	const originalPasswordManagerSave = cal.auth.passwordManagerSave;
-	XPCOMUtils.defineLazyGlobalGetters(this, ["XMLHttpRequest"]);
 	
 	const getAuthCredentialInfo = function getAuthCredentialInfo(login, host){
 		return {
@@ -370,17 +369,7 @@ try {
 				}).catch(function(){
 					password = true;
 				});
-				while (!password){
-					try {
-						let xhr = new XMLHttpRequest();
-						xhr.open("GET", "https://[::]", false);
-						xhr.send();
-						xhr = null;
-					}
-					catch(e){
-						// ignore XHR errors as we just want to wait synchronously
-					}
-				}
+				Services.tm.spinEventLoopUntilOrShutdown(() => !!password);
 				if ((typeof password) === "string"){
 					passwordObject.value = password;
 					return true;
