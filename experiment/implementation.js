@@ -9,7 +9,7 @@ const windowListeners = [];
 const setupFunctions = [];
 const passwordEmitter = new ExtensionCommon.EventEmitter();
 
-const getCredentialInfo = function(){
+const getCredentialInfoFromStrings = function(){
 	const stringBundleService = Components.classes["@mozilla.org/intl/stringbundle;1"]
 		.getService(Components.interfaces.nsIStringBundleService);
 	
@@ -142,17 +142,12 @@ const getCredentialInfo = function(){
 		hostPlaceholder: "%2$S",
 		loginPlaceholder: "%1$S"
 	});
-	
-	return function getCredentialInfo(window){
-		if (["promptPassword", "promptUserAndPass"].indexOf(window.args.promptType) === -1){
-			return false;
-		}
-		
+	return function getCredentialInfoFromStrings(title, text){
 		const matchingTypes = dialogTypes.filter(function(dialogType){
-			return dialogType.title === window.args.title;
+			return dialogType.title === title;
 		}).map(function(dialogType){
 			const ret = Object.create(dialogType);
-			ret.match = window.args.text.match(dialogType.dialogRegExp);
+			ret.match = text.match(dialogType.dialogRegExp);
 			return ret;
 		}).filter(function(dialogType){
 			return dialogType.match;
@@ -165,19 +160,38 @@ const getCredentialInfo = function(){
 					type.match[type.hostGroup]
 				): false;
 			let login = type.loginGroup? type.match[type.loginGroup]: false;
-			let loginChangeable = false;
-			if (!login && window.args.promptType === "promptUserAndPass"){
-				const loginInput = window.document.getElementById("loginTextbox");
-				if (loginInput && loginInput.value){
-					login = loginInput.value;
-					loginChangeable = true;
-				}
-			}
-			return {host, login, loginChangeable};
+			return {host, login};
 		}
 		return false;
 	};
 }();
+
+function getCredentialInfo(window){
+	const promptType = window.args.promptType;
+	if (["promptPassword", "promptUserAndPass"].indexOf(promptType) === -1){
+		return false;
+	}
+	
+	function loginChangeable(login){
+		if (!login && promptType === "promptUserAndPass"){
+			const loginInput = window.document.getElementById("loginTextbox");
+			if (loginInput && loginInput.value){
+				login = loginInput.value;
+				return true;
+			}
+		}
+		return false;
+	}
+	const promptData = getCredentialInfoFromStrings(window.args.title, window.args.text);
+	if (promptData){
+		return {
+			host: promptData.host,
+			login: promptData.login,
+			loginChangeable: loginChangeable(currentPromptData.login),
+		};
+	}
+	return false;
+}
 
 const getGuiOperations = function(){
 	return function(window){
