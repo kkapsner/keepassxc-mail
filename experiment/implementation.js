@@ -373,19 +373,13 @@ try {
 	const changePasswordManager = function changePasswordManager(){
 		cal.auth.passwordManagerGet = function(login, passwordObject, host, realm){
 			if (host.startsWith("oauth:")){
-				let password = false;
-				requestCredentials(getAuthCredentialInfo(login, host)).then(function(credentialDetails){
-					password = true;
-					if (credentialDetails.credentials.length){
-						password = credentialDetails.credentials[0].password;
-					}
-					return password;
-				}).catch(function(){
-					password = true;
-				});
-				Services.tm.spinEventLoopUntilOrShutdown(() => !!password);
-				if ((typeof password) === "string"){
-					passwordObject.value = password;
+				const credentialDetails = waitForCredentials(getAuthCredentialInfo(login, host));
+				if (
+					credentialDetails &&
+					credentialDetails.credentials.length &&
+					(typeof credentialDetails.credentials[0].password) === "string"
+				){
+					passwordObject.value = credentialDetails.credentials[0].password;
 					return true;
 				}
 			}
@@ -458,6 +452,20 @@ async function requestCredentials(credentialInfo){
 		}
 		return details;
 	}, {autoSubmit: true, credentials: []});
+}
+
+function waitForCredentials(data){
+	let finished = false;
+	let returnValue = false;
+	requestCredentials(data).then(function(credentialDetails){
+		finished = true;
+		returnValue = credentialDetails;
+		return returnValue;
+	}).catch(function(){
+		finished = true;
+	});
+	Services.tm.spinEventLoopUntilOrShutdown(() => finished);
+	return returnValue;
 }
 
 const translations = {};
