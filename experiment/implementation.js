@@ -187,7 +187,7 @@ function getCredentialInfo(window){
 		return {
 			host: promptData.host,
 			login: promptData.login,
-			loginChangeable: loginChangeable(currentPromptData.login),
+			loginChangeable: loginChangeable(promptData.login),
 		};
 	}
 	return false;
