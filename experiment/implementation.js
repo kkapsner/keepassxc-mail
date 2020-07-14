@@ -8,6 +8,54 @@ const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 const windowListeners = [];
 const setupFunctions = [];
 const passwordEmitter = new ExtensionCommon.EventEmitter();
+let currentPromptData = null;
+
+try {
+	const { LoginManagerAuthPrompter } = ChromeUtils.import("resource://gre/modules/LoginManagerAuthPrompter.jsm");
+	const promptFunctions = [
+		{
+			name: "promptPassword",
+			promptType: "promptPassword",
+			realmIndex: 2,
+			passwordObjectIndex: 4,
+		},
+		{
+			name: "promptUsernameAndPassword",
+			promptType: "promptUserAndPass",
+			realmIndex: 2,
+			passwordObjectIndex: 5,
+		}
+	];
+	promptFunctions.forEach(function(promptFunction){
+		promptFunction.original = LoginManagerAuthPrompter.prototype[promptFunction.name];
+	});
+	setupFunctions.push({
+		setup: function(){
+			promptFunctions.forEach(function(promptFunction){
+				LoginManagerAuthPrompter.prototype[promptFunction.name] = function(...args){
+					const realm = args[promptFunction.realmIndex];
+					const [host, , login] = this._getRealmInfo(realm);
+					currentPromptData = {
+						host,
+						login: decodeURIComponent(login),
+						realm,
+					};
+					const ret = promptFunction.original.call(this, ...args);
+					currentPromptData = null;
+					return ret;
+				};
+			});
+		},
+		shutdown: function(){
+			promptFunctions.forEach(function(promptFunction){
+				LoginManagerAuthPrompter.prototype[promptFunction.name] = promptFunction.original;
+			});
+		}
+	});
+}
+catch (error){
+	console.log("Unable to change LoginManagerAuthPrompter:", error);
+}
 
 const getCredentialInfoFromStrings = function(){
 	const stringBundleService = Components.classes["@mozilla.org/intl/stringbundle;1"]
@@ -166,6 +214,134 @@ const getCredentialInfoFromStrings = function(){
 	};
 }();
 
+try {
+	const { Prompter } = ChromeUtils.import("resource://gre/modules/Prompter.jsm");
+	const promptFunctions = [
+		{
+			name: "promptUsernameAndPassword",
+			promptType: "promptUserAndPass",
+			titleIndex: 1,
+			textIndex: 2,
+			passwordObjectIndex: 4,
+		},
+		{
+			name: "promptUsernameAndPasswordBC",
+			promptType: "promptUserAndPass",
+			titleIndex: 2,
+			textIndex: 3,
+			passwordObjectIndex: 5,
+		},
+		{
+			name: "asyncPromptUsernameAndPassword",
+			promptType: "promptUserAndPass",
+			titleIndex: 2,
+			textIndex: 3,
+			passwordObjectIndex: 5,
+		},
+		{
+			name: "promptPassword",
+			promptType: "promptPassword",
+			titleIndex: 1,
+			textIndex: 2,
+			passwordObjectIndex: 3,
+		},
+		{
+			name: "promptPasswordBC",
+			promptType: "promptPassword",
+			titleIndex: 2,
+			textIndex: 3,
+			passwordObjectIndex: 4,
+		},
+		{
+			name: "asyncPromptPassword",
+			promptType: "promptPassword",
+			titleIndex: 2,
+			textIndex: 3,
+			passwordObjectIndex: 4,
+		},
+		{
+			name: "promptAuth",
+			promptType: "promptUserAndPass",
+			channelIndex: 1,
+			authInfoIndex: 3,
+			passwordObjectIndex: 3,
+		},
+		{
+			name: "promptAuthBC",
+			promptType: "promptUserAndPass",
+			channelIndex: 2,
+			authInfoIndex: 4,
+			passwordObjectIndex: 4,
+		},
+		{
+			name: "asyncPromptAuth",
+			promptType: "promptUserAndPass",
+			channelIndex: 1,
+			authInfoIndex: 5,
+			passwordObjectIndex: 5,
+		},
+		{
+			name: "asyncPromptAuthBC",
+			promptType: "promptUserAndPass",
+			channelIndex: 2,
+			authInfoIndex: 6,
+			passwordObjectIndex: 6,
+		},
+	];
+	promptFunctions.forEach(function(promptFunction){
+		promptFunction.original = Prompter.prototype[promptFunction.name];
+	});
+	setupFunctions.push({
+		setup: function(){
+			promptFunctions.forEach(function(promptFunction){
+				Prompter.prototype[promptFunction.name] = function(...args){
+					const data = [
+						() => currentPromptData,
+						function(){
+							if (promptFunction.titleIndex){
+								return getCredentialInfoFromStrings(
+									args[promptFunction.titleIndex],
+									args[promptFunction.textIndex]
+								);
+							}
+							return false;
+						},
+						function(){
+							if (promptFunction.authInfoIndex){
+								return {
+									host: args[promptFunction.channelIndex].URI.spec,
+									login: args[promptFunction.authInfoIndex].username,
+									realm: args[promptFunction.authInfoIndex].realm,
+								};
+							}
+							return false;
+						},
+					].reduce(function(data, func){
+						if (!data){
+							return func();
+						}
+						return data;
+					}, false);
+					if (data){
+						currentPromptData = data;
+					}
+					const ret = promptFunction.original.call(this, ...args);
+					currentPromptData = null;
+					return ret;
+				};
+			});
+		},
+		shutdown: function(){
+			promptFunctions.forEach(function(promptFunction){
+				Prompter.prototype[promptFunction.name] = promptFunction.original;
+			});
+		}
+	});
+}
+catch (error){
+	console.log("Unable to change Prompter:", error);
+}
+
 function getCredentialInfo(window){
 	const promptType = window.args.promptType;
 	if (["promptPassword", "promptUserAndPass"].indexOf(promptType) === -1){
@@ -182,7 +358,7 @@ function getCredentialInfo(window){
 		}
 		return false;
 	}
-	const promptData = getCredentialInfoFromStrings(window.args.title, window.args.text);
+	const promptData = currentPromptData || getCredentialInfoFromStrings(window.args.title, window.args.text);
 	if (promptData){
 		return {
 			host: promptData.host,
@@ -231,7 +407,10 @@ const getGuiOperations = function(){
 }();
 windowListeners.push({
 	name: "passwordDialogListener",
-	chromeURLs: ["chrome://global/content/commonDialog.xul"],
+	chromeURLs: [
+		"chrome://global/content/commonDialog.xul",
+		"chrome://global/content/commonDialog.xhtml",
+	],
 	getCredentialInfo,
 	getGuiOperations
 });

@@ -3,6 +3,7 @@ Version 0.1.4:
 new features:
 
 	- hide the "save password" checkbox
+	- added support for Thunderbird 80
 
 fixes:
 
