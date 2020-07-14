@@ -109,6 +109,6 @@
 	},
 	"options.saveNewCredentials.label": {
 		"message": "Neue Passwörter speichern",
-		"description": "Save new credentails"
+		"description": "Save new credentials"
 	}
 }
