@@ -8,9 +8,9 @@ Based on [KeePassXC-Browser](https://github.com/keepassxreboot/keepassxc-browser
 
 *Hopefully we can get this as simple as for KeePassXC-Browser in the future.*
 
- 1. First the KeePassXC-Browser configuration (described in this [document](https://keepassxc.org/docs/keepassxc-browser-migration/)) has to be done.
- 2. Afterwards the configuration file for the Native Messaging has to be created.
- 3. At the end the addon can be installed in Thunderbird (download the latest xpi [here](https://github.com/kkapsner/keepassxc-mail/releases/latest)).
+ 1. Configure KeePassXC-Browser as described in [this document](https://keepassxc.org/docs/KeePassXC_GettingStarted.html#_configure_keepassxc_browser). Make sure to enable the integration for Firefox.
+ 2. Create the configuration file for Native Messaging as described below in [Native Messaging configuration](#native-messaging-configuration).
+ 3. Install the add-on in Thunderbird. Either download the [latest prebuilt xpi](https://github.com/kkapsner/keepassxc-mail/releases/latest) or build it yourself (`npm install`, `npm run build`, the xpi will be in the `mail-ext-artifacts` directory).
 
 ## Native Messaging configuration
 
