@@ -81,7 +81,7 @@ const getCredentialInfoFromStrings = function(){
 			return stringName;
 		}
 	}
-	function getDialogType({protocol, title, dialog, hostPlaceholder, loginPlaceholder}){
+	function getDialogType({protocol, title, titleRegExp, dialog, hostPlaceholder, loginPlaceholder}){
 		const hostPosition = hostPlaceholder? dialog.indexOf(hostPlaceholder): -1;
 		const loginPosition = loginPlaceholder? dialog.indexOf(loginPlaceholder): -1;
 		let dialogRegExpString = dialog.replace(/([\\+*?[^\]$(){}=!|.])/g, "\\$1");
@@ -95,7 +95,7 @@ const getCredentialInfoFromStrings = function(){
 		
 		return {
 			protocol,
-			title,
+			title: titleRegExp? new RegExp(title.replace(/%\d+\$S/, ".+")): title,
 			dialog,
 			dialogRegExp,
 			hostGroup: hostPosition === -1? false: loginPosition === -1 || loginPosition > hostPosition? 1: 2,
@@ -121,8 +121,32 @@ const getCredentialInfoFromStrings = function(){
 		loginPlaceholder: ""
 	});
 	addDialogType({
+		protocol: "smtp",
+		title:  getBundleString("compose", "smtpEnterPasswordPromptTitleWithHostname"),
+		titleRegExp: true,
+		dialog: getBundleString("compose", "smtpEnterPasswordPromptWithUsername"),
+		hostPlaceholder: "%1$S",
+		loginPlaceholder: "%2$S"
+	});
+	addDialogType({
+		protocol: "smtp",
+		title:  getBundleString("compose", "smtpEnterPasswordPromptTitleWithHostname"),
+		titleRegExp: true,
+		dialog: getBundleString("compose", "smtpEnterPasswordPrompt"),
+		hostPlaceholder: "%S",
+		loginPlaceholder: ""
+	});
+	addDialogType({
 		protocol: "imap",
 		title:  getBundleString("imap", "imapEnterPasswordPromptTitle"),
+		dialog: getBundleString("imap", "imapEnterServerPasswordPrompt"),
+		hostPlaceholder: "%2$S",
+		loginPlaceholder: "%1$S"
+	});
+	addDialogType({
+		protocol: "imap",
+		title:  getBundleString("imap", "imapEnterPasswordPromptTitleWithUsername"),
+		titleRegExp: true,
 		dialog: getBundleString("imap", "imapEnterServerPasswordPrompt"),
 		hostPlaceholder: "%2$S",
 		loginPlaceholder: "%1$S"
@@ -137,6 +161,22 @@ const getCredentialInfoFromStrings = function(){
 	addDialogType({
 		protocol: "pop3",
 		title:  getBundleString("local", "pop3EnterPasswordPromptTitle"),
+		dialog: getBundleString("local", "pop3PreviouslyEnteredPasswordIsInvalidPrompt"),
+		hostPlaceholder: "%2$S",
+		loginPlaceholder: "%1$S"
+	});
+	addDialogType({
+		protocol: "pop3",
+		title:  getBundleString("local", "pop3EnterPasswordPromptTitleWithUsername"),
+		titleRegExp: true,
+		dialog: getBundleString("local", "pop3EnterPasswordPrompt"),
+		hostPlaceholder: "%2$S",
+		loginPlaceholder: "%1$S"
+	});
+	addDialogType({
+		protocol: "pop3",
+		title:  getBundleString("local", "pop3EnterPasswordPromptTitleWithUsername"),
+		titleRegExp: true,
 		dialog: getBundleString("local", "pop3PreviouslyEnteredPasswordIsInvalidPrompt"),
 		hostPlaceholder: "%2$S",
 		loginPlaceholder: "%1$S"
@@ -192,7 +232,7 @@ const getCredentialInfoFromStrings = function(){
 	});
 	return function getCredentialInfoFromStrings(title, text){
 		const matchingTypes = dialogTypes.filter(function(dialogType){
-			return dialogType.title === title;
+			return dialogType.title === title || (dialogType.title.test && dialogType.title.test(title));
 		}).map(function(dialogType){
 			const ret = Object.create(dialogType);
 			ret.match = text.match(dialogType.dialogRegExp);

@@ -5,6 +5,10 @@ new features:
 	- hovering over the status text in a password prompt show now the password search parameters
 	- password search parameters are logged in the console
 
+changes:
+
+	- add new dialog texts
+
 fixes:
 
 	- 
