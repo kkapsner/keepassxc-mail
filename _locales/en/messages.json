@@ -87,6 +87,10 @@
 		"message": "Password \"{password}\"",
 		"description": "Password \"{password}\""
 	},
+	"credentialInfo": {
+		"message": "URL: {host}\nLogin: {login|\"---\"}",
+		"description": "URL: {host}\nLogin: {login}"
+	},
 	"options.title": {
 		"message": "KeePassXC-Mail Settings",
 		"description": "KeePassXC-Mail Settings"

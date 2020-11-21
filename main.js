@@ -78,13 +78,14 @@ const keepassReady = (async () => {
 
 [
 	"pickedEntry", "entryLabel", "entryTooltip",
-	"loadingPasswords", "noPasswordsFound", "retry"
+	"loadingPasswords", "noPasswordsFound", "retry", "credentialInfo"
 ].forEach(function(stringName){
 	browser.credentials.setTranslation(stringName, browser.i18n.getMessage(stringName));
 });
 
 const lastRequest = {};
 browser.credentials.onCredentialRequested.addListener(async function(credentialInfo){
+	console.log("got credential request:", credentialInfo);
 	await keepassReady;
 	const presentIds = new Map();
 	const credentialsForHost = (await keepass.retrieveCredentials(false, [credentialInfo.host, credentialInfo.host]))

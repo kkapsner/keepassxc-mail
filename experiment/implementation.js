@@ -746,6 +746,7 @@ function buildDialogGui(guiOperations, credentialInfo){
 	description.setAttribute("align", "start");
 	description.setAttribute("flex", "1");
 	description.setAttribute("value", getTranslation("loadingPasswords"));
+	description.setAttribute("tooltiptext", getTranslation("credentialInfo", credentialInfo));
 	box.appendChild(description);
 	
 	const retryButton = document.createElementNS(xulNS, "button");
