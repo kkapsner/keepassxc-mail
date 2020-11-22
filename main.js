@@ -17,6 +17,38 @@ const browserAction = {
 
 keepass.nativeHostName = "de.kkapsner.keepassxc_mail";
 
+async function wait(ms){
+	return new Promise(function(resolve){
+		window.setTimeout(resolve, ms);
+	});
+}
+
+async function loadKeyRing(){
+	let loadCount = 0;
+	let lastLoadError = null;
+	while (!keepass.keyRing){
+		await wait(50);
+		loadCount += 1;
+		try {
+			const item = await browser.storage.local.get({
+				latestKeePassXC: {
+					version: "",
+					lastChecked: null
+				},
+				keyRing: {}
+			});
+			keepass.latestKeePassXC = item.latestKeePassXC;
+			keepass.keyRing = item.keyRing || {};
+		}
+		catch (error){
+			lastLoadError = error;
+		}
+	}
+	if (lastLoadError){
+		console.log("Loaded key ring", loadCount, "times", lastLoadError);
+	}
+}
+
 async function checkKeyRingStorage(){
 	function objectsEqual(obj1, obj2){
 		const keys1 = Object.keys(obj1);
@@ -34,11 +66,6 @@ async function checkKeyRingStorage(){
 				return objectsEqual(value1, value2);
 			}
 			return value1 === value2;
-		});
-	}
-	async function wait(ms){
-		return new Promise(function(resolve){
-			window.setTimeout(resolve, ms);
 		});
 	}
 	// check if the key ring actually saved in the storage
@@ -63,10 +90,13 @@ async function checkKeyRingStorage(){
 window.keepass = keepass;
 const keepassReady = (async () => {
 	try {
+		// load key ring - initially done in keepass.js but it fails sometimes...
+		await loadKeyRing();
 		await keepass.migrateKeyRing();
 		await keepass.reconnect(null, 5000); // 5 second timeout for the first connect
 		await keepass.enableAutomaticReconnect();
 		await keepass.associate();
+		// check key ring storage - initially done in keepass.js but it fails sometimes...
 		checkKeyRingStorage();
 	}
 	catch (e) {

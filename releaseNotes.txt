@@ -11,7 +11,7 @@ changes:
 
 fixes:
 
-	- 
+	- key ring not initialized during startup
 
 Version 0.1.4:
 
