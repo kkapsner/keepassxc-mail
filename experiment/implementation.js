@@ -10,53 +10,6 @@ const setupFunctions = [];
 const passwordEmitter = new ExtensionCommon.EventEmitter();
 let currentPromptData = null;
 
-try {
-	const { LoginManagerAuthPrompter } = ChromeUtils.import("resource://gre/modules/LoginManagerAuthPrompter.jsm");
-	const promptFunctions = [
-		{
-			name: "promptPassword",
-			promptType: "promptPassword",
-			realmIndex: 2,
-			passwordObjectIndex: 4,
-		},
-		{
-			name: "promptUsernameAndPassword",
-			promptType: "promptUserAndPass",
-			realmIndex: 2,
-			passwordObjectIndex: 5,
-		}
-	];
-	promptFunctions.forEach(function(promptFunction){
-		promptFunction.original = LoginManagerAuthPrompter.prototype[promptFunction.name];
-	});
-	setupFunctions.push({
-		setup: function(){
-			promptFunctions.forEach(function(promptFunction){
-				LoginManagerAuthPrompter.prototype[promptFunction.name] = function(...args){
-					const realm = args[promptFunction.realmIndex];
-					const [host, , login] = this._getRealmInfo(realm);
-					currentPromptData = {
-						host,
-						login: decodeURIComponent(login),
-						realm,
-					};
-					const ret = promptFunction.original.call(this, ...args);
-					currentPromptData = null;
-					return ret;
-				};
-			});
-		},
-		shutdown: function(){
-			promptFunctions.forEach(function(promptFunction){
-				LoginManagerAuthPrompter.prototype[promptFunction.name] = promptFunction.original;
-			});
-		}
-	});
-}
-catch (error){
-	console.log("Unable to change LoginManagerAuthPrompter:", error);
-}
-
 const getCredentialInfoFromStrings = function(){
 	const stringBundleService = Components.classes["@mozilla.org/intl/stringbundle;1"]
 		.getService(Components.interfaces.nsIStringBundleService);
@@ -95,7 +48,9 @@ const getCredentialInfoFromStrings = function(){
 		
 		return {
 			protocol,
-			title: titleRegExp? new RegExp(title.replace(/%\d+\$S/, ".+")): title,
+			title: titleRegExp?
+				new RegExp(title.replace(/([\\+*?[^\]$(){}=!|.])/g, "\\$1").replace(/%\d+\$S/, ".+")):
+				title,
 			dialog,
 			dialogRegExp,
 			hostGroup: hostPosition === -1? false: loginPosition === -1 || loginPosition > hostPosition? 1: 2,
@@ -230,8 +185,14 @@ const getCredentialInfoFromStrings = function(){
 		hostPlaceholder: "%2$S",
 		loginPlaceholder: "%1$S"
 	});
-	return function getCredentialInfoFromStrings(title, text){
-		const matchingTypes = dialogTypes.filter(function(dialogType){
+	return function getCredentialInfoFromStrings(title, text, knownProtocol = false){
+		const matchingTypes = (
+			knownProtocol?
+				dialogTypes.filter(function(dialogType){
+					return dialogType.protocol === knownProtocol;
+				}):
+				dialogTypes
+		).filter(function(dialogType){
 			return dialogType.title === title || (dialogType.title.test && dialogType.title.test(title));
 		}).map(function(dialogType){
 			const ret = Object.create(dialogType);
@@ -253,6 +214,71 @@ const getCredentialInfoFromStrings = function(){
 		return false;
 	};
 }();
+
+try {
+	const { LoginManagerAuthPrompter } = ChromeUtils.import("resource://gre/modules/LoginManagerAuthPrompter.jsm");
+	const promptFunctions = [
+		{
+			name: "promptPassword",
+			promptType: "promptPassword",
+			titleIndex: 0,
+			textIndex: 1,
+			realmIndex: 2,
+			passwordObjectIndex: 4,
+		},
+		{
+			name: "promptUsernameAndPassword",
+			promptType: "promptUserAndPass",
+			titleIndex: 0,
+			textIndex: 1,
+			realmIndex: 2,
+			passwordObjectIndex: 5,
+		}
+	];
+	promptFunctions.forEach(function(promptFunction){
+		promptFunction.original = LoginManagerAuthPrompter.prototype[promptFunction.name];
+	});
+	setupFunctions.push({
+		setup: function(){
+			promptFunctions.forEach(function(promptFunction){
+				LoginManagerAuthPrompter.prototype[promptFunction.name] = function(...args){
+					const realm = args[promptFunction.realmIndex];
+					let [realmHost, , login] = this._getRealmInfo(realm);
+					let protocol;
+					if (realmHost && realmHost.startsWith("mailbox://")){
+						realmHost = realmHost.replace("mailbox://", "pop3://");
+						protocol = "pop3";
+					}
+					else {
+						protocol = realmHost && Services.io.newURI(realmHost).scheme;
+					}
+					// realm data provide the correct protocol but may have wrong server name
+					const {host: stringHost} = getCredentialInfoFromStrings(
+						args[promptFunction.titleIndex],
+						args[promptFunction.textIndex],
+						protocol
+					);
+					currentPromptData = {
+						host: stringHost || realmHost,
+						login: decodeURIComponent(login),
+						realm,
+					};
+					const ret = promptFunction.original.call(this, ...args);
+					currentPromptData = null;
+					return ret;
+				};
+			});
+		},
+		shutdown: function(){
+			promptFunctions.forEach(function(promptFunction){
+				LoginManagerAuthPrompter.prototype[promptFunction.name] = promptFunction.original;
+			});
+		}
+	});
+}
+catch (error){
+	console.log("Unable to change LoginManagerAuthPrompter:", error);
+}
 
 try {
 	const { Prompter } = ChromeUtils.import("resource://gre/modules/Prompter.jsm");

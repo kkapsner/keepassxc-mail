@@ -8,10 +8,12 @@ new features:
 changes:
 
 	- add new dialog texts
+	- "mailbox://..." is now "pop3://..." again
 
 fixes:
 
 	- key ring not initialized during startup
+	- realm information may contain wrong server URL
 
 Version 0.1.4:
 

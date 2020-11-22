@@ -58,7 +58,6 @@ KeePassXC-Mail uses the following schema to find matching entries for a given se
  * `imap://{server name}`
  * `smtp://{server name}`
  * `pop3://{server name}`
- * `mailbox://{server name}`
  * `http://{server name}`
  * `https://{server name}`
  * `nntp-1://{server name}`
