@@ -36,7 +36,8 @@ const kpActions = {
     DATABASE_LOCKED: 'database-locked',
     DATABASE_UNLOCKED: 'database-unlocked',
     GET_DATABASE_GROUPS: 'get-database-groups',
-    CREATE_NEW_GROUP: 'create-new-group'
+    CREATE_NEW_GROUP: 'create-new-group',
+    GET_TOTP: 'get-totp'
 };
 
 const kpErrors = {
@@ -86,6 +87,27 @@ browser.storage.local.get({ 'latestKeePassXC': { 'version': '', 'lastChecked': n
     keepass.keyRing = item.keyRing;
 });
 
+const messageBuffer = {
+    buffer: [],
+
+    addMessage(msg) {
+        if (!this.buffer.includes(msg)) {
+            this.buffer.push(msg);
+        }
+    },
+
+    matchAndRemove(msg) {
+        for (let i = 0; i < this.buffer.length; ++i) {
+            if (msg.nonce && msg.nonce === keepass.incrementedNonce(this.buffer[i].nonce)) {
+                this.buffer.splice(i, 1);
+                return true;
+            }
+        }
+
+        return false;
+    }
+};
+
 keepass.sendNativeMessage = function(request, enableTimeout = false, timeoutValue) {
     return new Promise((resolve, reject) => {
         let timeout;
@@ -95,11 +117,16 @@ keepass.sendNativeMessage = function(request, enableTimeout = false, timeoutValu
         const listener = ((port, action) => {
             const handler = (msg) => {
                 if (msg && msg.action === action) {
-                    port.removeListener(handler);
-                    if (enableTimeout) {
-                        clearTimeout(timeout);
+                    // Only resolve a matching response or a notification (without nonce)
+                    if (!msg.nonce || messageBuffer.matchAndRemove(msg)) {
+                        port.removeListener(handler);
+                        if (enableTimeout) {
+                            clearTimeout(timeout);
+                        }
+
+                        resolve(msg);
+                        return;
                     }
-                    resolve(msg);
                 }
             };
             return handler;
@@ -121,6 +148,9 @@ keepass.sendNativeMessage = function(request, enableTimeout = false, timeoutValu
                 resolve(errorMessage);
             }, messageTimeout);
         }
+
+        // Store the request to the buffer
+        messageBuffer.addMessage(request);
 
         // Send the request
         if (keepass.nativePort) {
@@ -512,6 +542,7 @@ keepass.getDatabaseHash = async function(tab, args = []) {
     const encrypted = keepass.encrypt(messageData, nonce);
     if (encrypted.length <= 0) {
         keepass.handleError(tab, kpErrors.PUBLIC_KEY_NOT_FOUND);
+        keepass.updateDatabaseHashToContent();
         return keepass.databaseHash;
     }
 
@@ -599,6 +630,7 @@ keepass.changePublicKeys = async function(tab, enableTimeout = false, connection
                 keepass.handleError(tab, kpErrors.KEY_CHANGE_FAILED);
             }
 
+            keepass.updateDatabaseHashToContent();
             return false;
         }
 
@@ -772,6 +804,51 @@ keepass.createNewGroup = async function(tab, args = []) {
     } catch (err) {
         console.log('createNewGroup failed: ', err);
         return [];
+    }
+};
+
+keepass.getTotp = async function(tab, args = []) {
+    const [ uuid, oldTotp ] = args;
+    if (!keepass.compareVersion('2.6.1', keepass.currentKeePassXC, true)) {
+        return oldTotp;
+    }
+
+    const taResponse = await keepass.testAssociation(tab, [ false ]);
+    if (!taResponse || !keepass.isConnected) {
+        return;
+    }
+
+    const kpAction = kpActions.GET_TOTP;
+    const [ nonce, incrementedNonce ] = keepass.getNonces();
+
+    const messageData = {
+        action: kpAction,
+        uuid: uuid
+    };
+
+    try {
+        const request = keepass.buildRequest(kpAction, keepass.encrypt(messageData, nonce), nonce, keepass.clientID);
+        const response = await keepass.sendNativeMessage(request);
+        if (response.message && response.nonce) {
+            const res = keepass.decrypt(response.message, response.nonce);
+            if (!res) {
+                keepass.handleError(tab, kpErrors.CANNOT_DECRYPT_MESSAGE);
+                return;
+            }
+
+            const message = nacl.util.encodeUTF8(res);
+            const parsed = JSON.parse(message);
+            if (keepass.verifyResponse(parsed, incrementedNonce) && parsed.totp) {
+                keepass.updateLastUsed(keepass.databaseHash);
+                return parsed.totp;
+            }
+        } else if (response.error && response.errorCode) {
+            keepass.handleError(tab, response.errorCode, response.error);
+        }
+
+        return;
+    } catch (err) {
+        console.log('getTotp failed: ', err);
     }
 };
 
@@ -1112,7 +1189,9 @@ keepass.decrypt = function(input, nonce) {
 keepass.enableAutomaticReconnect = function() {
     // Disable for Windows if KeePassXC is older than 2.3.4
     if (!page.settings.autoReconnect
-        || (navigator.platform.toLowerCase().includes('win') && !keepass.compareVersion('2.3.4', keepass.currentKeePassXC))) {
+        || (navigator.platform.toLowerCase().includes('win')
+            && keepass.currentKeePassXC
+            && !keepass.compareVersion('2.3.4', keepass.currentKeePassXC))) {
         return;
     }
 
@@ -1155,9 +1234,7 @@ keepass.reconnect = async function(tab, connectionTimeout) {
 
 keepass.updatePopup = function(iconType) {
     if (page && page.tabs.length > 0) {
-        const data = page.tabs[page.currentTabId].stack[page.tabs[page.currentTabId].stack.length - 1];
-        data.iconType = iconType;
-        browserAction.show({ 'id': page.currentTabId });
+        browserAction.updateIcon(undefined, iconType);
     }
 };
 
@@ -1165,9 +1242,10 @@ keepass.updatePopup = function(iconType) {
 keepass.updateDatabase = async function() {
     keepass.associated.value = false;
     keepass.associated.hash = null;
-    await keepass.testAssociation(null);
+    page.clearAllLogins();
+    await keepass.testAssociation(null, [ true ]);
     const configured = await keepass.isConfigured();
-    keepass.updatePopup(configured ? 'normal' : 'cross');
+    keepass.updatePopup(configured ? 'normal' : 'locked');
     keepass.updateDatabaseHashToContent();
 };
 
@@ -1178,7 +1256,8 @@ keepass.updateDatabaseHashToContent = async function() {
             // Send message to content script
             browser.tabs.sendMessage(tabs[0].id, {
                 action: 'check_database_hash',
-                hash: { old: keepass.previousDatabaseHash, new: keepass.databaseHash }
+                hash: { old: keepass.previousDatabaseHash, new: keepass.databaseHash },
+                connected: keepass.isKeePassXCAvailable
             }).catch((err) => {
                 console.log('Error: No content script available for this tab.');
             });
