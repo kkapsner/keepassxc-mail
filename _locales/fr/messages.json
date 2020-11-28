@@ -1,10 +1,10 @@
 {
 	"errorMessageUnknown": {
-		"message": "Unknown error.",
+		"message": "Erreur inconnue.",
 		"description": "Unknown error."
 	},
 	"errorMessageDatabaseNotOpened": {
-		"message": "Database not opened.",
+		"message": "Base de données non ouverte.",
 		"description": "Database not opened."
 	},
 	"errorMessageDatabaseHash": {
