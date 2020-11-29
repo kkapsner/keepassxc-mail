@@ -1,0 +1,118 @@
+{
+	"errorMessageUnknown": {
+		"message": "Unknown error.",
+		"description": "Unknown error."
+	},
+	"errorMessageDatabaseNotOpened": {
+		"message": "Database not opened.",
+		"description": "Database not opened."
+	},
+	"errorMessageDatabaseHash": {
+		"message": "Database hash not received.",
+		"description": "Database hash not received."
+	},
+	"errorMessageClientPublicKey": {
+		"message": "Client public key not received.",
+		"description": "Client public key not received."
+	},
+	"errorMessageDecrypt": {
+		"message": "Cannot decrypt message.",
+		"description": "Cannot decrypt message."
+	},
+	"errorMessageTimeout": {
+		"message": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings.",
+		"description": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings."
+	},
+	"errorMessageCanceled": {
+		"message": "Action canceled or denied.",
+		"description": "Action canceled or denied."
+	},
+	"errorMessageEncrypt": {
+		"message": "Message encryption failed. Is KeePassXC running?",
+		"description": "Message encryption failed. Is KeePassXC running?"
+	},
+	"errorMessageAssociate": {
+		"message": "KeePassXC association failed, try again.",
+		"description": "KeePassXC association failed, try again."
+	},
+	"errorMessageKeyExchange": {
+		"message": "Key exchange was not successful.",
+		"description": "Key exchange was not successful."
+	},
+	"errorMessageEncryptionKey": {
+		"message": "Encryption key is not recognized.",
+		"description": "Encryption key is not recognized."
+	},
+	"errorMessageSavedDatabases": {
+		"message": "No saved databases found.",
+		"description": "No saved databases found."
+	},
+	"errorMessageIncorrectAction": {
+		"message": "Incorrect action.",
+		"description": "Incorrect action."
+	},
+	"errorMessageEmptyMessage": {
+		"message": "Empty message received.",
+		"description": "Empty message received."
+	},
+	"errorMessageNoURL": {
+		"message": "No URL provided.",
+		"description": "No URL provided."
+	},
+	"errorMessageNoLogins": {
+		"message": "No logins found.",
+		"description": "No logins found."
+	},
+	"loadingPasswords": {
+		"message": "Loading passwords...",
+		"description": "Loading passwords..."
+	},
+	"noPasswordsFound": {
+		"message": "No passwords found.",
+		"description": "No passwords found."
+	},
+	"retry": {
+		"message": "Retry",
+		"description": "Retry"
+	},
+	"pickedEntry": {
+		"message": "Picked entry \"{name|login|\"---\"}\"",
+		"description": "Picked entry \"{name|login|\"---\"}\""
+	},
+	"entryLabel": {
+		"message": "{name|\"Login\"}: {login}",
+		"description": "{name|\"Login\"}: {login}"
+	},
+	"entryTooltip": {
+		"message": "Password \"{password}\"",
+		"description": "Password \"{password}\""
+	},
+	"credentialInfo": {
+		"message": "URL: {host}\nLogin: {login|\"---\"}",
+		"description": "URL: {host}\nLogin: {login}"
+	},
+	"options.title": {
+		"message": "KeePassXC-Mail Settings",
+		"description": "KeePassXC-Mail Settings"
+	},
+	"options.databases": {
+		"message": "Database connections",
+		"description": "Database connections"
+	},
+	"options.reconnect": {
+		"message": "Reconnect to Native Messaging",
+		"description": "Reconnect to Native Messaging"
+	},
+	"options.associate": {
+		"message": "Connect to KeePassXC",
+		"description": "Connect to KeePassXC"
+	},
+	"options.autoSubmit.label": {
+		"message": "Auto submit",
+		"description": "Auto submit"
+	},
+	"options.saveNewCredentials.label": {
+		"message": "Save new credentials",
+		"description": "Save new credentials"
+	}
+}
