@@ -66,7 +66,11 @@ KeePassXC-Mail uses the following schema to find matching entries for a given se
 
 ### Tipp
 
-If you have the same user and password for receiving (imap/pop3) and sending (smtp) and do not want to duplicate your entries you can go to the "Browser Integration" section of the entry definition in KeePassXC and add the second URL there. 
+If you have the same user and password for receiving (imap/pop3) and sending (smtp) and do not want to duplicate your entries you can go to the "Browser Integration" section of the entry definition in KeePassXC and add the second URL there.
+
+## Translations
+
+You can contribute to keepassxc-mail by translating it and/or improving the translations. For further instructions go to https://github.com/kkapsner/keepassxc-mail/issues/30.
 
 ## Icon
 
