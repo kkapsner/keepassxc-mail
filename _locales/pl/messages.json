@@ -96,23 +96,23 @@
 		"description": "KeePassXC-Mail Settings"
 	},
 	"options.databases": {
-		"message": "Database connections",
+		"message": "Połączenia z bazą",
 		"description": "Database connections"
 	},
 	"options.reconnect": {
-		"message": "Reconnect to Native Messaging",
+		"message": "Połącz się ponownie z natywnymi wiadomościami",
 		"description": "Reconnect to Native Messaging"
 	},
 	"options.associate": {
-		"message": "Connect to KeePassXC",
+		"message": "Połącz się z KeePassXC",
 		"description": "Connect to KeePassXC"
 	},
 	"options.autoSubmit.label": {
-		"message": "Auto submit",
+		"message": "Autouzupełnianie",
 		"description": "Auto submit"
 	},
 	"options.saveNewCredentials.label": {
-		"message": "Save new credentials",
+		"message": "Zapisz nowe dane",
 		"description": "Save new credentials"
 	}
 }
