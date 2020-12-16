@@ -153,9 +153,16 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 browser.credentials.onNewCredential.addListener(async function(credentialInfo){
 	let saveNewCredentials = (await browser.storage.local.get({saveNewCredentials: true})).saveNewCredentials;
 	if (saveNewCredentials){
-		const group = await keepass.createNewGroup(null, ["KeePassXC-Mail Passwords"]);
-		keepass.addCredentials(null,
-			[credentialInfo.login, credentialInfo.password, credentialInfo.host, group.name, group.uuid]
-		);
+		await keepassReady;
+		if (!(await keepass.retrieveCredentials(false, [credentialInfo.host, credentialInfo.host]))
+			.some(function(credential){
+				return credential.login === credentialInfo.login;
+			})
+		){
+			const group = await keepass.createNewGroup(null, ["KeePassXC-Mail Passwords"]);
+			keepass.addCredentials(null,
+				[credentialInfo.login, credentialInfo.password, credentialInfo.host, group.name, group.uuid]
+			);
+		}
 	}
 });
