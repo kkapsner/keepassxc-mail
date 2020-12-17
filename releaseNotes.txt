@@ -6,7 +6,7 @@ new features:
 
 changes:
 
-	- bump version support to 85.*
+	- bump version support to 86.*
 
 fixes:
 
