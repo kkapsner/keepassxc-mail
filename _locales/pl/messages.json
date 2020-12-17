@@ -1,90 +1,90 @@
 {
 	"errorMessageUnknown": {
-		"message": "Unknown error.",
+		"message": "Nieznany błąd.",
 		"description": "Unknown error."
 	},
 	"errorMessageDatabaseNotOpened": {
-		"message": "Database not opened.",
+		"message": "Baza danych nie jest otwarta.",
 		"description": "Database not opened."
 	},
 	"errorMessageDatabaseHash": {
-		"message": "Database hash not received.",
+		"message": "Nie otrzymano haszu bazy danych.",
 		"description": "Database hash not received."
 	},
 	"errorMessageClientPublicKey": {
-		"message": "Client public key not received.",
+		"message": "Nie otrzymano klucza publicznego klienta.",
 		"description": "Client public key not received."
 	},
 	"errorMessageDecrypt": {
-		"message": "Cannot decrypt message.",
+		"message": "Nie można odszyfrować wiadomości.",
 		"description": "Cannot decrypt message."
 	},
 	"errorMessageTimeout": {
-		"message": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings.",
+		"message": "Nie można połączyć się z KeePassXC. Sprawdź, czy integracja przeglądarki jest włączona w ustawieniach KeePassXC.",
 		"description": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings."
 	},
 	"errorMessageCanceled": {
-		"message": "Action canceled or denied.",
+		"message": "Działanie anulowane lub odrzucone.",
 		"description": "Action canceled or denied."
 	},
 	"errorMessageEncrypt": {
-		"message": "Message encryption failed. Is KeePassXC running?",
+		"message": "Szyfrowanie wiadomości nie powiodło się. Czy KeePassXC jest uruchomiony?",
 		"description": "Message encryption failed. Is KeePassXC running?"
 	},
 	"errorMessageAssociate": {
-		"message": "KeePassXC association failed, try again.",
+		"message": "Połączenie z KeePassXC nie powiodło się. Spróbuj ponownie.",
 		"description": "KeePassXC association failed, try again."
 	},
 	"errorMessageKeyExchange": {
-		"message": "Key exchange was not successful.",
+		"message": "Wymiana klucza nie powiodła się.",
 		"description": "Key exchange was not successful."
 	},
 	"errorMessageEncryptionKey": {
-		"message": "Encryption key is not recognized.",
+		"message": "Klucz szyfrujący nie został rozpoznany.",
 		"description": "Encryption key is not recognized."
 	},
 	"errorMessageSavedDatabases": {
-		"message": "No saved databases found.",
+		"message": "Nie znaleziono zapisanej bazy danych.",
 		"description": "No saved databases found."
 	},
 	"errorMessageIncorrectAction": {
-		"message": "Incorrect action.",
+		"message": "Nieprawidłowe działanie.",
 		"description": "Incorrect action."
 	},
 	"errorMessageEmptyMessage": {
-		"message": "Empty message received.",
+		"message": "Otrzymano pustą wiadomość.",
 		"description": "Empty message received."
 	},
 	"errorMessageNoURL": {
-		"message": "No URL provided.",
+		"message": "Brak adresu URL.",
 		"description": "No URL provided."
 	},
 	"errorMessageNoLogins": {
-		"message": "No logins found.",
+		"message": "Nie znaleziono loginów.",
 		"description": "No logins found."
 	},
 	"loadingPasswords": {
-		"message": "Loading passwords...",
+		"message": "Wczytywanie haseł...",
 		"description": "Loading passwords..."
 	},
 	"noPasswordsFound": {
-		"message": "No passwords found.",
+		"message": "Nie znaleziono haseł.",
 		"description": "No passwords found."
 	},
 	"retry": {
-		"message": "Retry",
+		"message": "Ponów",
 		"description": "Retry"
 	},
 	"pickedEntry": {
-		"message": "Picked entry \"{name|login|\"---\"}\"",
+		"message": "Wybrano wpis \"{nazwa|login|\"---\"}\"",
 		"description": "Picked entry \"{name|login|\"---\"}\""
 	},
 	"entryLabel": {
-		"message": "{name|\"Login\"}: {login}",
+		"message": "{nazwa|\"Login\"}: {login}",
 		"description": "{name|\"Login\"}: {login}"
 	},
 	"entryTooltip": {
-		"message": "Password \"{password}\"",
+		"message": "Hasło \"{password}\"",
 		"description": "Password \"{password}\""
 	},
 	"credentialInfo": {
@@ -92,27 +92,27 @@
 		"description": "URL: {host}\nLogin: {login}"
 	},
 	"options.title": {
-		"message": "KeePassXC-Mail Settings",
+		"message": "Ustawienia KeepassXC-Mail",
 		"description": "KeePassXC-Mail Settings"
 	},
 	"options.databases": {
-		"message": "Database connections",
+		"message": "Połączenia z bazą",
 		"description": "Database connections"
 	},
 	"options.reconnect": {
-		"message": "Reconnect to Native Messaging",
+		"message": "Połącz się ponownie z natywnymi wiadomościami",
 		"description": "Reconnect to Native Messaging"
 	},
 	"options.associate": {
-		"message": "Connect to KeePassXC",
+		"message": "Połącz się z KeePassXC",
 		"description": "Connect to KeePassXC"
 	},
 	"options.autoSubmit.label": {
-		"message": "Auto submit",
+		"message": "Autouzupełnianie",
 		"description": "Auto submit"
 	},
 	"options.saveNewCredentials.label": {
-		"message": "Save new credentials",
+		"message": "Zapisz nowe dane",
 		"description": "Save new credentials"
 	}
 }
