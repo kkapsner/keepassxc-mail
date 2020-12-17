@@ -49,7 +49,7 @@ const getCredentialInfoFromStrings = function(){
 		return {
 			protocol,
 			title: titleRegExp?
-				new RegExp(title.replace(/([\\+*?[^\]$(){}=!|.])/g, "\\$1").replace(/%\d+\$S/, ".+")):
+				new RegExp(title.replace(/([\\+*?[^\]$(){}=!|.])/g, "\\$1").replace(/%\d+\\\$S/, ".+")):
 				title,
 			dialog,
 			dialogRegExp,
@@ -243,7 +243,7 @@ try {
 			promptFunctions.forEach(function(promptFunction){
 				LoginManagerAuthPrompter.prototype[promptFunction.name] = function(...args){
 					const realm = args[promptFunction.realmIndex];
-					let [realmHost, , login] = this._getRealmInfo(realm);
+					let [realmHost, , realmLogin] = this._getRealmInfo(realm);
 					let protocol;
 					if (realmHost && realmHost.startsWith("mailbox://")){
 						realmHost = realmHost.replace("mailbox://", "pop3://");
@@ -253,14 +253,14 @@ try {
 						protocol = realmHost && Services.io.newURI(realmHost).scheme;
 					}
 					// realm data provide the correct protocol but may have wrong server name
-					const {host: stringHost} = getCredentialInfoFromStrings(
+					const {host: stringHost, login: stringLogin} = getCredentialInfoFromStrings(
 						args[promptFunction.titleIndex],
 						args[promptFunction.textIndex],
 						protocol
 					);
 					currentPromptData = {
 						host: stringHost || realmHost,
-						login: decodeURIComponent(login),
+						login: decodeURIComponent(stringLogin || realmLogin),
 						realm,
 					};
 					const ret = promptFunction.original.call(this, ...args);

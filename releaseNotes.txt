@@ -10,7 +10,8 @@ changes:
 
 fixes:
 
-	- check for already existing credential before saving 
+	- check for already existing credential before saving
+	- realm information may contain wrong user name
 
 Version 0.1.5
 
