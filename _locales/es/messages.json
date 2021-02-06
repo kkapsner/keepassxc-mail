@@ -28,7 +28,7 @@
 		"description": "Action canceled or denied."
 	},
 	"errorMessageEncrypt": {
-		"message": "Message encryption failed. Is KeePassXC running?",
+		"message": "El cifrado del mensaje falló. ¿Está KeePassXC en ejecución?",
 		"description": "Message encryption failed. Is KeePassXC running?"
 	},
 	"errorMessageAssociate": {
@@ -72,7 +72,7 @@
 		"description": "No passwords found."
 	},
 	"retry": {
-		"message": "Retry",
+		"message": "Reintentar",
 		"description": "Retry"
 	},
 	"pickedEntry": {
@@ -92,27 +92,27 @@
 		"description": "URL: {host}\nLogin: {login}"
 	},
 	"options.title": {
-		"message": "KeePassXC-Mail Settings",
+		"message": "Configuración de KeePassXC-Mail",
 		"description": "KeePassXC-Mail Settings"
 	},
 	"options.databases": {
-		"message": "Database connections",
+		"message": "Conexiones con base de datos",
 		"description": "Database connections"
 	},
 	"options.reconnect": {
-		"message": "Reconnect to Native Messaging",
+		"message": "Volver a conectar con Native Messaging",
 		"description": "Reconnect to Native Messaging"
 	},
 	"options.associate": {
-		"message": "Connect to KeePassXC",
+		"message": "Conectar con KeePassXC",
 		"description": "Connect to KeePassXC"
 	},
 	"options.autoSubmit.label": {
-		"message": "Auto submit",
+		"message": "Envío automático",
 		"description": "Auto submit"
 	},
 	"options.saveNewCredentials.label": {
-		"message": "Save new credentials",
+		"message": "Guardar nuevas credenciales",
 		"description": "Save new credentials"
 	}
 }
