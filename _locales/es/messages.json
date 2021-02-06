@@ -1,30 +1,30 @@
 {
 	"errorMessageUnknown": {
-		"message": "Unknown error.",
+		"message": "Error desconocido.",
 		"description": "Unknown error."
 	},
 	"errorMessageDatabaseNotOpened": {
-		"message": "Database not opened.",
+		"message": "La base de datos no está abierta.",
 		"description": "Database not opened."
 	},
 	"errorMessageDatabaseHash": {
-		"message": "Database hash not received.",
+		"message": "Hash de la base de datos no recibida.",
 		"description": "Database hash not received."
 	},
 	"errorMessageClientPublicKey": {
-		"message": "Client public key not received.",
+		"message": "Clave pública del cliente no recibida.",
 		"description": "Client public key not received."
 	},
 	"errorMessageDecrypt": {
-		"message": "Cannot decrypt message.",
+		"message": "No se puede descifrar el mensaje.",
 		"description": "Cannot decrypt message."
 	},
 	"errorMessageTimeout": {
-		"message": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings.",
+		"message": "No se puede conectar a KeePassXC. Compruebe que la integración del navegador está habilitada en los ajustes de KeePassXC.",
 		"description": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings."
 	},
 	"errorMessageCanceled": {
-		"message": "Action canceled or denied.",
+		"message": "Acción cancelada o rechazada.",
 		"description": "Action canceled or denied."
 	},
 	"errorMessageEncrypt": {
