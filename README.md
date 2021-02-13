@@ -78,4 +78,4 @@ Icon is based on the icon of [KeePassXC-Browser](https://github.com/keepassxrebo
 
 ## Privacy note
 
-KeePassXC-Mail by itself does not contact any server and does not store any private data. For the automatic update process a server hosted by [ready2host](https://www.ready2host.de/) is contacted. Apart of the usual server logging (IP adress, access time and accessed location) nothing is stored.
+KeePassXC-Mail itself does not contact any server and does not store any private data. For the automatic update process a server hosted by [ready2host](https://www.ready2host.de/) is contacted. Apart of the usual server logging (IP adress, access time and accessed location) nothing is stored.
