@@ -75,3 +75,7 @@ You can contribute to keepassxc-mail by translating it and/or improving the tran
 ## Icon
 
 Icon is based on the icon of [KeePassXC-Browser](https://github.com/keepassxreboot/keepassxc-browser/blob/develop/keepassxc-browser/icons/keepassxc.svg) - just the colors are changed to some colors of the Thunderbird.
+
+## Privacy note
+
+KeePassXC-Mail by itself does not contact any server and does not store any private data. For the automatic update process a server hosted by [ready2host](https://www.ready2host.de/) is contacted. Apart of the usual server logging (IP adress, access time and accessed location) nothing is stored.
