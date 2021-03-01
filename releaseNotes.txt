@@ -2,7 +2,7 @@ Version 0.1.7
 
 new features:
 
-	- 
+	- add support for primary password
 
 changes:
 

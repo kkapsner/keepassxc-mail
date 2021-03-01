@@ -22,6 +22,7 @@ const getCredentialInfoFromStrings = function(){
 		messenger: stringBundleService.createBundle("chrome://messenger/locale/messenger.properties"),
 		news: stringBundleService.createBundle("chrome://messenger/locale/news.properties"),
 		wcap: stringBundleService.createBundle("chrome://calendar/locale/wcap.properties"),
+		pipnss: stringBundleService.createBundle("chrome://pipnss/locale/pipnss.properties"),
 	};
 	
 	const dialogTypes = [];
@@ -49,7 +50,7 @@ const getCredentialInfoFromStrings = function(){
 		return {
 			protocol,
 			title: titleRegExp?
-				new RegExp(title.replace(/([\\+*?[^\]$(){}=!|.])/g, "\\$1").replace(/%\d+\\\$S/, ".+")):
+				new RegExp(title.replace(/([\\+*?[^\]$(){}=!|.])/g, "\\$1").replace(/%(?:\d+\\\$)?S/, ".+")):
 				title,
 			dialog,
 			dialogRegExp,
@@ -58,7 +59,9 @@ const getCredentialInfoFromStrings = function(){
 		};
 	}
 	function addDialogType(data){
-		dialogTypes.push(getDialogType(data));
+		const dialogType = getDialogType(data);
+		dialogTypes.push(dialogType);
+		return dialogType;
 	}
 	
 	addDialogType({
@@ -185,6 +188,16 @@ const getCredentialInfoFromStrings = function(){
 		hostPlaceholder: "%2$S",
 		loginPlaceholder: "%1$S"
 	});
+	const masterType = addDialogType({
+		protocol: false,
+		title:  getBundleString("commonDialog", "PromptPassword3"),
+		dialog: getBundleString("pipnss", "CertPassPromptDefault"),
+		titleRegExp: true,
+		hostPlaceholder: "",
+		loginPlaceholder: ""
+	});
+	masterType.forcedHost = "masterPassword://Thunderbird";
+	masterType.noLoginRequired = true;
 	return function getCredentialInfoFromStrings(title, text, knownProtocol = false){
 		const matchingTypes = (
 			knownProtocol?
@@ -207,8 +220,10 @@ const getCredentialInfoFromStrings = function(){
 				(
 					(type.protocol? type.protocol + "://": "") +
 					type.match[type.hostGroup]
-				): false;
-			let login = type.loginGroup? type.match[type.loginGroup]: false;
+				): type.forcedHost || false;
+			let login = type.loginGroup?
+				type.match[type.loginGroup]:
+				type.noLoginRequired || false;
 			return {host, login};
 		}
 		return false;

@@ -63,6 +63,7 @@ KeePassXC-Mail uses the following schema to find matching entries for a given se
  * `nntp-1://{server name}`
  * `nntp-2://{server name}`
  * `oauth://{account}`
+ * `masterPassword://Thunderbird`
 
 ### Tipp
 
