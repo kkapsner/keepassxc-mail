@@ -547,7 +547,14 @@ setupFunctions.push({
 
 try {
 	// gdata support
-	const { cal } = ChromeUtils.import("resource://calendar/modules/calUtils.jsm");
+	const { cal } = function(){
+		try {
+			return ChromeUtils.import("resource://calendar/modules/calUtils.jsm");
+		}
+		catch (error){
+			return ChromeUtils.import("resource:///modules/calendar/calUtils.jsm");
+		}
+	}();
 	const getCredentialInfoForGdata = function(){
 		return function getCredentialInfoForGdata(window){
 			const request = window.arguments[0].wrappedJSObject;
@@ -616,7 +623,10 @@ try {
 	}();
 	windowListeners.push({
 		name: "gdataPasswordDialogListener",
-		chromeURLs: ["chrome://gdata-provider/content/browserRequest.xul"],
+		chromeURLs: [
+			"chrome://gdata-provider/content/browserRequest.xul",
+			"chrome://messenger/content/browserRequest.xhtml"
+		],
 		getCredentialInfo: getCredentialInfoForGdata,
 		getGuiOperations: getGuiOperationsForGdata
 	});
@@ -667,6 +677,45 @@ try {
 }
 catch (error){
 	console.log("KeePassXC-Mail: unable to register support for gdata", error);
+}
+
+try {
+	const { OAuth2Module } = ChromeUtils.import("resource:///modules/OAuth2Module.jsm");
+	const originalRefreshTokenDescriptor = Object.getOwnPropertyDescriptor(OAuth2Module.prototype, "refreshToken");
+	const alteredRefreshTokenDescriptor = Object.create(originalRefreshTokenDescriptor);
+	alteredRefreshTokenDescriptor.get = function(){
+		const credentialDetails = waitForCredentials({
+			login: this._username,
+			host: this._loginOrigin
+		});
+		if (
+			credentialDetails &&
+			credentialDetails.credentials.length &&
+			(typeof credentialDetails.credentials[0].password) === "string"
+		){
+			return credentialDetails.credentials[0].password;
+		}
+		return originalRefreshTokenDescriptor.get.call(this);
+	};
+	// alteredRefreshTokenDescriptor.set = function(refreshToken){
+	// 	passwordEmitter.emit("password", {
+	// 		login: this._username,
+	// 		password: refreshToken,
+	// 		host: this._loginOrigin
+	// 	});
+	// 	return originalRefreshTokenDescriptor.set.call(this, refreshToken);
+	// };
+	setupFunctions.push({
+		setup: function(){
+			Object.defineProperty(OAuth2Module.prototype, "refreshToken", alteredRefreshTokenDescriptor);
+		},
+		shutdown: function(){
+			Object.defineProperty(OAuth2Module.prototype, "refreshToken", originalRefreshTokenDescriptor);
+		}
+	});
+}
+catch (error){
+	console.log("KeePassXC-Mail: unable to register support for oauth", error);
 }
 
 const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
