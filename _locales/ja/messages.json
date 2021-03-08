@@ -1,10 +1,10 @@
 {
 	"errorMessageUnknown": {
-		"message": "Unknown error.",
+		"message": "原因不明のエラー",
 		"description": "Unknown error."
 	},
 	"errorMessageDatabaseNotOpened": {
-		"message": "Database not opened.",
+		"message": "データベースが開かれていません。",
 		"description": "Database not opened."
 	},
 	"errorMessageDatabaseHash": {
@@ -72,7 +72,7 @@
 		"description": "No passwords found."
 	},
 	"retry": {
-		"message": "Retry",
+		"message": "再試行",
 		"description": "Retry"
 	},
 	"pickedEntry": {
