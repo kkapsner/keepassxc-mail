@@ -158,7 +158,7 @@ browser.credentials.onNewCredential.addListener(async function(credentialInfo){
 		await keepassReady;
 		if (!(await keepass.retrieveCredentials(false, [credentialInfo.host, credentialInfo.host]))
 			.some(function(credential){
-				return credential.login === credentialInfo.login;
+				return credential.login === credentialInfo.login || credentialInfo.login === true;
 			})
 		){
 			const group = await keepass.createNewGroup(null, ["KeePassXC-Mail Passwords"]);

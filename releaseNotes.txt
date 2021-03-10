@@ -1,16 +1,8 @@
-Version 0.1.8
-
-new features:
-
-	- 
-
-changes:
-
-	- 
+Version 0.1.7.1
 
 fixes:
 
-	- 
+	- primary password was saved too often in database
 
 Version 0.1.7
 
