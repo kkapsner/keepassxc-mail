@@ -1,14 +1,14 @@
 {
 	"errorMessageUnknown": {
-		"message": "Unknown error.",
+		"message": "原因不明のエラー",
 		"description": "Unknown error."
 	},
 	"errorMessageDatabaseNotOpened": {
-		"message": "Database not opened.",
+		"message": "データベースが開かれていません",
 		"description": "Database not opened."
 	},
 	"errorMessageDatabaseHash": {
-		"message": "Database hash not received.",
+		"message": "データベースのハッシュを受信できませんでした",
 		"description": "Database hash not received."
 	},
 	"errorMessageClientPublicKey": {
@@ -16,7 +16,7 @@
 		"description": "Client public key not received."
 	},
 	"errorMessageDecrypt": {
-		"message": "Cannot decrypt message.",
+		"message": "メッセージを復号できません",
 		"description": "Cannot decrypt message."
 	},
 	"errorMessageTimeout": {
@@ -24,15 +24,15 @@
 		"description": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings."
 	},
 	"errorMessageCanceled": {
-		"message": "Action canceled or denied.",
+		"message": "操作がキャンセルまたは拒否されました",
 		"description": "Action canceled or denied."
 	},
 	"errorMessageEncrypt": {
-		"message": "Message encryption failed. Is KeePassXC running?",
+		"message": "メッセージの暗号化に失敗しました。KeePassXCを実行していますか？",
 		"description": "Message encryption failed. Is KeePassXC running?"
 	},
 	"errorMessageAssociate": {
-		"message": "KeePassXC association failed, try again.",
+		"message": "KeePassXCの関連付けに失敗しました。もう一度やり直してください",
 		"description": "KeePassXC association failed, try again."
 	},
 	"errorMessageKeyExchange": {
@@ -40,39 +40,39 @@
 		"description": "Key exchange was not successful."
 	},
 	"errorMessageEncryptionKey": {
-		"message": "Encryption key is not recognized.",
+		"message": "暗号化キーが認識されません",
 		"description": "Encryption key is not recognized."
 	},
 	"errorMessageSavedDatabases": {
-		"message": "No saved databases found.",
+		"message": "保存されたデータベースが見つかりません。",
 		"description": "No saved databases found."
 	},
 	"errorMessageIncorrectAction": {
-		"message": "Incorrect action.",
+		"message": "不正な操作です",
 		"description": "Incorrect action."
 	},
 	"errorMessageEmptyMessage": {
-		"message": "Empty message received.",
+		"message": "空のメッセージを受信しました",
 		"description": "Empty message received."
 	},
 	"errorMessageNoURL": {
-		"message": "No URL provided.",
+		"message": "URLが指定されていません。",
 		"description": "No URL provided."
 	},
 	"errorMessageNoLogins": {
-		"message": "No logins found.",
+		"message": "ログイン情報が見つかりません",
 		"description": "No logins found."
 	},
 	"loadingPasswords": {
-		"message": "Loading passwords...",
+		"message": "パスワードを読み込んでいます...",
 		"description": "Loading passwords..."
 	},
 	"noPasswordsFound": {
-		"message": "No passwords found.",
+		"message": "パスワードが見つかりませんでした",
 		"description": "No passwords found."
 	},
 	"retry": {
-		"message": "Retry",
+		"message": "再試行",
 		"description": "Retry"
 	},
 	"pickedEntry": {
@@ -80,39 +80,39 @@
 		"description": "Picked entry \"{name|login|\"---\"}\""
 	},
 	"entryLabel": {
-		"message": "{name|\"Login\"}: {login}",
+		"message": "{name|\"ログイン\"}: {login}",
 		"description": "{name|\"Login\"}: {login}"
 	},
 	"entryTooltip": {
-		"message": "Password \"{password}\"",
+		"message": "パスワード \"{password}\"",
 		"description": "Password \"{password}\""
 	},
 	"credentialInfo": {
-		"message": "URL: {host}\nLogin: {login|\"---\"}",
+		"message": "URL: {host}\nログイン: {login|\"--\"}",
 		"description": "URL: {host}\nLogin: {login}"
 	},
 	"options.title": {
-		"message": "KeePassXC-Mail Settings",
+		"message": "KeePassXC-Mailの設定",
 		"description": "KeePassXC-Mail Settings"
 	},
 	"options.databases": {
-		"message": "Database connections",
+		"message": "データベース接続",
 		"description": "Database connections"
 	},
 	"options.reconnect": {
-		"message": "Reconnect to Native Messaging",
+		"message": "Native Messagingに再接続",
 		"description": "Reconnect to Native Messaging"
 	},
 	"options.associate": {
-		"message": "Connect to KeePassXC",
+		"message": "KeePassXCに接続する",
 		"description": "Connect to KeePassXC"
 	},
 	"options.autoSubmit.label": {
-		"message": "Auto submit",
+		"message": "自動送信",
 		"description": "Auto submit"
 	},
 	"options.saveNewCredentials.label": {
-		"message": "Save new credentials",
+		"message": "新しい認証情報を保存",
 		"description": "Save new credentials"
 	}
 }
