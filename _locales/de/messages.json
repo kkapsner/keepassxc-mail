@@ -116,27 +116,27 @@
 		"description": "Save new credentials"
 	},
 	"options.autoSaveNewCredentials.label": {
-		"message": "Save new credentials without prompt",
+		"message": "Neue Passwörter ohne Nachfrage speichern",
 		"description": "Save new credentials without prompt"
 	},
 	"modal.savingPassword.title": {
-		"message": "Save password for {host} to KeePass database?",
+		"message": "Passwort für {host} in der KeePass-Datenbank speichern?",
 		"description": "Save password for {host} to KeePass database?"
 	},
 	"modal.savingPassword.questionWithLogin": {
-		"message": "Do you want to save the entered password for {login} on {host} to the KeePass database?",
+		"message": "Passwort für {login} auf {host} in der KeePass-Datenbank speichern?",
 		"description": "Do you want to save the entered password for {login} on {host} to the KeePass database?"
 	},
 	"modal.savingPassword.questionWithoutLogin": {
-		"message": "Do you want to save the entered password for {host} to the KeePass database?",
+		"message": "Passwort für {host} in der KeePass-Datenbank speichern?",
 		"description": "Do you want to save the entered password for {host} to the KeePass database?"
 	},
 	"modal.savingPassword.yes": {
-		"message": "Yes",
+		"message": "Ja",
 		"description": "Yes"
 	},
 	"modal.savingPassword.no": {
-		"message": "No",
+		"message": "Nein",
 		"description": "No"
 	}
 }
