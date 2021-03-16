@@ -152,8 +152,50 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 	};
 });
 
+async function savingPasswordModal(host, login){
+	const window = await browser.windows.create({
+		url: browser.runtime.getURL("modal/savingPassword/index.html"),
+		allowScriptsToClose: true,
+		height: 100,
+		width: 600,
+		type: "detached_panel"
+	});
+	const message = {
+		type: "start",
+		host,
+		login
+	};
+	
+	// wait a little bit for the modal dialog to load
+	await new Promise(function(resolve){setTimeout(resolve, 10);});
+	try {
+		try{
+			return await browser.tabs.sendMessage(window.tabs[0].id, message);
+		}
+		catch (error){
+			// first sendMessage might fail to timing issue
+			return await browser.tabs.sendMessage(window.tabs[0].id, message);
+		}
+	}
+	catch (error){
+		return false;
+	}
+}
+
+browser.runtime.onMessage.addListener(function(message, tab){
+	if (message.action === "resize"){
+		browser.windows.update(tab.tab.windowId, {
+			width: message.width,
+			height: message.height
+		});
+	}
+});
+
 browser.credentials.onNewCredential.addListener(async function(credentialInfo){
-	let saveNewCredentials = (await browser.storage.local.get({saveNewCredentials: true})).saveNewCredentials;
+	const {saveNewCredentials, autoSaveNewCredentials} = (await browser.storage.local.get({
+		saveNewCredentials: true,
+		autoSaveNewCredentials: false
+	}));
 	if (saveNewCredentials){
 		await keepassReady;
 		if (!(await keepass.retrieveCredentials(false, [credentialInfo.host, credentialInfo.host]))
@@ -161,10 +203,17 @@ browser.credentials.onNewCredential.addListener(async function(credentialInfo){
 				return credential.login === credentialInfo.login || credentialInfo.login === true;
 			})
 		){
-			const group = await keepass.createNewGroup(null, ["KeePassXC-Mail Passwords"]);
-			keepass.addCredentials(null,
-				[credentialInfo.login, credentialInfo.password, credentialInfo.host, group.name, group.uuid]
-			);
+			if (
+				autoSaveNewCredentials ||
+				await savingPasswordModal(credentialInfo.host, credentialInfo.login)
+			){
+				const group = await keepass.createNewGroup(null, ["KeePassXC-Mail Passwords"]);
+				keepass.addCredentials(null,
+					[credentialInfo.login, credentialInfo.password, credentialInfo.host, group.name, group.uuid]
+				);
+				return true;
+			}
 		}
 	}
+	return false;
 });

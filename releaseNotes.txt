@@ -2,7 +2,7 @@ Version 0.1.8
 
 new features:
 
-	- 
+	- add confirmation dialog before saving to database
 
 changes:
 
