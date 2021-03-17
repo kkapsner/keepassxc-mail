@@ -114,5 +114,29 @@
 	"options.saveNewCredentials.label": {
 		"message": "Neue Passwörter speichern",
 		"description": "Save new credentials"
+	},
+	"options.autoSaveNewCredentials.label": {
+		"message": "Neue Passwörter ohne Nachfrage speichern",
+		"description": "Save new credentials without prompt"
+	},
+	"modal.savingPassword.title": {
+		"message": "Passwort für {host} in der KeePass-Datenbank speichern?",
+		"description": "Save password for {host} to KeePass database?"
+	},
+	"modal.savingPassword.questionWithLogin": {
+		"message": "Passwort für {login} auf {host} in der KeePass-Datenbank speichern?",
+		"description": "Do you want to save the entered password for {login} on {host} to the KeePass database?"
+	},
+	"modal.savingPassword.questionWithoutLogin": {
+		"message": "Passwort für {host} in der KeePass-Datenbank speichern?",
+		"description": "Do you want to save the entered password for {host} to the KeePass database?"
+	},
+	"modal.savingPassword.yes": {
+		"message": "Ja",
+		"description": "Yes"
+	},
+	"modal.savingPassword.no": {
+		"message": "Nein",
+		"description": "No"
 	}
 }
