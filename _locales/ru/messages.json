@@ -12,35 +12,35 @@
 		"description": "Database hash not received."
 	},
 	"errorMessageClientPublicKey": {
-		"message": "Публичный ключ клиента не получен.",
+		"message": "Открытый ключ клиента не получен.",
 		"description": "Client public key not received."
 	},
 	"errorMessageDecrypt": {
-		"message": "Сообщение не может быть расшифровано.",
+		"message": "Не удаётся расшифровать сообщение.",
 		"description": "Cannot decrypt message."
 	},
 	"errorMessageTimeout": {
-		"message": "Не удается подключиться к KeePassXC. Проверьте, включена ли интеграция браузера в настройках KeePassXC.",
+		"message": "Не удаётся подключиться к KeePassXC. Проверьте, включена ли интеграция браузера в настройках KeePassXC.",
 		"description": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings."
 	},
 	"errorMessageCanceled": {
-		"message": "Action canceled or denied.",
+		"message": "Действие отменено или отклонено.",
 		"description": "Action canceled or denied."
 	},
 	"errorMessageEncrypt": {
-		"message": "Message encryption failed. Is KeePassXC running?",
+		"message": "Не удалось зашифровать сообщение. Запущен ли KeePassXC?",
 		"description": "Message encryption failed. Is KeePassXC running?"
 	},
 	"errorMessageAssociate": {
-		"message": "KeePassXC association failed, try again.",
+		"message": "Не удалось подключиться к KeePassXC, попробуйте снова.",
 		"description": "KeePassXC association failed, try again."
 	},
 	"errorMessageKeyExchange": {
-		"message": "Key exchange was not successful.",
+		"message": "Обмен ключами не удался.",
 		"description": "Key exchange was not successful."
 	},
 	"errorMessageEncryptionKey": {
-		"message": "Encryption key is not recognized.",
+		"message": "Ключ шифрования не распознан.",
 		"description": "Encryption key is not recognized."
 	},
 	"errorMessageSavedDatabases": {
@@ -48,7 +48,7 @@
 		"description": "No saved databases found."
 	},
 	"errorMessageIncorrectAction": {
-		"message": "Некорректное действие.",
+		"message": "Неправильное действие.",
 		"description": "Incorrect action."
 	},
 	"errorMessageEmptyMessage": {
@@ -56,7 +56,7 @@
 		"description": "Empty message received."
 	},
 	"errorMessageNoURL": {
-		"message": "Не указан URL-адрес.",
+		"message": "Не предоставлен URL.",
 		"description": "No URL provided."
 	},
 	"errorMessageNoLogins": {
@@ -72,11 +72,11 @@
 		"description": "No passwords found."
 	},
 	"retry": {
-		"message": "Повторить попытку",
+		"message": "Повторить",
 		"description": "Retry"
 	},
 	"pickedEntry": {
-		"message": "Выбранная запись \"{name|login|\"---\"}\"",
+		"message": "Выбрана запись \"{name|login|\"---\"}\"",
 		"description": "Picked entry \"{name|login|\"---\"}\""
 	},
 	"entryLabel": {
@@ -88,7 +88,7 @@
 		"description": "Password \"{password}\""
 	},
 	"credentialInfo": {
-		"message": "URL: {host}\nLogin: {login|\"---\"}",
+		"message": "URL: {host}\nЛогин: {login|\"---\"}",
 		"description": "URL: {host}\nLogin: {login}"
 	},
 	"options.title": {
@@ -96,7 +96,7 @@
 		"description": "KeePassXC-Mail Settings"
 	},
 	"options.databases": {
-		"message": "Соединения с базой данных",
+		"message": "Подключения к базе данных",
 		"description": "Database connections"
 	},
 	"options.reconnect": {
@@ -112,11 +112,11 @@
 		"description": "Auto submit"
 	},
 	"options.saveNewCredentials.label": {
-		"message": "Сохранить новые учетные данные",
+		"message": "Сохранять новые учётные данные",
 		"description": "Save new credentials"
 	},
 	"options.autoSaveNewCredentials.label": {
-		"message": "Сохранить новые учетные данные без запроса",
+		"message": "Сохранять новые учётные данные без подтверждения",
 		"description": "Save new credentials without prompt"
 	},
 	"modal.savingPassword.title": {
