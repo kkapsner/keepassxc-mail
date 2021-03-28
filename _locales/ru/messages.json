@@ -1,142 +1,142 @@
 {
 	"errorMessageUnknown": {
-		"message": "Unknown error.",
+		"message": "Неизвестная ошибка.",
 		"description": "Unknown error."
 	},
 	"errorMessageDatabaseNotOpened": {
-		"message": "Database not opened.",
+		"message": "База данных не открыта.",
 		"description": "Database not opened."
 	},
 	"errorMessageDatabaseHash": {
-		"message": "Database hash not received.",
+		"message": "Хэш базы данных не получен.",
 		"description": "Database hash not received."
 	},
 	"errorMessageClientPublicKey": {
-		"message": "Client public key not received.",
+		"message": "Открытый ключ клиента не получен.",
 		"description": "Client public key not received."
 	},
 	"errorMessageDecrypt": {
-		"message": "Cannot decrypt message.",
+		"message": "Не удаётся расшифровать сообщение.",
 		"description": "Cannot decrypt message."
 	},
 	"errorMessageTimeout": {
-		"message": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings.",
+		"message": "Не удаётся подключиться к KeePassXC. Проверьте, включена ли интеграция браузера в настройках KeePassXC.",
 		"description": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings."
 	},
 	"errorMessageCanceled": {
-		"message": "Action canceled or denied.",
+		"message": "Действие отменено или отклонено.",
 		"description": "Action canceled or denied."
 	},
 	"errorMessageEncrypt": {
-		"message": "Message encryption failed. Is KeePassXC running?",
+		"message": "Не удалось зашифровать сообщение. Запущен ли KeePassXC?",
 		"description": "Message encryption failed. Is KeePassXC running?"
 	},
 	"errorMessageAssociate": {
-		"message": "KeePassXC association failed, try again.",
+		"message": "Не удалось подключиться к KeePassXC, попробуйте снова.",
 		"description": "KeePassXC association failed, try again."
 	},
 	"errorMessageKeyExchange": {
-		"message": "Key exchange was not successful.",
+		"message": "Обмен ключами не удался.",
 		"description": "Key exchange was not successful."
 	},
 	"errorMessageEncryptionKey": {
-		"message": "Encryption key is not recognized.",
+		"message": "Ключ шифрования не распознан.",
 		"description": "Encryption key is not recognized."
 	},
 	"errorMessageSavedDatabases": {
-		"message": "No saved databases found.",
+		"message": "Не найдено сохранённых баз данных.",
 		"description": "No saved databases found."
 	},
 	"errorMessageIncorrectAction": {
-		"message": "Incorrect action.",
+		"message": "Неправильное действие.",
 		"description": "Incorrect action."
 	},
 	"errorMessageEmptyMessage": {
-		"message": "Empty message received.",
+		"message": "Получено пустое сообщение.",
 		"description": "Empty message received."
 	},
 	"errorMessageNoURL": {
-		"message": "No URL provided.",
+		"message": "Не предоставлен URL.",
 		"description": "No URL provided."
 	},
 	"errorMessageNoLogins": {
-		"message": "No logins found.",
+		"message": "Логины не найдены.",
 		"description": "No logins found."
 	},
 	"loadingPasswords": {
-		"message": "Loading passwords...",
+		"message": "Загрузка паролей...",
 		"description": "Loading passwords..."
 	},
 	"noPasswordsFound": {
-		"message": "No passwords found.",
+		"message": "Пароли не найдены.",
 		"description": "No passwords found."
 	},
 	"retry": {
-		"message": "Retry",
+		"message": "Повторить",
 		"description": "Retry"
 	},
 	"pickedEntry": {
-		"message": "Picked entry \"{name|login|\"---\"}\"",
+		"message": "Выбрана запись \"{name|login|\"---\"}\"",
 		"description": "Picked entry \"{name|login|\"---\"}\""
 	},
 	"entryLabel": {
-		"message": "{name|\"Login\"}: {login}",
+		"message": "{name|\"Логин\"}: {login}",
 		"description": "{name|\"Login\"}: {login}"
 	},
 	"entryTooltip": {
-		"message": "Password \"{password}\"",
+		"message": "Пароль \"{password}\"",
 		"description": "Password \"{password}\""
 	},
 	"credentialInfo": {
-		"message": "URL: {host}\nLogin: {login|\"---\"}",
+		"message": "URL: {host}\nЛогин: {login|\"---\"}",
 		"description": "URL: {host}\nLogin: {login}"
 	},
 	"options.title": {
-		"message": "KeePassXC-Mail Settings",
+		"message": "Настройки KeePassXC-Mail",
 		"description": "KeePassXC-Mail Settings"
 	},
 	"options.databases": {
-		"message": "Database connections",
+		"message": "Подключения к базе данных",
 		"description": "Database connections"
 	},
 	"options.reconnect": {
-		"message": "Reconnect to Native Messaging",
+		"message": "Переподключиться к Native Messaging",
 		"description": "Reconnect to Native Messaging"
 	},
 	"options.associate": {
-		"message": "Connect to KeePassXC",
+		"message": "Подключиться к KeePassXC",
 		"description": "Connect to KeePassXC"
 	},
 	"options.autoSubmit.label": {
-		"message": "Auto submit",
+		"message": "Автоматическая отправка",
 		"description": "Auto submit"
 	},
 	"options.saveNewCredentials.label": {
-		"message": "Save new credentials",
+		"message": "Сохранять новые учётные данные",
 		"description": "Save new credentials"
 	},
 	"options.autoSaveNewCredentials.label": {
-		"message": "Save new credentials without prompt",
+		"message": "Сохранять новые учётные данные без подтверждения",
 		"description": "Save new credentials without prompt"
 	},
 	"modal.savingPassword.title": {
-		"message": "Save password for {host} to KeePass database?",
+		"message": "Сохранить пароль для {host} в базу данных KeePass?",
 		"description": "Save password for {host} to KeePass database?"
 	},
 	"modal.savingPassword.questionWithLogin": {
-		"message": "Do you want to save the entered password for {login} on {host} to the KeePass database?",
+		"message": "Вы хотите сохранить введённый пароль для {login} на {host} в базу данных KeePass?",
 		"description": "Do you want to save the entered password for {login} on {host} to the KeePass database?"
 	},
 	"modal.savingPassword.questionWithoutLogin": {
-		"message": "Do you want to save the entered password for {host} to the KeePass database?",
+		"message": "Вы хотите сохранить введённый пароль для {host} в базу данных KeePass?",
 		"description": "Do you want to save the entered password for {host} to the KeePass database?"
 	},
 	"modal.savingPassword.yes": {
-		"message": "Yes",
+		"message": "Да",
 		"description": "Yes"
 	},
 	"modal.savingPassword.no": {
-		"message": "No",
+		"message": "Нет",
 		"description": "No"
 	}
 }
