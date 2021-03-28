@@ -4,6 +4,7 @@
 const page = {
 	tabs: [],
 	clearCredentials: () => {},
+	clearAllLogins: () => {},
 	settings: {
 		autoReconnect: true,
 		checkUpdateKeePassXC: 0
