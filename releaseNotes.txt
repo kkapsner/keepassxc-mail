@@ -4,6 +4,7 @@ new features:
 
 	- add confirmation dialog before saving to database
 	- if the saving is denied oauth tokens are written to the built in password manager
+	- added support for Cardbook
 
 changes:
 

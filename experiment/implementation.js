@@ -723,6 +723,56 @@ catch (error){
 	console.log("KeePassXC-Mail: unable to register support for oauth", error);
 }
 
+try {
+	const { cardbookRepository } = ChromeUtils.import("chrome://cardbook/content/cardbookRepository.js");
+	const originalGetPassword = cardbookRepository.cardbookPasswordManager.getPassword;
+	const alteredGetPassword =  function(username, url){
+		const credentialDetails = waitForCredentials({
+			login: username,
+			host: url
+		});
+		if (
+			credentialDetails &&
+			credentialDetails.credentials.length &&
+			(typeof credentialDetails.credentials[0].password) === "string"
+		){
+			return credentialDetails.credentials[0].password;
+		}
+		return originalGetPassword.call(this, username, url);
+	};
+	const originalRememberPassword = cardbookRepository.cardbookPasswordManager.rememberPassword;
+	const alteredRememberPassword =  function(username, url, password, save){
+		if (save){
+			const credentialInfo = {
+				login: username,
+				password: password,
+				host: url
+			};
+			credentialInfo.callback = (stored) => {
+				if (!stored){
+					originalRememberPassword.call(this, username, url, password, save);
+				}
+			};
+			passwordEmitter.emit("password", credentialInfo);
+			return originalRememberPassword.call(this, username, url, password, false);
+		}
+		return originalRememberPassword.call(this, username, url, password, save);
+	};
+	setupFunctions.push({
+		setup: function(){
+			cardbookRepository.cardbookPasswordManager.getPassword = alteredGetPassword;
+			cardbookRepository.cardbookPasswordManager.rememberPassword = alteredRememberPassword;
+		},
+		shutdown: function(){
+			cardbookRepository.cardbookPasswordManager.getPassword = originalGetPassword;
+			cardbookRepository.cardbookPasswordManager.rememberPassword = originalRememberPassword;
+		}
+	});
+}
+catch (error){
+	console.log("KeePassXC-Mail: unable to register support for CardBook", error);
+}
+
 const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 	constructor() {
 		super();
