@@ -3,6 +3,7 @@ Version 0.1.8
 new features:
 
 	- add confirmation dialog before saving to database
+	- if the saving is denied oauth tokens are written to the built in password manager
 
 changes:
 

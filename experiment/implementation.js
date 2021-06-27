@@ -659,6 +659,11 @@ try {
 			if (host.startsWith("oauth:")){
 				const credentialInfo = getAuthCredentialInfo(login, host);
 				credentialInfo.password = password;
+				credentialInfo.callback = (stored) => {
+					if (!stored){
+						originalPasswordManagerSave.call(this, login, password, host, realm);
+					}
+				};
 				passwordEmitter.emit("password", credentialInfo);
 				return false;
 			}
@@ -830,7 +835,13 @@ this.credentials = class extends ExtensionCommon.ExtensionAPI {
 					register(fire) {
 						async function callback(event, credentialInfo){
 							try {
-								return await fire.async(credentialInfo);
+								const callback = credentialInfo.callback;
+								delete credentialInfo.callback;
+								const returnValue = await fire.async(credentialInfo);
+								if (callback){
+									await callback(returnValue);
+								}
+								return returnValue;
 							}
 							catch (e){
 								console.error(e);
