@@ -6,14 +6,6 @@ new features:
 	- if the saving is denied oauth tokens are written to the built in password manager
 	- added support for Cardbook
 
-changes:
-
-	- 
-
-fixes:
-
-	- 
-
 Version 0.1.7.1
 
 fixes:
