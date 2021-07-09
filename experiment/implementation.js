@@ -689,16 +689,16 @@ try {
 	const originalRefreshTokenDescriptor = Object.getOwnPropertyDescriptor(OAuth2Module.prototype, "refreshToken");
 	const alteredRefreshTokenDescriptor = Object.create(originalRefreshTokenDescriptor);
 	alteredRefreshTokenDescriptor.get = function(){
-		const credentialDetails = waitForCredentials({
+		const credentials = waitForCredentials({
 			login: this._username,
 			host: this._loginOrigin
 		});
 		if (
-			credentialDetails &&
-			credentialDetails.credentials.length &&
-			(typeof credentialDetails.credentials[0].password) === "string"
+			credentials &&
+			credentials.credentials.length &&
+			(typeof credentials.credentials[0].password) === "string"
 		){
-			return credentialDetails.credentials[0].password;
+			return credentials.credentials[0].password;
 		}
 		return originalRefreshTokenDescriptor.get.call(this);
 	};
