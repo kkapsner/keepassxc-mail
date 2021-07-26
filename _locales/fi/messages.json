@@ -80,63 +80,63 @@
 		"description": "Picked entry \"{name|login|\"---\"}\""
 	},
 	"entryLabel": {
-		"message": "{name|\"Login\"}: {login}",
+		"message": "{nimi: \"Kirjaudu\"}: {login}",
 		"description": "{name|\"Login\"}: {login}"
 	},
 	"entryTooltip": {
-		"message": "Password \"{password}\"",
+		"message": "Salasana \"{password}\"",
 		"description": "Password \"{password}\""
 	},
 	"credentialInfo": {
-		"message": "URL: {host}\nLogin: {login|\"---\"}",
+		"message": "URL: {host}\nKirjaudu: {kirjaudu \"---\"}",
 		"description": "URL: {host}\nLogin: {login}"
 	},
 	"options.title": {
-		"message": "KeePassXC-Mail Settings",
+		"message": "KeePassXC-Mail Asetukset",
 		"description": "KeePassXC-Mail Settings"
 	},
 	"options.databases": {
-		"message": "Database connections",
+		"message": "Tietokantayhteys",
 		"description": "Database connections"
 	},
 	"options.reconnect": {
-		"message": "Reconnect to Native Messaging",
+		"message": "Yhdistä uudelleen lähetettäväksi",
 		"description": "Reconnect to Native Messaging"
 	},
 	"options.associate": {
-		"message": "Connect to KeePassXC",
+		"message": "Yhdistä KeePassXC: ään",
 		"description": "Connect to KeePassXC"
 	},
 	"options.autoSubmit.label": {
-		"message": "Auto submit",
+		"message": "Automaattinen lähetys",
 		"description": "Auto submit"
 	},
 	"options.saveNewCredentials.label": {
-		"message": "Save new credentials",
+		"message": "Tallenna uudet käyttäjätunnukset",
 		"description": "Save new credentials"
 	},
 	"options.autoSaveNewCredentials.label": {
-		"message": "Save new credentials without prompt",
+		"message": "Tallenna uudet käyttäjätiedot ilman kehotteita",
 		"description": "Save new credentials without prompt"
 	},
 	"modal.savingPassword.title": {
-		"message": "Save password for {host} to KeePass database?",
+		"message": "Tallennetaanko salasana {host} KeePassin tietokantaan?",
 		"description": "Save password for {host} to KeePass database?"
 	},
 	"modal.savingPassword.questionWithLogin": {
-		"message": "Do you want to save the entered password for {login} on {host} to the KeePass database?",
+		"message": "Haluatko tallentaa syötetyn salasanan käyttäjälle {login} käyttäjälle {host} KeePassin tietokantaan?",
 		"description": "Do you want to save the entered password for {login} on {host} to the KeePass database?"
 	},
 	"modal.savingPassword.questionWithoutLogin": {
-		"message": "Do you want to save the entered password for {host} to the KeePass database?",
+		"message": "Haluatko tallentaa syötetyn salasanan käyttäjälle {host} käyttäjälle  KeePassin tietokantaan?",
 		"description": "Do you want to save the entered password for {host} to the KeePass database?"
 	},
 	"modal.savingPassword.yes": {
-		"message": "Yes",
+		"message": "Kyllä",
 		"description": "Yes"
 	},
 	"modal.savingPassword.no": {
-		"message": "No",
+		"message": "Ei",
 		"description": "No"
 	}
 }
