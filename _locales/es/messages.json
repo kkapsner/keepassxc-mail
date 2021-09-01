@@ -116,19 +116,19 @@
 		"description": "Save new credentials"
 	},
 	"options.autoSaveNewCredentials.label": {
-		"message": "Save new credentials without prompt",
+		"message": "Guardar nuevas credenciales sin preguntar",
 		"description": "Save new credentials without prompt"
 	},
 	"modal.savingPassword.title": {
-		"message": "Save password for {host} to KeePass database?",
+		"message": "¿Guardar contraseña para {host} en la base de datos KeePassXC?",
 		"description": "Save password for {host} to KeePass database?"
 	},
 	"modal.savingPassword.questionWithLogin": {
-		"message": "¿Desea guardar la contraseña introducida para {login} en {host} en la base de datos de KeePass?",
+		"message": "¿Desea guardar la contraseña introducida para {login} en {host} en la base de datos de KeePassXC?",
 		"description": "Do you want to save the entered password for {login} on {host} to the KeePass database?"
 	},
 	"modal.savingPassword.questionWithoutLogin": {
-		"message": "¿Desea guardar la contraseña introducida para {host} en la base de datos de KeePass?",
+		"message": "¿Desea guardar la contraseña introducida para {host} en la base de datos de KeePassXC?",
 		"description": "Do you want to save the entered password for {host} to the KeePass database?"
 	},
 	"modal.savingPassword.yes": {
