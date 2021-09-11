@@ -41,7 +41,7 @@
 			"id": "keepassxc-mail@kkapsner.de",
 			"update_url": "https://keepassxc-mail.kkapsner.de/versions/updates.json",
 			"strict_min_version": "68.1.0",
-			"strict_max_version": "89.*"
+			"strict_max_version": "94.*"
 		}
 	},
 	"default_locale": "en",

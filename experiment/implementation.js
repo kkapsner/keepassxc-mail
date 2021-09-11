@@ -176,7 +176,23 @@ const getCredentialInfoFromStrings = function(){
 	});
 	addDialogType({
 		protocol: false,
+		title:  getBundleString("commonDialog", "PromptUsernameAndPassword3"),
+		titleRegExp: true,
+		dialog: getBundleString("commonDialog", "EnterLoginForRealm3"),
+		hostPlaceholder: "%2$S",
+		loginPlaceholder: ""
+	});
+	addDialogType({
+		protocol: false,
 		title:  getBundleString("commonDialog", "PromptUsernameAndPassword2"),
+		dialog: getBundleString("commonDialog", "EnterUserPasswordFor2"),
+		hostPlaceholder: "%1$S",
+		loginPlaceholder: ""
+	});
+	addDialogType({
+		protocol: false,
+		title:  getBundleString("commonDialog", "PromptUsernameAndPassword3"),
+		titleRegExp: true,
 		dialog: getBundleString("commonDialog", "EnterUserPasswordFor2"),
 		hostPlaceholder: "%1$S",
 		loginPlaceholder: ""
