@@ -3,14 +3,7 @@ Version 0.1.9
 new features:
 
 	- added support for Thunderbird 94.*
-
-changes:
-
-	- 
-
-fixes:
-
-	- 
+	- new translations
 
 Version 0.1.8
 
