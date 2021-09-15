@@ -37,6 +37,10 @@
 				{
 					"version": "0.1.9",
 					"update_link": "https://keepassxc-mail.kkapsner.de/versions/keepassxc-mail-0.1.9.xpi"
+				},
+				{
+					"version": "0.1.9.1",
+					"update_link": "https://keepassxc-mail.kkapsner.de/versions/keepassxc-mail-0.1.9.1.xpi"
 				}
 			]
 		}

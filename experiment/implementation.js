@@ -844,7 +844,16 @@ function waitForCredentials(data){
 	}).catch(function(){
 		finished = true;
 	});
-	Services.tm.spinEventLoopUntilOrShutdown(() => finished);
+
+	if (Services.tm.spinEventLoopUntilOrShutdown){
+		Services.tm.spinEventLoopUntilOrShutdown(() => finished);
+	}
+	else if (Services.tm.spinEventLoopUntilOrQuit){
+		Services.tm.spinEventLoopUntilOrQuit("keepassxc-mail:waitForCredentials", () => finished);
+	}
+	else {
+		console.error("Unable to wait for credentials!");
+	}
 	return returnValue;
 }
 

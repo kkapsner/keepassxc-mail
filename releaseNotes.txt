@@ -1,16 +1,8 @@
-Version 0.1.10
-
-new features:
-
-	- 
-
-changes:
-
-	- 
+Version 0.1.9.1
 
 fixes:
 
-	- 
+	- oauth authentication, gdata support and cardbook support not working due removed function spinEventLoopUntilOrShutdown in Thunderbird 91
 
 Version 0.1.9
 
