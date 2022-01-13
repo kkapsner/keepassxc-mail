@@ -6,11 +6,11 @@ new features:
 
 changes:
 
-	- 
+	- bump version support to 98.*
 
 fixes:
 
-	- 
+	- primary password prompt was not recognized
 
 Version 0.1.9.1
 

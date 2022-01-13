@@ -204,16 +204,19 @@ const getCredentialInfoFromStrings = function(){
 		hostPlaceholder: "%2$S",
 		loginPlaceholder: "%1$S"
 	});
-	const masterType = addDialogType({
-		protocol: false,
-		title:  getBundleString("commonDialog", "PromptPassword3"),
-		dialog: getBundleString("pipnss", "CertPassPromptDefault"),
-		titleRegExp: true,
-		hostPlaceholder: "",
-		loginPlaceholder: ""
+	["CertPassPromptDefault", "CertPasswordPromptDefault"].forEach(function(dialogStringName){
+		// master password is called primary password in the UI
+		const masterType = addDialogType({
+			protocol: false,
+			title:  getBundleString("commonDialog", "PromptPassword3"),
+			dialog: getBundleString("pipnss", dialogStringName),
+			titleRegExp: true,
+			hostPlaceholder: "",
+			loginPlaceholder: ""
+		});
+		masterType.forcedHost = "masterPassword://Thunderbird";
+		masterType.noLoginRequired = true;
 	});
-	masterType.forcedHost = "masterPassword://Thunderbird";
-	masterType.noLoginRequired = true;
 	return function getCredentialInfoFromStrings(title, text, knownProtocol = false){
 		const matchingTypes = (
 			knownProtocol?
