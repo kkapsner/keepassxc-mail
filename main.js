@@ -129,7 +129,7 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 			return true;
 		})
 		.filter(function(credential){
-			return credentialInfo.login?
+			return (credentialInfo.login || !credentialInfo.loginChangeable)?
 				credential.login === credentialInfo.login || credentialInfo.login === true:
 				credential.login;
 		}).map(function(credential){

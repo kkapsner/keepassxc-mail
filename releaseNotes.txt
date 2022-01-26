@@ -1,16 +1,8 @@
 Version 0.1.11
 
-new features:
-
-	- 
-
-changes:
-
-	- 
-
 fixes:
 
-	- 
+	- entries without login name were filtered when no login was expected
 
 Version 0.1.10
 
