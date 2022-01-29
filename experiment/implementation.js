@@ -448,23 +448,19 @@ function getCredentialInfo(window){
 		return false;
 	}
 	
-	function loginChangeable(login){
+	const promptData = currentPromptData || getCredentialInfoFromStrings(window.args.title, window.args.text);
+	if (promptData){
+		const host = promptData.host;
+		let login = promptData.login;
+		let loginChangeable = false;
 		if (!login && promptType === "promptUserAndPass"){
 			const loginInput = window.document.getElementById("loginTextbox");
 			if (loginInput && loginInput.value){
 				login = loginInput.value;
-				return true;
 			}
+			loginChangeable = true;
 		}
-		return false;
-	}
-	const promptData = currentPromptData || getCredentialInfoFromStrings(window.args.title, window.args.text);
-	if (promptData){
-		return {
-			host: promptData.host,
-			login: promptData.login,
-			loginChangeable: loginChangeable(promptData.login),
-		};
+		return {host, login, loginChangeable};
 	}
 	return false;
 }

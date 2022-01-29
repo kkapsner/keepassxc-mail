@@ -1,16 +1,8 @@
 Version 0.1.12
 
-new features:
-
-	- 
-
-changes:
-
-	- 
-
 fixes:
 
-	- 
+	- password prompts without a given username did not find any password in newer Thunderbird version
 
 Version 0.1.11
 
