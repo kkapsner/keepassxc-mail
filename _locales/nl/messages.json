@@ -132,11 +132,11 @@
 		"description": "Do you want to save the entered password for {host} to the KeePass database?"
 	},
 	"modal.savingPassword.yes": {
-		"message": "Yes",
+		"message": "Ja",
 		"description": "Yes"
 	},
 	"modal.savingPassword.no": {
-		"message": "No",
+		"message": "Nee",
 		"description": "No"
 	}
 }
