@@ -80,3 +80,9 @@ Icon is based on the icon of [KeePassXC-Browser](https://github.com/keepassxrebo
 ## Privacy note
 
 KeePassXC-Mail itself does not contact any server and does not store any private data. For the automatic update process a server hosted by [PixelX](https://www.pixelx.de) is contacted. Apart of the usual server logging (IP adress, access time and accessed location) nothing is stored.
+
+## Used third party scripts
+
+ * https://github.com/dchest/tweetnacl-js/blob/1.0.3/nacl.min.js
+ * https://github.com/dchest/tweetnacl-util-js/blob/v0.15.0/nacl-util.min.js
+ 

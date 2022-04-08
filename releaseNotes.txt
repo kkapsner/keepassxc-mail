@@ -6,7 +6,7 @@ new features:
 
 changes:
 
-	- 
+	- update tweetnacl to version 1.0.3
 
 fixes:
 

@@ -1,25 +1,26 @@
 {
 	"cSpell.enabled": true,
 	"cSpell.words": [
-		"Gdata",
-		"HKCU",
-		"Msgs",
-		"Passwd",
-		"XPCOM",
 		"dialogaccept",
+		"Gdata",
 		"hbox",
+		"HKCU",
 		"keebird",
 		"keepass",
 		"keepassxc",
 		"menulist",
 		"menupopup",
+		"Msgs",
 		"nacl",
 		"nntp",
 		"oauth",
+		"Passwd",
 		"pipnss",
 		"stringbundle",
 		"tooltiptext",
-		"wcap"
+		"tweetnacl",
+		"wcap",
+		"XPCOM"
 	],
 	"cSpell.language": "en,de,en-GB",
 	"cSpell.ignorePaths": [
