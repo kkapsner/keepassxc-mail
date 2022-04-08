@@ -1,16 +1,8 @@
-Version 0.1.13
+Version 0.9
 
 new features:
 
-	- 
-
-changes:
-
-	- 
-
-fixes:
-
-	- 
+	- distribution is now over https://addons.thunderbird.net/thunderbird/addon/keepassxc-mail/
 
 Version 0.1.12
 
