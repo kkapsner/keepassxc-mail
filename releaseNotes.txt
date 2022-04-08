@@ -7,6 +7,7 @@ new features:
 changes:
 
 	- update tweetnacl to version 1.0.3
+	- update keepass.js to version 1.7.11
 
 fixes:
 

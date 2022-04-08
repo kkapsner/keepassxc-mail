@@ -85,4 +85,4 @@ KeePassXC-Mail itself does not contact any server and does not store any private
 
  * https://github.com/dchest/tweetnacl-js/blob/1.0.3/nacl.min.js
  * https://github.com/dchest/tweetnacl-util-js/blob/v0.15.0/nacl-util.min.js
- 
+ * https://github.com/keepassxreboot/keepassxc-browser/blob/1.7.11/keepassxc-browser/background/keepass.js
