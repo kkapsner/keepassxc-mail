@@ -40,7 +40,7 @@
 		"gecko": {
 			"id": "keepassxc-mail@kkapsner.de",
 			"strict_min_version": "68.1.0",
-			"strict_max_version": "100.0"
+			"strict_max_version": "101.0"
 		}
 	},
 	"default_locale": "en",
