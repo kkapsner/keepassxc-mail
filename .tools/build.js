@@ -34,6 +34,8 @@ async function run(){
 	const exclude = [
 		"mail-ext-artifacts/", "mail-ext-artifacts/*",
 		"versions/*",
+		"crowdin.yml",
+		"README.md",
 		"node_modules/*", ".*", "**/.*", "package*", "src/"];
 	
 	const args = ["-r", filePath, "./", "--exclude", ...exclude];
