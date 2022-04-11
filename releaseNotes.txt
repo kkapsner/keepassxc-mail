@@ -2,7 +2,7 @@ Version 1.0
 
 new features:
 
-	- 
+	- added support for different native application names
 
 changes:
 

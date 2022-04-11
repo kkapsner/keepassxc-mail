@@ -17,6 +17,17 @@ const browserAction = {
 };
 
 keepass.nativeHostName = "de.kkapsner.keepassxc_mail";
+async function connect(){
+	const options = ["de.kkapsner.keepassxc_mail", "org.keepassxc.keepassxc_mail", "org.keepassxc.keepassxc_browser"];
+	for (let index = 0; index < options.length; index += 1){
+		keepass.nativeHostName = options[index];
+		console.log("Try native application", keepass.nativeHostName);
+		if (await keepass.reconnect(null, 5000)){ // 5 second timeout for the first connect
+			return true;
+		}
+	}
+	throw "Unable to connect to native messaging";
+}
 
 async function wait(ms){
 	return new Promise(function(resolve){
@@ -94,14 +105,14 @@ const keepassReady = (async () => {
 		// load key ring - initially done in keepass.js but it fails sometimes...
 		await loadKeyRing();
 		await keepass.migrateKeyRing();
-		await keepass.reconnect(null, 5000); // 5 second timeout for the first connect
+		await connect();
 		await keepass.enableAutomaticReconnect();
 		await keepass.associate();
 		// check key ring storage - initially done in keepass.js but it fails sometimes...
 		checkKeyRingStorage();
 	}
-	catch (e) {
-		console.log("init failed", e);
+	catch (e){
+		console.error("init failed", e);
 	}
 })();
 
