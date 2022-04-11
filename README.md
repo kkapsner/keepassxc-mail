@@ -79,7 +79,8 @@ Icon is based on the icon of [KeePassXC-Browser](https://github.com/keepassxrebo
 
 ## Privacy note
 
-KeePassXC-Mail itself does not contact any server and does not store any private data. For the automatic update process a server hosted by [PixelX](https://www.pixelx.de) is contacted. Apart of the usual server logging (IP adress, access time and accessed location) nothing is stored.
+KeePassXC-Mail itself does not contact any server and does not store any private data. For the automatic update process (before version 0.9) a server hosted by [PixelX](https://www.pixelx.de) is contacted. Apart of the usual server logging (IP address, access time and accessed location) nothing is stored.
+After version 0.9 this extension is hosted on [addons.thunderbird.net](https://addons.thunderbird.net/thunderbird/addon/keepassxc-mail/).
 
 ## Used third party scripts
 
