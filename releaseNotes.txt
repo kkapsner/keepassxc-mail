@@ -2,10 +2,6 @@ Version 1.0.1
 
 new features:
 
-	- 
-
-changes:
-
 	- try to connect later if initial connection failed
 
 fixes:
