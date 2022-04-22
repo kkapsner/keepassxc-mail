@@ -22,12 +22,16 @@ async function updateConnections(){
 updateConnections();
 
 const actions = {
-	reconnect: function(){
-		browser.extension.getBackgroundPage().keepass.reconnect();
+	reconnect: async function(){
+		const backgroundPage = browser.extension.getBackgroundPage();
+		await backgroundPage.disconnect();
+		await backgroundPage.connect();
+		await backgroundPage.keepass.associate();
+		await updateConnections();
 	},
-	associate: function(){
-		browser.extension.getBackgroundPage().keepass.associate();
-		updateConnections();
+	associate: async function(){
+		await browser.extension.getBackgroundPage().keepass.associate();
+		await updateConnections();
 	}
 };
 document.querySelectorAll(".action").forEach(async function(button){

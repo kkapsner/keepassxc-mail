@@ -6,11 +6,11 @@ new features:
 
 changes:
 
-	- 
+	- try to connect later if initial connection failed
 
 fixes:
 
-	- 
+	- check all native application names on reconnect
 
 Version 1.0
 

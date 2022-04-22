@@ -1,4 +1,4 @@
-/* globals keepass */
+/* globals keepass, onDisconnected */
 "use strict";
 
 const page = {
@@ -27,6 +27,13 @@ async function connect(){
 		}
 	}
 	throw "Unable to connect to native messaging";
+}
+
+async function disconnect(){
+	if (keepass.nativePort){
+		await keepass.nativePort.disconnect();
+		onDisconnected();
+	}
 }
 
 async function wait(ms){
@@ -100,8 +107,8 @@ async function checkKeyRingStorage(){
 
 // enable access to keepass object in option page
 window.keepass = keepass;
-const keepassReady = (async () => {
-	try {
+const isKeepassReady = (() => {
+	async function initialize(){
 		// load key ring - initially done in keepass.js but it fails sometimes...
 		await loadKeyRing();
 		await keepass.migrateKeyRing();
@@ -111,9 +118,18 @@ const keepassReady = (async () => {
 		// check key ring storage - initially done in keepass.js but it fails sometimes...
 		checkKeyRingStorage();
 	}
-	catch (e){
-		console.error("init failed", e);
-	}
+	let keepassReady = initialize();
+	keepassReady.catch((error) => console.log("Initialization failed:", error));
+	return async function(){
+		try {
+			await keepassReady;
+		}
+		catch (error){
+			keepassReady = initialize();
+			keepassReady.catch((error) => console.log("Initialization failed:", error));
+			await keepassReady;
+		}
+	};
 })();
 
 
@@ -128,7 +144,7 @@ const keepassReady = (async () => {
 const lastRequest = {};
 browser.credentials.onCredentialRequested.addListener(async function(credentialInfo){
 	console.log("got credential request:", credentialInfo);
-	await keepassReady;
+	await isKeepassReady();
 	const presentIds = new Map();
 	const credentialsForHost = (await keepass.retrieveCredentials(false, [credentialInfo.host, credentialInfo.host]))
 		.filter(function(credentials){
@@ -147,7 +163,7 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 			credential.skipAutoSubmit = credential.skipAutoSubmit === "true";
 			return credential;
 		});
-	
+	console.log("keepassXC provided", credentialsForHost.length, "logins");
 	let autoSubmit = (await browser.storage.local.get({autoSubmit: false})).autoSubmit;
 	if (autoSubmit){
 		const requestId = credentialInfo.login + "|" + credentialInfo.host;
@@ -209,7 +225,7 @@ browser.credentials.onNewCredential.addListener(async function(credentialInfo){
 		autoSaveNewCredentials: false
 	}));
 	if (saveNewCredentials){
-		await keepassReady;
+		await isKeepassReady();
 		if (!(await keepass.retrieveCredentials(false, [credentialInfo.host, credentialInfo.host]))
 			.some(function(credential){
 				return credential.login === credentialInfo.login || credentialInfo.login === true;
