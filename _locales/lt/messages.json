@@ -12,131 +12,131 @@
 		"description": "Database hash not received."
 	},
 	"errorMessageClientPublicKey": {
-		"message": "Kliento viešas raktas negautas.",
+		"message": "Kliento viešas kriptografinis raktas negautas.",
 		"description": "Client public key not received."
 	},
 	"errorMessageDecrypt": {
-		"message": "Cannot decrypt message.",
+		"message": "Nepavyko iššifruoti žinutės.",
 		"description": "Cannot decrypt message."
 	},
 	"errorMessageTimeout": {
-		"message": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings.",
+		"message": "Nepavyko prisijungti prie KeePassXC. Patikrinkite ar naršyklės integracija yra įjungta KeePassXC nustatymuose.",
 		"description": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings."
 	},
 	"errorMessageCanceled": {
-		"message": "Action canceled or denied.",
+		"message": "Veiksmas atšauktas ar neleidžiamas.",
 		"description": "Action canceled or denied."
 	},
 	"errorMessageEncrypt": {
-		"message": "Message encryption failed. Is KeePassXC running?",
+		"message": "Žinutės užšifravimas nepavyko. Patikrinkite ar įjungtas KeePassXC.",
 		"description": "Message encryption failed. Is KeePassXC running?"
 	},
 	"errorMessageAssociate": {
-		"message": "KeePassXC association failed, try again.",
+		"message": "KeePassXC asociacija nepavyko, pabandykite vėl.",
 		"description": "KeePassXC association failed, try again."
 	},
 	"errorMessageKeyExchange": {
-		"message": "Key exchange was not successful.",
+		"message": "Kriptografinių raktų apsikeitimas nepavyko.",
 		"description": "Key exchange was not successful."
 	},
 	"errorMessageEncryptionKey": {
-		"message": "Encryption key is not recognized.",
+		"message": "Kriptografinis raktas neatpažintas.",
 		"description": "Encryption key is not recognized."
 	},
 	"errorMessageSavedDatabases": {
-		"message": "No saved databases found.",
+		"message": "Nėra išsaugotų duombazių.",
 		"description": "No saved databases found."
 	},
 	"errorMessageIncorrectAction": {
-		"message": "Incorrect action.",
+		"message": "Neteisingas veiksmas.",
 		"description": "Incorrect action."
 	},
 	"errorMessageEmptyMessage": {
-		"message": "Empty message received.",
+		"message": "Gauta tuščia žinutė.",
 		"description": "Empty message received."
 	},
 	"errorMessageNoURL": {
-		"message": "No URL provided.",
+		"message": "Nėra nurodytas URL.",
 		"description": "No URL provided."
 	},
 	"errorMessageNoLogins": {
-		"message": "No logins found.",
+		"message": "Nerastas prisijungimo vardas.",
 		"description": "No logins found."
 	},
 	"loadingPasswords": {
-		"message": "Loading passwords...",
+		"message": "Kraunami slaptažodžiai...",
 		"description": "Loading passwords..."
 	},
 	"noPasswordsFound": {
-		"message": "No passwords found.",
+		"message": "Nerasta slaptažodžių.",
 		"description": "No passwords found."
 	},
 	"retry": {
-		"message": "Retry",
+		"message": "Bandyti dar kartą",
 		"description": "Retry"
 	},
 	"pickedEntry": {
-		"message": "Picked entry \"{name|login|\"---\"}\"",
+		"message": "Pasirinktas įrašas \"{name|login|\"---\"}\"",
 		"description": "Picked entry \"{name|login|\"---\"}\""
 	},
 	"entryLabel": {
-		"message": "{name|\"Login\"}: {login}",
+		"message": "{name|\"Prisijungimas\"}: {login}",
 		"description": "{name|\"Login\"}: {login}"
 	},
 	"entryTooltip": {
-		"message": "Password \"{password}\"",
+		"message": "Slaptažodis \"{password}\"",
 		"description": "Password \"{password}\""
 	},
 	"credentialInfo": {
-		"message": "URL: {host}\nLogin: {login|\"---\"}",
+		"message": "URL: {host}\nPrisijungimas: {login|\"---\"}",
 		"description": "URL: {host}\nLogin: {login}"
 	},
 	"options.title": {
-		"message": "KeePassXC-Mail Settings",
+		"message": "KeePassXC-Mail Nustatymai",
 		"description": "KeePassXC-Mail Settings"
 	},
 	"options.databases": {
-		"message": "Database connections",
+		"message": "Duomenų bazės jungtys",
 		"description": "Database connections"
 	},
 	"options.reconnect": {
-		"message": "Reconnect to Native Messaging",
+		"message": "Prisijungti prie Native Messaging",
 		"description": "Reconnect to Native Messaging"
 	},
 	"options.associate": {
-		"message": "Connect to KeePassXC",
+		"message": "Prisijungti prie KeePassXC",
 		"description": "Connect to KeePassXC"
 	},
 	"options.autoSubmit.label": {
-		"message": "Auto submit",
+		"message": "Automatiškai suvesti",
 		"description": "Auto submit"
 	},
 	"options.saveNewCredentials.label": {
-		"message": "Save new credentials",
+		"message": "Išsaugoti naujus kredencialus",
 		"description": "Save new credentials"
 	},
 	"options.autoSaveNewCredentials.label": {
-		"message": "Save new credentials without prompt",
+		"message": "Išsaugoti naujus kredencialus be įspėjimo",
 		"description": "Save new credentials without prompt"
 	},
 	"modal.savingPassword.title": {
-		"message": "Save password for {host} to KeePass database?",
+		"message": "Išsaugoti slaptažodį, skirtą {host} KeePass duombazėje?",
 		"description": "Save password for {host} to KeePass database?"
 	},
 	"modal.savingPassword.questionWithLogin": {
-		"message": "Do you want to save the entered password for {login} on {host} to the KeePass database?",
+		"message": "Išsaugoti suvestą slaptažodį {login} prisijungimui skirtą {host} KeePass duombazėje?",
 		"description": "Do you want to save the entered password for {login} on {host} to the KeePass database?"
 	},
 	"modal.savingPassword.questionWithoutLogin": {
-		"message": "Do you want to save the entered password for {host} to the KeePass database?",
+		"message": "Išsaugoti suvestą slaptažodį skirtą {host} KeePass duombazėje?",
 		"description": "Do you want to save the entered password for {host} to the KeePass database?"
 	},
 	"modal.savingPassword.yes": {
-		"message": "Yes",
+		"message": "Taip",
 		"description": "Yes"
 	},
 	"modal.savingPassword.no": {
-		"message": "No",
+		"message": "Ne",
 		"description": "No"
 	}
 }
