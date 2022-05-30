@@ -12,7 +12,7 @@
 		"description": "Database hash not received."
 	},
 	"errorMessageClientPublicKey": {
-		"message": "Открытый ключ клиента не получен.",
+		"message": "Публичный ключ клиента не получен.",
 		"description": "Client public key not received."
 	},
 	"errorMessageDecrypt": {
