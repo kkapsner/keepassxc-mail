@@ -1,18 +1,18 @@
 {
 	"errorMessageUnknown": {
-		"message": "Unknown error.",
+		"message": "Neatpažinta klaida.",
 		"description": "Unknown error."
 	},
 	"errorMessageDatabaseNotOpened": {
-		"message": "Database not opened.",
+		"message": "Duombazė neatidaryta.",
 		"description": "Database not opened."
 	},
 	"errorMessageDatabaseHash": {
-		"message": "Database hash not received.",
+		"message": "Duombazės maišos funkcijos reikšmė negauta.",
 		"description": "Database hash not received."
 	},
 	"errorMessageClientPublicKey": {
-		"message": "Client public key not received.",
+		"message": "Kliento viešas raktas negautas.",
 		"description": "Client public key not received."
 	},
 	"errorMessageDecrypt": {
