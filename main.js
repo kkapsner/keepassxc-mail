@@ -193,21 +193,20 @@ async function savingPasswordModal(host, login){
 		host,
 		login
 	};
-	
-	// wait a little bit for the modal dialog to load
-	await new Promise(function(resolve){setTimeout(resolve, 10);});
-	try {
+	const tries = 10;
+	for (let i = 0; i < tries; i += 1){
+		// wait a little bit for the modal dialog to load
+		await new Promise(function(resolve){setTimeout(resolve, 50);});
 		try{
 			return await browser.tabs.sendMessage(window.tabs[0].id, message);
 		}
 		catch (error){
-			// first sendMessage might fail to timing issue
-			return await browser.tabs.sendMessage(window.tabs[0].id, message);
+			if (i + 1 >= tries){
+				console.log("sending message to modal failed", tries, "times. Last error:", error);
+			}
 		}
 	}
-	catch (error){
-		return false;
-	}
+	return false;
 }
 
 browser.runtime.onMessage.addListener(function(message, tab){

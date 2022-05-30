@@ -9,7 +9,7 @@ changes:
 
 fixes:
 
-	- 
+	- modal dialog not working due to too tight timing
 
 Version 1.0.1
 
