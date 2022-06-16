@@ -1,11 +1,4 @@
-Version 1.1
-
-new features:
-
-	- 
-
-changes:
-	- 
+Version 1.0.2
 
 fixes:
 
