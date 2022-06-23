@@ -157,7 +157,7 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 		})
 		.filter(function(credential){
 			return (credentialInfo.login || !credentialInfo.loginChangeable)?
-				credential.login === credentialInfo.login || credentialInfo.login === true:
+				credential.login.toLowerCase() === credentialInfo.login.toLowerCase() || credentialInfo.login === true:
 				credential.login;
 		}).map(function(credential){
 			credential.skipAutoSubmit = credential.skipAutoSubmit === "true";
@@ -227,7 +227,7 @@ browser.credentials.onNewCredential.addListener(async function(credentialInfo){
 		await isKeepassReady();
 		if (!(await keepass.retrieveCredentials(false, [credentialInfo.host, credentialInfo.host]))
 			.some(function(credential){
-				return credential.login === credentialInfo.login || credentialInfo.login === true;
+				return credential.login.toLowerCase() === credentialInfo.login.toLowerCase() || credentialInfo.login === true;
 			})
 		){
 			if (
