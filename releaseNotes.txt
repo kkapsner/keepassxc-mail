@@ -2,7 +2,7 @@ Version 1.0.3
 
 new features:
 
-	- 
+	- bump version support to 103.0
 
 changes:
 	- 
