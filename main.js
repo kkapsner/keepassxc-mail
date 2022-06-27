@@ -157,7 +157,7 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 		})
 		.filter(function(credential){
 			return (credentialInfo.login || !credentialInfo.loginChangeable)?
-				credential.login.toLowerCase() === credentialInfo.login.toLowerCase() || credentialInfo.login === true:
+				credentialInfo.login === true || credential.login.toLowerCase() === credentialInfo.login.toLowerCase():
 				credential.login;
 		}).map(function(credential){
 			credential.skipAutoSubmit = credential.skipAutoSubmit === "true";
