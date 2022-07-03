@@ -6,6 +6,9 @@ new features:
 
 changes:
 	- filtering for correct login is now case insensitive
+	- update keepass.js to version 1.8.0
+	- added client.js from version 1.8.0
+	- bump minimal version to 74.0 (needed for keepass.js and client.js)
 
 fixes:
 

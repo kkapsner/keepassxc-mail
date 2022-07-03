@@ -1,4 +1,4 @@
-/* globals keepass, onDisconnected */
+/* globals keepass, keepassClient, onDisconnected */
 "use strict";
 
 const page = {
@@ -16,12 +16,12 @@ const browserAction = {
 	showDefault: () => {}
 };
 
-keepass.nativeHostName = "de.kkapsner.keepassxc_mail";
+keepassClient.nativeHostName = "de.kkapsner.keepassxc_mail";
 async function connect(){
 	const options = ["de.kkapsner.keepassxc_mail", "org.keepassxc.keepassxc_mail", "org.keepassxc.keepassxc_browser"];
 	for (let index = 0; index < options.length; index += 1){
-		keepass.nativeHostName = options[index];
-		console.log("Try native application", keepass.nativeHostName);
+		keepassClient.nativeHostName = options[index];
+		console.log("Try native application", keepassClient.nativeHostName);
 		if (await keepass.reconnect(null, 5000)){ // 5 second timeout for the first connect
 			return true;
 		}
@@ -30,8 +30,8 @@ async function connect(){
 }
 
 async function disconnect(){
-	if (keepass.nativePort){
-		await keepass.nativePort.disconnect();
+	if (keepassClient.nativePort){
+		await keepassClient.nativePort.disconnect();
 		onDisconnected();
 	}
 }

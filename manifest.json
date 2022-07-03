@@ -12,6 +12,7 @@
 			"from-keepassxc-browser/nacl.min.js",
 			"from-keepassxc-browser/nacl-util.min.js",
 			"global.js",
+			"from-keepassxc-browser/client.js",
 			"from-keepassxc-browser/keepass.js",
 			"main.js"
 		]
@@ -39,7 +40,7 @@
 	"applications": {
 		"gecko": {
 			"id": "keepassxc-mail@kkapsner.de",
-			"strict_min_version": "68.1.0",
+			"strict_min_version": "74.0",
 			"strict_max_version": "104.0"
 		}
 	},

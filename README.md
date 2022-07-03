@@ -91,4 +91,5 @@ After version 0.9 this extension is hosted on [addons.thunderbird.net](https://a
 
  * https://github.com/dchest/tweetnacl-js/blob/1.0.3/nacl.min.js
  * https://github.com/dchest/tweetnacl-util-js/blob/v0.15.0/nacl-util.min.js
- * https://github.com/keepassxreboot/keepassxc-browser/blob/1.7.11/keepassxc-browser/background/keepass.js
+ * https://github.com/keepassxreboot/keepassxc-browser/blob/1.8.0/keepassxc-browser/background/client.js
+ * https://github.com/keepassxreboot/keepassxc-browser/blob/1.8.0/keepassxc-browser/background/keepass.js
