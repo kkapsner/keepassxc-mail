@@ -10,10 +10,6 @@ changes:
 	- added client.js from version 1.8.0
 	- bump minimal version to 74.0 (needed for keepass.js and client.js)
 
-fixes:
-
-	- 
-
 Version 1.0.2.1
 
 new features:
