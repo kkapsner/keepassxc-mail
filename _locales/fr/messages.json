@@ -20,7 +20,7 @@
 		"description": "Cannot decrypt message."
 	},
 	"errorMessageTimeout": {
-		"message": "Connexion à KeePassXC impossible. Vérifiez que l'intégration du navigateur est activée dans les paramètres de KeePassXC.",
+		"message": "Impossible de se connecter à KeePassXC. Vérifiez que l'intégration du navigateur est activée dans les paramètres de KeePassXC.",
 		"description": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings."
 	},
 	"errorMessageCanceled": {
@@ -48,7 +48,7 @@
 		"description": "No saved databases found."
 	},
 	"errorMessageIncorrectAction": {
-		"message": "Action erronée.",
+		"message": "Action invalide.",
 		"description": "Incorrect action."
 	},
 	"errorMessageEmptyMessage": {
@@ -76,7 +76,7 @@
 		"description": "Retry"
 	},
 	"pickedEntry": {
-		"message": "Entrée sélectionnée \"{name|login|\"---\"}\"",
+		"message": "Sélection de l'entrée \"{name|login|\"---\"}\"",
 		"description": "Picked entry \"{name|login|\"---\"}\""
 	},
 	"entryLabel": {
