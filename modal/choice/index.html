@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Save password for {host}?</title>
+		<script src="choice.js"></script>
+		<link rel="stylesheet" href="chrome://global/skin/global.css" type="text/css">
+		<link rel="stylesheet" href="chrome://global/content/commonDialog.css" type="text/css">
+		<link rel="stylesheet" href="chrome://global/skin/commonDialog.css" type="text/css">
+		<link rel="stylesheet" href="choice.css" type="text/css">
+	</head>
+	<body>
+		<div class="content">
+			<img class="icon" src="../../icons/icon.svg">
+			<div class="right text">Multiple entries were found for {login} on {host}. Please select the correct one.</div>
+			<select class="right entries" id="entries" autofocus="autofocus"></select>
+			<div class="right doNotAskAgain"><label><input type="checkbox" id="doNotAskAgain"><span class="doNotAskAgainText">Do not ask again</span></label></div>
+			<div class="right buttons">
+				<button disabled="disabled" id="ok">OK</button>
+				<button disabled="disabled" id="cancel">Cancel</button>
+			</div>
+		</div>
+	</body>
+</html>

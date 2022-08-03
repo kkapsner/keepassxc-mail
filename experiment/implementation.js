@@ -708,13 +708,13 @@ try {
 			return originalPasswordManagerSave.call(this, login, password, host, realm);
 		};
 	};
-	const restorePasswordmanager = function restorePasswordmanager(){
+	const restorePasswordManager = function restorePasswordManager(){
 		cal.auth.passwordManagerGet = originalPasswordManagerGet;
 		cal.auth.passwordManagerSave = originalPasswordManagerSave;
 	};
 	setupFunctions.push({
 		setup: changePasswordManager,
-		shutdown: restorePasswordmanager
+		shutdown: restorePasswordManager
 	});
 }
 catch (error){
@@ -858,6 +858,7 @@ async function requestCredentials(credentialInfo){
 function waitForCredentials(data){
 	let finished = false;
 	let returnValue = false;
+	data.openChoiceDialog = true;
 	requestCredentials(data).then(function(credentialDetails){
 		finished = true;
 		returnValue = credentialDetails;

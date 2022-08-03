@@ -141,12 +141,87 @@ const isKeepassReady = (() => {
 	browser.credentials.setTranslation(stringName, browser.i18n.getMessage(stringName));
 });
 
+const selectedEntries = new Map();
+async function clearSelectedEntries(){
+	selectedEntries.clear();
+	await browser.storage.local.set({selectedEntries: []});
+}
+browser.storage.local.get({selectedEntries: []}).then(function({selectedEntries: selectedEntriesStorage}){
+	selectedEntriesStorage.forEach(function(selectedEntry){
+		selectedEntries.set(selectedEntry.host, {doNotAskAgain: true, uuid: selectedEntry.uuid});
+	});
+	return undefined;
+}).catch(()=>{});
+
+async function choiceModal(host, login, entries){
+	if (selectedEntries.has(host)){
+		const cached = selectedEntries.get(host);
+		if (
+			(
+				cached.doNotAskAgain ||
+				Date.now() - cached.timestamp <= 60000
+			) &&
+			entries.some(e => e.uuid === cached.uuid)
+		){
+			console.log("Use last selected entry for", host);
+			return cached.uuid;
+		}
+	}
+	const window = await browser.windows.create({
+		url: browser.runtime.getURL("modal/choice/index.html"),
+		allowScriptsToClose: true,
+		height: 100,
+		width: 600,
+		type: "detached_panel"
+	});
+	const message = {
+		type: "start",
+		host,
+		login,
+		entries
+	};
+	const tries = 10;
+	for (let i = 0; i < tries; i += 1){
+		// wait a little bit for the modal dialog to load
+		await new Promise(function(resolve){setTimeout(resolve, 50);});
+		try{
+			const {selectedUuid, doNotAskAgain} = await browser.tabs.sendMessage(window.tabs[0].id, message);
+			if (selectedUuid !== undefined){
+				selectedEntries.set(host, {uuid: selectedUuid, doNotAskAgain, timestamp: Date.now()});
+				if (doNotAskAgain){
+					browser.storage.local.get({selectedEntries: []}).then(async function({selectedEntries}){
+						let found = false;
+						for (let i = 0; i < selectedEntries.length; i += 1){
+							if (selectedEntries[i].host === host){
+								selectedEntries[i].uuid = selectedUuid;
+								found = true;
+							}
+						}
+						if (!found){
+							selectedEntries.push({host, uuid: selectedUuid});
+						}
+						await browser.storage.local.set({selectedEntries});
+						return undefined;
+					}).catch(error => console.error(error));
+				}
+			}
+			return selectedUuid;
+		}
+		catch (error){
+			if (i + 1 >= tries){
+				console.log("sending message to modal failed", tries, "times. Last error:", error);
+			}
+		}
+	}
+	return undefined;
+}
+
 const lastRequest = {};
 browser.credentials.onCredentialRequested.addListener(async function(credentialInfo){
 	console.log("got credential request:", credentialInfo);
 	await isKeepassReady();
 	const presentIds = new Map();
-	const credentialsForHost = (await keepass.retrieveCredentials(false, [credentialInfo.host, credentialInfo.host]))
+	let credentialsForHost = (await keepass.retrieveCredentials(false, [credentialInfo.host, credentialInfo.host]))
 		.filter(function(credentials){
 			const alreadyPresent = presentIds.has(credentials.uuid);
 			if (alreadyPresent){
@@ -167,6 +242,19 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 			return credential;
 		});
 	console.log("keepassXC provided", credentialsForHost.length, "logins");
+	if (credentialInfo.openChoiceDialog && credentialsForHost.length > 1){
+		const selectedUuid = await choiceModal(
+			credentialInfo.host,
+			credentialInfo.login,
+			credentialsForHost.map(function (data){
+				return {name: data.name, login: data.login, uuid: data.uuid};
+			})
+		);
+		const filteredCredentialsForHost = credentialsForHost.filter(e => e.uuid === selectedUuid);
+		if (!selectedUuid || filteredCredentialsForHost.length){
+			credentialsForHost = filteredCredentialsForHost;
+		}
+	}
 	let autoSubmit = (await browser.storage.local.get({autoSubmit: false})).autoSubmit;
 	if (autoSubmit){
 		const requestId = credentialInfo.login + "|" + credentialInfo.host;

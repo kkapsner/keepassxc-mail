@@ -39,6 +39,16 @@
 							"description": "The login for which credentials are requested",
 							"optional": true,
 							"type": "string"
+						},
+						"loginChangeable": {
+							"description": "If the login is changeable in the password dialog",
+							"optional": true,
+							"type": "boolean"
+						},
+						"openChoiceDialog": {
+							"description": "If the choice dialog should be displayed if more than one entry is found",
+							"optional": true,
+							"type": "boolean"
 						}
 					}
 				}]

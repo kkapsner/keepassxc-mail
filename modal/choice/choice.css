@@ -1,0 +1,47 @@
+html {
+	margin: 0;
+	padding: 0;
+}
+body {
+	font-size: 11pt;
+	margin: 0;
+	padding: 10px;
+}
+
+.content {
+	display: grid;
+	grid-template-columns: max-content auto;
+}
+
+.icon {
+	max-height: 50px;
+	grid-column: 1 / span 1;
+	grid-row: 1 / span 2;
+	align-self: center;
+}
+
+.right {
+	grid-column: 2;
+}
+
+.text {
+	padding: 1em;
+	min-width: 300px;
+	display: inline-block;
+}
+
+.entries {
+	margin: 0 1em;
+}
+
+.doNotAskAgain {
+	padding: 0.3em 1em;
+}
+
+.buttons {
+	text-align: right;
+	padding: 0 1em;
+}
+.buttons button {
+	margin: 0 0.3em;
+}

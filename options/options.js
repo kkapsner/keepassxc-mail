@@ -22,6 +22,10 @@ async function updateConnections(){
 updateConnections();
 
 const actions = {
+	clearSelectedEntries: async function(){
+		const backgroundPage = browser.extension.getBackgroundPage();
+		backgroundPage.clearSelectedEntries();
+	},
 	reconnect: async function(){
 		const backgroundPage = browser.extension.getBackgroundPage();
 		await backgroundPage.disconnect();
@@ -34,8 +38,36 @@ const actions = {
 		await updateConnections();
 	}
 };
+
+async function wait(ms){
+	return new Promise(function(resolve){
+		window.setTimeout(function(){
+			resolve();
+		}, ms);
+	});
+}
+
 document.querySelectorAll(".action").forEach(async function(button){
-	button.addEventListener("click", actions[button.id]);
+	const activeMessageId = button.dataset.activeMessage;
+	const activeMessage = activeMessageId? browser.i18n.getMessage(activeMessageId): false;
+	let active = false;
+	button.addEventListener("click", async function(){
+		if (active){
+			return;
+		}
+		const oldContent = button.textContent;
+		button.disabled = true;
+		active = true;
+		const promises = [actions[button.id]()];
+		if (activeMessage){
+			button.textContent = activeMessage;
+			promises.push(wait(500));
+		}
+		await Promise.all(promises);
+		button.textContent = oldContent;
+		active = false;
+		button.disabled = false;
+	});
 });
 document.querySelectorAll("input.setting").forEach(async function(input){
 	const settingName = input.id;
