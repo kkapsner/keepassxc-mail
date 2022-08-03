@@ -1,3 +1,9 @@
+Version 1.1
+
+new features:
+
+	- 
+
 Version 1.0.3
 
 new features:
