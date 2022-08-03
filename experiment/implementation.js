@@ -1,9 +1,10 @@
-/* globals ChromeUtils, Components*/
+/* globals ChromeUtils, Components, XPCOMUtils, Localization*/
 "use strict";
 
 const { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
 const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+XPCOMUtils.defineLazyGlobalGetters(this, ["Localization"]);
 
 const windowListeners = [];
 const setupFunctions = [];
@@ -35,7 +36,9 @@ const getCredentialInfoFromStrings = function(){
 			return stringName;
 		}
 	}
-	function getDialogType({protocol, title, titleRegExp, dialog, hostPlaceholder, loginPlaceholder}){
+	function getDialogType({
+		protocol, title, titleRegExp, dialog, hostPlaceholder, loginPlaceholder, otherPlaceholders
+	}){
 		const hostPosition = hostPlaceholder? dialog.indexOf(hostPlaceholder): -1;
 		const loginPosition = loginPlaceholder? dialog.indexOf(loginPlaceholder): -1;
 		let dialogRegExpString = dialog.replace(/([\\+*?[^\]$(){}=!|.])/g, "\\$1");
@@ -44,6 +47,11 @@ const getCredentialInfoFromStrings = function(){
 		}
 		if (loginPlaceholder){
 			dialogRegExpString = dialogRegExpString.replace(loginPlaceholder.replace(/\$/g, "\\$"), "(.+)");
+		}
+		if (otherPlaceholders){
+			otherPlaceholders.forEach(function(otherPlaceholder){
+				dialogRegExpString = dialogRegExpString.replace(otherPlaceholder.replace(/\$/g, "\\$"), ".+");
+			});
 		}
 		const dialogRegExp = new RegExp(dialogRegExpString);
 		
@@ -217,6 +225,20 @@ const getCredentialInfoFromStrings = function(){
 		masterType.forcedHost = "masterPassword://Thunderbird";
 		masterType.noLoginRequired = true;
 	});
+	
+	const pgpL10n = new Localization(["messenger/openpgp/keyWizard.ftl"], true);
+	if (pgpL10n){
+		const openPGPType = addDialogType({
+			protocol: "openpgp",
+			title:  pgpL10n.formatValueSync("openpgp-passphrase-prompt-title"),
+			dialog: pgpL10n.formatValueSync("openpgp-passphrase-prompt", {key: "%1$S, %2$S, %3$S"}),
+			hostPlaceholder: "%1$S",
+			// loginPlaceholder: "%2$S",
+			otherPlaceholders: ["%2$S", "%3$S"]
+		});
+		openPGPType.noLoginRequired = true;
+	}
+	
 	return function getCredentialInfoFromStrings(title, text, knownProtocol = false){
 		const matchingTypes = (
 			knownProtocol?

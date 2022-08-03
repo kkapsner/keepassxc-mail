@@ -2,7 +2,7 @@ Version 1.1
 
 new features:
 
-	- 
+	- add support for openpgp private key password prompts
 	- bump version support to 105.0
 
 Version 1.0.3
