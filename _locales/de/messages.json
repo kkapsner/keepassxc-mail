@@ -99,13 +99,29 @@
 		"message": "Datenbankverbindungen",
 		"description": "Database connections"
 	},
+	"options.clearSelectedEntries": {
+		"message": "Speicher der ausgewählten Einträge leeren",
+		"description": "Clear storage of selected entries"
+	},
+	"options.clearingSelectedEntries": {
+		"message": "Leere Speicher der ausgewählten Einträge...",
+		"description": "Clearing storage of selected entries..."
+	},
 	"options.reconnect": {
 		"message": "Neu mit Native messaging verbinden",
 		"description": "Reconnect to Native Messaging"
 	},
+	"options.reconnecting": {
+		"message": "Verbinde mit Native messaging...",
+		"description": "Reconnecting to Native Messaging..."
+	},
 	"options.associate": {
 		"message": "Mit KeePassXC verbinden",
 		"description": "Connect to KeePassXC"
+	},
+	"options.associating": {
+		"message": "Verbinde mit KeePassXC...",
+		"description": "Connecting to KeePassXC..."
 	},
 	"options.autoSubmit.label": {
 		"message": "Automatisch absenden",
@@ -138,5 +154,29 @@
 	"modal.savingPassword.no": {
 		"message": "Nein",
 		"description": "No"
+	},
+	"modal.choice.title": {
+		"message": "Richtigen Eintrag für {host} auswählen",
+		"description": "Select correct entry for {host}"
+	},
+	"modal.choice.textWithLogin": {
+		"message": "Es wurden mehrere Einträge für {login} auf {host} gefunden. Bitte wählen Sie den Korrekten aus.",
+		"description": "Multiple entries were found for {login} on {host}. Please select the correct one."
+	},
+	"modal.choice.textWithoutLogin": {
+		"message": "Es wurden mehrere Einträge für {host} gefunden. Bitte wählen Sie den Korrekten aus.",
+		"description": "Multiple entries were found for {host}. Please select the correct one."
+	},
+	"modal.choice.doNotAskAgain": {
+		"message": "Nicht mehr nachfragen.",
+		"description": "Do not ask again."
+	},
+	"modal.choice.ok": {
+		"message": "OK",
+		"description": "OK"
+	},
+	"modal.choice.cancel": {
+		"message": "Abbrechen",
+		"description": "Cancel"
 	}
 }

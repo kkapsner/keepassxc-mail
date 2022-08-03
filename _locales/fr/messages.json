@@ -20,7 +20,7 @@
 		"description": "Cannot decrypt message."
 	},
 	"errorMessageTimeout": {
-		"message": "Connexion à KeePassXC impossible. Vérifiez que l'intégration du navigateur est activée dans les paramètres de KeePassXC.",
+		"message": "Impossible de se connecter à KeePassXC. Vérifiez que l'intégration du navigateur est activée dans les paramètres de KeePassXC.",
 		"description": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings."
 	},
 	"errorMessageCanceled": {
@@ -48,7 +48,7 @@
 		"description": "No saved databases found."
 	},
 	"errorMessageIncorrectAction": {
-		"message": "Action erronée.",
+		"message": "Action invalide.",
 		"description": "Incorrect action."
 	},
 	"errorMessageEmptyMessage": {
@@ -76,7 +76,7 @@
 		"description": "Retry"
 	},
 	"pickedEntry": {
-		"message": "Entrée sélectionnée \"{name|login|\"---\"}\"",
+		"message": "Sélection de l'entrée \"{name|login|\"---\"}\"",
 		"description": "Picked entry \"{name|login|\"---\"}\""
 	},
 	"entryLabel": {
@@ -99,13 +99,29 @@
 		"message": "Connexions à la base de données",
 		"description": "Database connections"
 	},
+	"options.clearSelectedEntries": {
+		"message": "Clear storage of selected entries",
+		"description": "Clear storage of selected entries"
+	},
+	"options.clearingSelectedEntries": {
+		"message": "Clearing storage of selected entries...",
+		"description": "Clearing storage of selected entries..."
+	},
 	"options.reconnect": {
 		"message": "Se reconnecter à Native Messaging",
 		"description": "Reconnect to Native Messaging"
 	},
+	"options.reconnecting": {
+		"message": "Reconnecting to Native Messaging...",
+		"description": "Reconnecting to Native Messaging..."
+	},
 	"options.associate": {
 		"message": "Se connecter à KeePassXC",
 		"description": "Connect to KeePassXC"
+	},
+	"options.associating": {
+		"message": "Connecting to KeePassXC...",
+		"description": "Connecting to KeePassXC..."
 	},
 	"options.autoSubmit.label": {
 		"message": "Envoi automatique",
@@ -138,5 +154,29 @@
 	"modal.savingPassword.no": {
 		"message": "Non",
 		"description": "No"
+	},
+	"modal.choice.title": {
+		"message": "Select correct entry for {host}",
+		"description": "Select correct entry for {host}"
+	},
+	"modal.choice.textWithLogin": {
+		"message": "Multiple entries were found for {login} on {host}. Please select the correct one.",
+		"description": "Multiple entries were found for {login} on {host}. Please select the correct one."
+	},
+	"modal.choice.textWithoutLogin": {
+		"message": "Multiple entries were found for {host}. Please select the correct one.",
+		"description": "Multiple entries were found for {host}. Please select the correct one."
+	},
+	"modal.choice.doNotAskAgain": {
+		"message": "Do not ask again.",
+		"description": "Do not ask again."
+	},
+	"modal.choice.ok": {
+		"message": "OK",
+		"description": "OK"
+	},
+	"modal.choice.cancel": {
+		"message": "Cancel",
+		"description": "Cancel"
 	}
 }
