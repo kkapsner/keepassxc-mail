@@ -3,6 +3,7 @@ Version 1.1
 new features:
 
 	- 
+	- bump version support to 105.0
 
 Version 1.0.3
 
@@ -11,6 +12,7 @@ new features:
 	- bump version support to 104.0
 
 changes:
+
 	- filtering for correct login is now case insensitive
 	- update keepass.js to version 1.8.0
 	- added client.js from version 1.8.0
