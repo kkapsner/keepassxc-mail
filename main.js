@@ -141,6 +141,31 @@ const isKeepassReady = (() => {
 	browser.credentials.setTranslation(stringName, browser.i18n.getMessage(stringName));
 });
 
+async function openModal({path, message, defaultReturnValue}){
+	const window = await browser.windows.create({
+		url: browser.runtime.getURL(path),
+		allowScriptsToClose: true,
+		height: 100,
+		width: 600,
+		type: "detached_panel"
+	});
+	
+	const tries = 10;
+	for (let i = 0; i < tries; i += 1){
+		// wait a little bit for the modal dialog to load
+		await new Promise(function(resolve){setTimeout(resolve, 50);});
+		try{
+			return await browser.tabs.sendMessage(window.tabs[0].id, message);
+		}
+		catch (error){
+			if (i + 1 >= tries){
+				console.log("sending message to modal failed", tries, "times. Last error:", error);
+			}
+		}
+	}
+	return defaultReturnValue;
+}
+
 const selectedEntries = new Map();
 async function clearSelectedEntries(){
 	selectedEntries.clear();
@@ -167,53 +192,37 @@ async function choiceModal(host, login, entries){
 			return cached.uuid;
 		}
 	}
-	const window = await browser.windows.create({
-		url: browser.runtime.getURL("modal/choice/index.html"),
-		allowScriptsToClose: true,
-		height: 100,
-		width: 600,
-		type: "detached_panel"
+	const {selectedUuid, doNotAskAgain} = await openModal({
+		path: "modal/choice/index.html",
+		message: {
+			type: "start",
+			host,
+			login,
+			entries
+		},
+		defaultReturnValue: {selectedUuid: undefined, doNotAskAgain: false}
 	});
-	const message = {
-		type: "start",
-		host,
-		login,
-		entries
-	};
-	const tries = 10;
-	for (let i = 0; i < tries; i += 1){
-		// wait a little bit for the modal dialog to load
-		await new Promise(function(resolve){setTimeout(resolve, 50);});
-		try{
-			const {selectedUuid, doNotAskAgain} = await browser.tabs.sendMessage(window.tabs[0].id, message);
-			if (selectedUuid !== undefined){
-				selectedEntries.set(host, {uuid: selectedUuid, doNotAskAgain, timestamp: Date.now()});
-				if (doNotAskAgain){
-					browser.storage.local.get({selectedEntries: []}).then(async function({selectedEntries}){
-						let found = false;
-						for (let i = 0; i < selectedEntries.length; i += 1){
-							if (selectedEntries[i].host === host){
-								selectedEntries[i].uuid = selectedUuid;
-								found = true;
-							}
-						}
-						if (!found){
-							selectedEntries.push({host, uuid: selectedUuid});
-						}
-						await browser.storage.local.set({selectedEntries});
-						return undefined;
-					}).catch(error => console.error(error));
+	
+	if (selectedUuid !== undefined){
+		selectedEntries.set(host, {uuid: selectedUuid, doNotAskAgain, timestamp: Date.now()});
+		if (doNotAskAgain){
+			browser.storage.local.get({selectedEntries: []}).then(async function({selectedEntries}){
+				let found = false;
+				for (let i = 0; i < selectedEntries.length; i += 1){
+					if (selectedEntries[i].host === host){
+						selectedEntries[i].uuid = selectedUuid;
+						found = true;
+					}
 				}
-			}
-			return selectedUuid;
-		}
-		catch (error){
-			if (i + 1 >= tries){
-				console.log("sending message to modal failed", tries, "times. Last error:", error);
-			}
+				if (!found){
+					selectedEntries.push({host, uuid: selectedUuid});
+				}
+				await browser.storage.local.set({selectedEntries});
+				return undefined;
+			}).catch(error => console.error(error));
 		}
 	}
-	return undefined;
+	return selectedUuid;
 }
 
 const lastRequest = {};
@@ -272,32 +281,15 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 });
 
 async function savingPasswordModal(host, login){
-	const window = await browser.windows.create({
-		url: browser.runtime.getURL("modal/savingPassword/index.html"),
-		allowScriptsToClose: true,
-		height: 100,
-		width: 600,
-		type: "detached_panel"
+	return openModal({
+		path: "modal/savingPassword/index.html",
+		message: {
+			type: "start",
+			host,
+			login
+		},
+		defaultReturnValue: false
 	});
-	const message = {
-		type: "start",
-		host,
-		login
-	};
-	const tries = 10;
-	for (let i = 0; i < tries; i += 1){
-		// wait a little bit for the modal dialog to load
-		await new Promise(function(resolve){setTimeout(resolve, 50);});
-		try{
-			return await browser.tabs.sendMessage(window.tabs[0].id, message);
-		}
-		catch (error){
-			if (i + 1 >= tries){
-				console.log("sending message to modal failed", tries, "times. Last error:", error);
-			}
-		}
-	}
-	return false;
 }
 
 browser.runtime.onMessage.addListener(function(message, tab){
