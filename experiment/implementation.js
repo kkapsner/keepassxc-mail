@@ -271,6 +271,13 @@ const getCredentialInfoFromStrings = function(){
 	};
 }();
 
+function initPromptFunctions(promptFunctions, object){
+	promptFunctions.forEach(function(promptFunction){
+		promptFunction.object = object;
+		promptFunction.original = object[promptFunction.name];
+	});
+}
+
 function createPromptDataFunctions(promptFunction){
 	const promptDataFunctions = [() => currentPromptData];
 	if (promptFunction.dataFunction){
@@ -371,10 +378,7 @@ try {
 			passwordObjectIndex: 5,
 		}
 	];
-	promptFunctions.forEach(function(promptFunction){
-		promptFunction.object = MsgAuthPrompt.prototype;
-		promptFunction.original = MsgAuthPrompt.prototype[promptFunction.name];
-	});
+	initPromptFunctions(promptFunctions, MsgAuthPrompt.prototype);
 	setupFunctions.push({
 		setup: function(){
 			promptFunctions.forEach(setupPromptFunction);
@@ -408,10 +412,7 @@ try {
 			passwordObjectIndex: 5,
 		}
 	];
-	promptFunctions.forEach(function(promptFunction){
-		promptFunction.object = LoginManagerAuthPrompter.prototype;
-		promptFunction.original = LoginManagerAuthPrompter.prototype[promptFunction.name];
-	});
+	initPromptFunctions(promptFunctions, LoginManagerAuthPrompter.prototype);
 	setupFunctions.push({
 		setup: function(){
 			promptFunctions.forEach(setupPromptFunction);
@@ -499,10 +500,7 @@ try {
 			passwordObjectIndex: 6,
 		},
 	];
-	promptFunctions.forEach(function(promptFunction){
-		promptFunction.object = Prompter.prototype;
-		promptFunction.original = Prompter.prototype[promptFunction.name];
-	});
+	initPromptFunctions(promptFunctions, Prompter.prototype);
 	setupFunctions.push({
 		setup: function(){
 			promptFunctions.forEach(setupPromptFunction);
@@ -554,10 +552,7 @@ try {
 			passwordObjectIndex: 2,
 		},
 	];
-	promptFunctions.forEach(function(promptFunction){
-		promptFunction.object = calauth.Prompt.prototype;
-		promptFunction.original = calauth.Prompt.prototype[promptFunction.name];
-	});
+	initPromptFunctions(promptFunctions, calauth.Prompt.prototype);
 	setupFunctions.push({
 		setup: function(){
 			promptFunctions.forEach(setupPromptFunction);
