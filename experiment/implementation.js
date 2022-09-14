@@ -342,6 +342,52 @@ function setupPromptFunction(promptFunction){
 function shutdownPromptFunction(promptFunction){
 	promptFunction.object[promptFunction.name] = promptFunction.original;
 }
+
+try {
+	const { MsgAuthPrompt } = ChromeUtils.import("resource:///modules/MsgAsyncPrompter.jsm");
+	const promptFunctions = [
+		{
+			name: "prompt",
+			promptType: "promptPassword",
+			titleIndex: 0,
+			textIndex: 1,
+			realmIndex: 2,
+			passwordObjectIndex: 5,
+		},
+		{
+			name: "promptPassword",
+			promptType: "promptPassword",
+			titleIndex: 0,
+			textIndex: 1,
+			realmIndex: 2,
+			passwordObjectIndex: 4,
+		},
+		{
+			name: "promptUsernameAndPassword",
+			promptType: "promptUserAndPass",
+			titleIndex: 0,
+			textIndex: 1,
+			realmIndex: 2,
+			passwordObjectIndex: 5,
+		}
+	];
+	promptFunctions.forEach(function(promptFunction){
+		promptFunction.object = MsgAuthPrompt.prototype;
+		promptFunction.original = MsgAuthPrompt.prototype[promptFunction.name];
+	});
+	setupFunctions.push({
+		setup: function(){
+			promptFunctions.forEach(setupPromptFunction);
+		},
+		shutdown: function(){
+			promptFunctions.forEach(shutdownPromptFunction);
+		}
+	});
+}
+catch (error){
+	console.log("KeePassXC-Mail: unable to change MsgAuthPrompt:", error);
+}
+
 try {
 	const { LoginManagerAuthPrompter } = ChromeUtils.import("resource://gre/modules/LoginManagerAuthPrompter.jsm");
 	const promptFunctions = [
