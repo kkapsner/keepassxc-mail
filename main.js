@@ -316,6 +316,7 @@ browser.runtime.onMessage.addListener(function(message, tab){
 });
 
 browser.credentials.onNewCredential.addListener(async function(credentialInfo){
+	console.log("Got new password for", credentialInfo.login, "at", credentialInfo.host);
 	const {saveNewCredentials, autoSaveNewCredentials} = (await browser.storage.local.get({
 		saveNewCredentials: true,
 		autoSaveNewCredentials: false
