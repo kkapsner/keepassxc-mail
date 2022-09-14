@@ -179,8 +179,9 @@ browser.storage.local.get({selectedEntries: []}).then(function({selectedEntries:
 }).catch(()=>{});
 
 async function choiceModal(host, login, entries){
-	if (selectedEntries.has(host)){
-		const cached = selectedEntries.get(host);
+	const cachedId = login? `${login}@${host}`: host;
+	if (selectedEntries.has(cachedId)){
+		const cached = selectedEntries.get(cachedId);
 		if (
 			(
 				cached.doNotAskAgain ||
@@ -188,7 +189,7 @@ async function choiceModal(host, login, entries){
 			) &&
 			entries.some(e => e.uuid === cached.uuid)
 		){
-			console.log("Use last selected entry for", host);
+			console.log("Use last selected entry for", cachedId);
 			return cached.uuid;
 		}
 	}
@@ -204,18 +205,18 @@ async function choiceModal(host, login, entries){
 	});
 	
 	if (selectedUuid !== undefined){
-		selectedEntries.set(host, {uuid: selectedUuid, doNotAskAgain, timestamp: Date.now()});
+		selectedEntries.set(cachedId, {uuid: selectedUuid, doNotAskAgain, timestamp: Date.now()});
 		if (doNotAskAgain){
 			browser.storage.local.get({selectedEntries: []}).then(async function({selectedEntries}){
 				let found = false;
 				for (let i = 0; i < selectedEntries.length; i += 1){
-					if (selectedEntries[i].host === host){
+					if (selectedEntries[i].host === cachedId){
 						selectedEntries[i].uuid = selectedUuid;
 						found = true;
 					}
 				}
 				if (!found){
-					selectedEntries.push({host, uuid: selectedUuid});
+					selectedEntries.push({host: cachedId, uuid: selectedUuid});
 				}
 				await browser.storage.local.set({selectedEntries});
 				return undefined;
