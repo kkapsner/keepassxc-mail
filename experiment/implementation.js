@@ -470,6 +470,61 @@ catch (error){
 	console.log("KeePassXC-Mail: unable to change Prompter:", error);
 }
 
+try {
+	// intercept password prompt for calendar
+	const { calauth } = function(){
+		try {
+			return ChromeUtils.import("resource://calendar/utils/calAuthUtils.jsm");
+		}
+		catch (error){
+			return ChromeUtils.import("resource:///modules/calendar/utils/calAuthUtils.jsm");
+		}
+	}();
+	
+	const { cal } = function(){
+		try {
+			return ChromeUtils.import("resource://calendar/modules/calUtils.jsm");
+		}
+		catch (error){
+			return ChromeUtils.import("resource:///modules/calendar/calUtils.jsm");
+		}
+	}();
+	
+	const promptFunctions = [
+		{
+			name: "promptAuth",
+			promptType: "promptUserAndPass",
+			dataFunction: function(args){
+				return {
+					host: args[0].URI.spec,
+					login: cal.auth.containerMap.getUsernameForUserContextId(
+						args[0].loadInfo.originAttributes.userContextId
+					),
+					realm: args[2].realm,
+				};
+			},
+			// channelIndex: 0,
+			// authInfoIndex: 2,
+			passwordObjectIndex: 2,
+		},
+	];
+	promptFunctions.forEach(function(promptFunction){
+		promptFunction.object = calauth.Prompt.prototype;
+		promptFunction.original = calauth.Prompt.prototype[promptFunction.name];
+	});
+	setupFunctions.push({
+		setup: function(){
+			promptFunctions.forEach(setupPromptFunction);
+		},
+		shutdown: function(){
+			promptFunctions.forEach(shutdownPromptFunction);
+		}
+	});
+}
+catch (error){
+	console.log("KeePassXC-Mail: unable to change calauth.Prompt", error);
+}
+
 function getCredentialInfo(window){
 	const promptType = window.args.promptType;
 	if (["promptPassword", "promptUserAndPass"].indexOf(promptType) === -1){
