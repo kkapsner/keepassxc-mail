@@ -8,19 +8,19 @@ function resizeToContent(){
 	});
 }
 
-function getTranslation(name, variables){
-	const translation = browser.i18n.getMessage(name) || name;
-	if (!variables){
-		return translation;
+function getMessage(name, replacements){
+	const message = browser.i18n.getMessage(name) || name;
+	if (!replacements){
+		return message;
 	}
-	return translation.replace(/\{\s*([^}]*?)\s*\}/g, function(m, name){
-		const namesToTry = name.split(/\s*\|\s*/g);
-		for (const name of namesToTry){
-			if (name.match(/^["'].*["']$/)){
-				return name.replace(/^['"]|['"]$/g, "");
+	return message.replace(/\{\s*([^}]*?)\s*\}/g, function(m, key){
+		const keysToTry = key.split(/\s*\|\s*/g);
+		for (const key of keysToTry){
+			if (key.match(/^["'].*["']$/)){
+				return key.replace(/^['"]|['"]$/g, "");
 			}
-			if (variables[name]){
-				return variables[name];
+			if (replacements.hasOwnProperty("name")){
+				return replacements[key];
 			}
 		}
 		return m;
@@ -28,8 +28,8 @@ function getTranslation(name, variables){
 }
 
 function fillText(message){
-	document.querySelector("title").textContent = getTranslation("modal.choice.title", message);
-	document.querySelector(".text").textContent = getTranslation(
+	document.querySelector("title").textContent = getMessage("modal.choice.title", message);
+	document.querySelector(".text").textContent = getMessage(
 		message.login && message.login !== true?
 			"modal.choice.textWithLogin":
 			"modal.choice.textWithoutLogin",
@@ -44,7 +44,7 @@ function fillText(message){
 function fillSelect(message, sendAnswer){
 	const select = document.getElementById("entries");
 	message.entries.forEach(function(entry){
-		const option = new Option(getTranslation("entryLabel", entry), entry.uuid);
+		const option = new Option(getMessage("entryLabel", entry), entry.uuid);
 		option.entry = entry;
 		select.appendChild(
 			option
