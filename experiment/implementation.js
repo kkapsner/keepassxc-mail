@@ -271,6 +271,77 @@ const getCredentialInfoFromStrings = function(){
 	};
 }();
 
+function createPromptDataFunctions(promptFunction){
+	const promptDataFunctions = [() => currentPromptData];
+	if (promptFunction.dataFunction){
+		promptDataFunctions.push(promptFunction.dataFunction);
+	}
+	if (promptFunction.hasOwnProperty("realmIndex")){
+		promptDataFunctions.push(function(args){
+			const realm = args[promptFunction.realmIndex];
+			let [realmHost, , realmLogin] = this._getRealmInfo(realm);
+			let protocol;
+			if (realmHost && realmHost.startsWith("mailbox://")){
+				realmHost = realmHost.replace("mailbox://", "pop3://");
+				protocol = "pop3";
+			}
+			else {
+				protocol = realmHost && Services.io.newURI(realmHost).scheme;
+			}
+			// realm data provides the correct protocol but may have wrong server name
+			const {host: stringHost, login: stringLogin} = getCredentialInfoFromStrings(
+				args[promptFunction.titleIndex],
+				args[promptFunction.textIndex],
+				protocol
+			);
+			return {
+				host: stringHost || realmHost,
+				login: stringLogin || decodeURIComponent(realmLogin),
+				realm,
+			};
+		});
+	}
+	if (promptFunction.hasOwnProperty("titleIndex")){
+		promptDataFunctions.push(function(args){
+			return getCredentialInfoFromStrings(
+				args[promptFunction.titleIndex],
+				args[promptFunction.textIndex]
+			);
+		});
+	}
+	if (promptFunction.hasOwnProperty("authInfoIndex")){
+		promptDataFunctions.push(function(args){
+			return {
+				host: args[promptFunction.channelIndex].URI.spec,
+				login: args[promptFunction.authInfoIndex].username,
+				realm: args[promptFunction.authInfoIndex].realm,
+			};
+		});
+	}
+	return promptDataFunctions;
+}
+
+function setupPromptFunction(promptFunction){
+	const promptDataFunctions = createPromptDataFunctions(promptFunction);
+	
+	promptFunction.object[promptFunction.name] = function(...args){
+		const data = promptDataFunctions.reduce((data, func) => {
+			if (!data){
+				return func.call(this, args);
+			}
+			return data;
+		}, false);
+		if (data){
+			currentPromptData = data;
+		}
+		const ret = promptFunction.original.call(this, ...args);
+		currentPromptData = null;
+		return ret;
+	};
+}
+function shutdownPromptFunction(promptFunction){
+	promptFunction.object[promptFunction.name] = promptFunction.original;
+}
 try {
 	const { LoginManagerAuthPrompter } = ChromeUtils.import("resource://gre/modules/LoginManagerAuthPrompter.jsm");
 	const promptFunctions = [
@@ -292,48 +363,20 @@ try {
 		}
 	];
 	promptFunctions.forEach(function(promptFunction){
+		promptFunction.object = LoginManagerAuthPrompter.prototype;
 		promptFunction.original = LoginManagerAuthPrompter.prototype[promptFunction.name];
 	});
 	setupFunctions.push({
 		setup: function(){
-			promptFunctions.forEach(function(promptFunction){
-				LoginManagerAuthPrompter.prototype[promptFunction.name] = function(...args){
-					const realm = args[promptFunction.realmIndex];
-					let [realmHost, , realmLogin] = this._getRealmInfo(realm);
-					let protocol;
-					if (realmHost && realmHost.startsWith("mailbox://")){
-						realmHost = realmHost.replace("mailbox://", "pop3://");
-						protocol = "pop3";
-					}
-					else {
-						protocol = realmHost && Services.io.newURI(realmHost).scheme;
-					}
-					// realm data provide the correct protocol but may have wrong server name
-					const {host: stringHost, login: stringLogin} = getCredentialInfoFromStrings(
-						args[promptFunction.titleIndex],
-						args[promptFunction.textIndex],
-						protocol
-					);
-					currentPromptData = {
-						host: stringHost || realmHost,
-						login: decodeURIComponent(stringLogin || realmLogin),
-						realm,
-					};
-					const ret = promptFunction.original.call(this, ...args);
-					currentPromptData = null;
-					return ret;
-				};
-			});
+			promptFunctions.forEach(setupPromptFunction);
 		},
 		shutdown: function(){
-			promptFunctions.forEach(function(promptFunction){
-				LoginManagerAuthPrompter.prototype[promptFunction.name] = promptFunction.original;
-			});
+			promptFunctions.forEach(shutdownPromptFunction);
 		}
 	});
 }
 catch (error){
-	console.log("Unable to change LoginManagerAuthPrompter:", error);
+	console.log("KeePassXC-Mail: unable to change LoginManagerAuthPrompter:", error);
 }
 
 try {
@@ -411,57 +454,20 @@ try {
 		},
 	];
 	promptFunctions.forEach(function(promptFunction){
+		promptFunction.object = Prompter.prototype;
 		promptFunction.original = Prompter.prototype[promptFunction.name];
 	});
 	setupFunctions.push({
 		setup: function(){
-			promptFunctions.forEach(function(promptFunction){
-				Prompter.prototype[promptFunction.name] = function(...args){
-					const data = [
-						() => currentPromptData,
-						function(){
-							if (promptFunction.titleIndex){
-								return getCredentialInfoFromStrings(
-									args[promptFunction.titleIndex],
-									args[promptFunction.textIndex]
-								);
-							}
-							return false;
-						},
-						function(){
-							if (promptFunction.authInfoIndex){
-								return {
-									host: args[promptFunction.channelIndex].URI.spec,
-									login: args[promptFunction.authInfoIndex].username,
-									realm: args[promptFunction.authInfoIndex].realm,
-								};
-							}
-							return false;
-						},
-					].reduce(function(data, func){
-						if (!data){
-							return func();
-						}
-						return data;
-					}, false);
-					if (data){
-						currentPromptData = data;
-					}
-					const ret = promptFunction.original.call(this, ...args);
-					currentPromptData = null;
-					return ret;
-				};
-			});
+			promptFunctions.forEach(setupPromptFunction);
 		},
 		shutdown: function(){
-			promptFunctions.forEach(function(promptFunction){
-				Prompter.prototype[promptFunction.name] = promptFunction.original;
-			});
+			promptFunctions.forEach(shutdownPromptFunction);
 		}
 	});
 }
 catch (error){
-	console.log("Unable to change Prompter:", error);
+	console.log("KeePassXC-Mail: unable to change Prompter:", error);
 }
 
 function getCredentialInfo(window){
