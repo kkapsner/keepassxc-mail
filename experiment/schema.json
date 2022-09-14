@@ -46,7 +46,7 @@
 							"type": "boolean"
 						},
 						"openChoiceDialog": {
-							"description": "If the choice dialog should be displayed if more than one entry is found",
+							"description": "If the choice dialog should be displayed if more than one entry is found or auto submit is disabled",
 							"optional": true,
 							"type": "boolean"
 						}

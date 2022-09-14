@@ -252,19 +252,6 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 			return credential;
 		});
 	console.log("keepassXC provided", credentialsForHost.length, "logins");
-	if (credentialInfo.openChoiceDialog && credentialsForHost.length > 1){
-		const selectedUuid = await choiceModal(
-			credentialInfo.host,
-			credentialInfo.login,
-			credentialsForHost.map(function (data){
-				return {name: data.name, login: data.login, uuid: data.uuid};
-			})
-		);
-		const filteredCredentialsForHost = credentialsForHost.filter(e => e.uuid === selectedUuid);
-		if (!selectedUuid || filteredCredentialsForHost.length){
-			credentialsForHost = filteredCredentialsForHost;
-		}
-	}
 	let autoSubmit = (await browser.storage.local.get({autoSubmit: false})).autoSubmit;
 	if (autoSubmit){
 		const requestId = credentialInfo.login + "|" + credentialInfo.host;
@@ -273,6 +260,32 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 			autoSubmit = false;
 		}
 		lastRequest[requestId] = now;
+	}
+	
+	if (
+		credentialInfo.openChoiceDialog &&
+		(
+			!autoSubmit ||
+			credentialsForHost.length > 1 ||
+			credentialsForHost[0]?.skipAutoSubmit
+		)
+	){
+		const selectedUuid = await choiceModal(
+			credentialInfo.host,
+			credentialInfo.login,
+			credentialsForHost.map(function (data){
+				return {
+					name: data.name,
+					login: data.login,
+					uuid: data.uuid,
+					autoSubmit: autoSubmit && !data.skipAutoSubmit
+				};
+			})
+		);
+		const filteredCredentialsForHost = credentialsForHost.filter(e => e.uuid === selectedUuid);
+		if (!selectedUuid || filteredCredentialsForHost.length){
+			credentialsForHost = filteredCredentialsForHost;
+		}
 	}
 	
 	return {

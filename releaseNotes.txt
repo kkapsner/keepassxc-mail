@@ -6,7 +6,7 @@ new features:
 
 changes:
 
-	- 
+	- own choice dialog respects auto submit
 
 fixes:
 

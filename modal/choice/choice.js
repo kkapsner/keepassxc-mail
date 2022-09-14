@@ -41,33 +41,45 @@ function fillText(message){
 	resizeToContent();
 }
 
-function fillSelect(message){
+function fillSelect(message, sendAnswer){
 	const select = document.getElementById("entries");
 	message.entries.forEach(function(entry){
+		const option = new Option(getTranslation("entryLabel", entry), entry.uuid);
+		option.entry = entry;
 		select.appendChild(
-			new Option(getTranslation("entryLabel", entry), entry.uuid)
+			option
 		);
+	});
+	select.addEventListener("change", function(){
+		const selectedOption = select.options[select.selectedIndex];
+		if (selectedOption?.entry?.autoSubmit){
+			sendAnswer();
+		}
 	});
 }
 
 browser.runtime.onMessage.addListener(function(message){
 	if (message.type === "start"){
-		fillText(message);
-		fillSelect(message);
 		return new Promise(function(resolve){
+			function sendAnswer(){
+				resolve({
+					selectedUuid: document.getElementById("entries").value,
+					doNotAskAgain: document.getElementById("doNotAskAgain").checked
+				});
+				window.close();
+			}
+			fillText(message);
+			fillSelect(message, sendAnswer);
 			document.querySelectorAll("button").forEach(function(button){
 				button.disabled = false;
 				button.addEventListener("click", function(){
 					if (button.id === "ok"){
-						resolve({
-							selectedUuid: document.getElementById("entries").value,
-							doNotAskAgain: document.getElementById("doNotAskAgain").checked
-						});
+						sendAnswer();
 					}
 					else {
 						resolve({selectedUuid: undefined, doNotAskAgain: false});
+						window.close();
 					}
-					window.close();
 				});
 			});
 		});
