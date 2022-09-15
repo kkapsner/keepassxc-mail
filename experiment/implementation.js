@@ -271,10 +271,18 @@ const getCredentialInfoFromStrings = function(){
 	};
 }();
 
-function initPromptFunctions(promptFunctions, object){
-	promptFunctions.forEach(function(promptFunction){
-		promptFunction.object = object;
-		promptFunction.original = object[promptFunction.name];
+function registerPromptFunctions(promptFunctions){
+	setupFunctions.push({
+		setup: function(){
+			promptFunctions.forEach(function(promptFunction){
+				promptFunction.object[promptFunction.name] = promptFunction.replacement;
+			});
+		},
+		shutdown: function(){
+			promptFunctions.forEach(function(promptFunction){
+				promptFunction.object[promptFunction.name] = promptFunction.original;
+			});
+		}
 	});
 }
 
@@ -328,11 +336,13 @@ function createPromptDataFunctions(promptFunction){
 	return promptDataFunctions;
 }
 
-function setupPromptFunction(promptFunction){
-	const promptDataFunctions = createPromptDataFunctions(promptFunction);
-	
-	promptFunction.object[promptFunction.name] = function(...args){
-		const data = promptDataFunctions.reduce((data, func) => {
+function initPromptFunction(promptFunction, object){
+	promptFunction.object = object;
+	promptFunction.promptDataFunctions = createPromptDataFunctions(promptFunction);
+	promptFunction.loginChangeable = promptFunction.promptType === "promptUserAndPass";
+	promptFunction.original = object[promptFunction.name];
+	promptFunction.replacement = function(...args){
+		const data = promptFunction.promptDataFunctions.reduce((data, func) => {
 			if (!data){
 				return func.call(this, args);
 			}
@@ -346,8 +356,11 @@ function setupPromptFunction(promptFunction){
 		return ret;
 	};
 }
-function shutdownPromptFunction(promptFunction){
-	promptFunction.object[promptFunction.name] = promptFunction.original;
+
+function initPromptFunctions(promptFunctions, object){
+	promptFunctions.forEach(function(promptFunction){
+		initPromptFunction(promptFunction, object);
+	});
 }
 
 try {
@@ -379,14 +392,7 @@ try {
 		}
 	];
 	initPromptFunctions(promptFunctions, MsgAuthPrompt.prototype);
-	setupFunctions.push({
-		setup: function(){
-			promptFunctions.forEach(setupPromptFunction);
-		},
-		shutdown: function(){
-			promptFunctions.forEach(shutdownPromptFunction);
-		}
-	});
+	registerPromptFunctions(promptFunctions);
 }
 catch (error){
 	console.log("KeePassXC-Mail: unable to change MsgAuthPrompt:", error);
@@ -413,14 +419,7 @@ try {
 		}
 	];
 	initPromptFunctions(promptFunctions, LoginManagerAuthPrompter.prototype);
-	setupFunctions.push({
-		setup: function(){
-			promptFunctions.forEach(setupPromptFunction);
-		},
-		shutdown: function(){
-			promptFunctions.forEach(shutdownPromptFunction);
-		}
-	});
+	registerPromptFunctions(promptFunctions);
 }
 catch (error){
 	console.log("KeePassXC-Mail: unable to change LoginManagerAuthPrompter:", error);
@@ -501,14 +500,7 @@ try {
 		},
 	];
 	initPromptFunctions(promptFunctions, Prompter.prototype);
-	setupFunctions.push({
-		setup: function(){
-			promptFunctions.forEach(setupPromptFunction);
-		},
-		shutdown: function(){
-			promptFunctions.forEach(shutdownPromptFunction);
-		}
-	});
+	registerPromptFunctions(promptFunctions);
 }
 catch (error){
 	console.log("KeePassXC-Mail: unable to change Prompter:", error);
@@ -553,14 +545,7 @@ try {
 		},
 	];
 	initPromptFunctions(promptFunctions, calauth.Prompt.prototype);
-	setupFunctions.push({
-		setup: function(){
-			promptFunctions.forEach(setupPromptFunction);
-		},
-		shutdown: function(){
-			promptFunctions.forEach(shutdownPromptFunction);
-		}
-	});
+	registerPromptFunctions(promptFunctions);
 }
 catch (error){
 	console.log("KeePassXC-Mail: unable to change calauth.Prompt", error);
