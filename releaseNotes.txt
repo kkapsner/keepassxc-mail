@@ -3,10 +3,12 @@ Version 1.2
 new features:
 
 	- bump version support to 106.0
+	- prevent password prompts when possible
 
 changes:
 
 	- own choice dialog respects auto submit
+	- use own choice dialog
 
 fixes:
 

@@ -348,8 +348,25 @@ function initPromptFunction(promptFunction, object){
 			}
 			return data;
 		}, false);
-		if (data){
+		if (data && currentPromptData !== data){
 			currentPromptData = data;
+			if (promptFunction.hasOwnProperty("passwordObjectIndex") || promptFunction.setCredentials){
+				const { credentials } = waitForCredentials({
+					host: data.host,
+					login: data.login,
+					loginChangeable: promptFunction.loginChangeable,
+				});
+				if (credentials.length === 1){
+					if (promptFunction.setCredentials){
+						promptFunction.setCredentials(args, data.login, credentials[0].password);
+					}
+					else {
+						args[promptFunction.passwordObjectIndex].value = credentials[0].password;
+					}
+					currentPromptData = null;
+					return true;
+				}
+			}
 		}
 		const ret = promptFunction.original.call(this, ...args);
 		currentPromptData = null;
@@ -541,7 +558,11 @@ try {
 			},
 			// channelIndex: 0,
 			// authInfoIndex: 2,
-			passwordObjectIndex: 2,
+			setCredentials: function(args, username, password){
+				args[2].username = username;
+				args[2].password = password;
+			},
+			// passwordObjectIndex: 2,
 		},
 	];
 	initPromptFunctions(promptFunctions, calauth.Prompt.prototype);
