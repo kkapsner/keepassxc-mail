@@ -16,12 +16,28 @@ const browserAction = {
 	showDefault: () => {}
 };
 
+const log = function(){
+	function f(d, n){
+		const s = d.toString();
+		return "0".repeat(n - s.length) + s;
+	}
+	return function log(...args){
+		const now = new Date();
+		console.log(
+			`${f(now.getFullYear(), 4)}-${f(now.getMonth() + 1, 2)}-${f(now.getDate(), 2)} `+
+			`${f(now.getHours(), 2)}:${f(now.getMinutes(), 2)}:` +
+			`${f(now.getSeconds(), 2)}.${f(now.getMilliseconds(), 3)}:`,
+			...args
+		);
+	};
+}();
+
 keepassClient.nativeHostName = "de.kkapsner.keepassxc_mail";
 async function connect(){
 	const options = ["de.kkapsner.keepassxc_mail", "org.keepassxc.keepassxc_mail", "org.keepassxc.keepassxc_browser"];
 	for (let index = 0; index < options.length; index += 1){
 		keepassClient.nativeHostName = options[index];
-		console.log("Try native application", keepassClient.nativeHostName);
+		log("Try native application", keepassClient.nativeHostName);
 		if (await keepass.reconnect(null, 5000)){ // 5 second timeout for the first connect
 			return true;
 		}
@@ -64,7 +80,7 @@ async function loadKeyRing(){
 		}
 	}
 	if (lastLoadError){
-		console.log("Loaded key ring", loadCount, "times", lastLoadError);
+		log("Loaded key ring", loadCount, "times", lastLoadError);
 	}
 }
 
@@ -93,13 +109,13 @@ async function checkKeyRingStorage(){
 		let storedKeyRing = (await browser.storage.local.get({keyRing: {}})).keyRing;
 		while (!objectsEqual(keepass.keyRing, storedKeyRing)){
 			await wait(500);
-			console.log("Store key ring");
+			log("Store key ring");
 			try {
 				await browser.storage.local.set({keyRing: keepass.keyRing});
 				storedKeyRing = (await browser.storage.local.get({keyRing: {}})).keyRing;
 			}
 			catch (e){
-				console.log("storing key ring failed:", e);
+				log("storing key ring failed:", e);
 			}
 		}
 	}
@@ -119,14 +135,14 @@ const isKeepassReady = (() => {
 		checkKeyRingStorage();
 	}
 	let keepassReady = initialize();
-	keepassReady.catch((error) => console.log("Initialization failed:", error));
+	keepassReady.catch((error) => log("Initialization failed:", error));
 	return async function(){
 		try {
 			await keepassReady;
 		}
 		catch (error){
 			keepassReady = initialize();
-			keepassReady.catch((error) => console.log("Initialization failed:", error));
+			keepassReady.catch((error) => log("Initialization failed:", error));
 			await keepassReady;
 		}
 	};
@@ -159,7 +175,7 @@ async function openModal({path, message, defaultReturnValue}){
 		}
 		catch (error){
 			if (i + 1 >= tries){
-				console.log("sending message to modal failed", tries, "times. Last error:", error);
+				log("sending message to modal failed", tries, "times. Last error:", error);
 			}
 		}
 	}
@@ -189,7 +205,7 @@ async function choiceModal(host, login, entries){
 			) &&
 			entries.some(e => e.uuid === cached.uuid)
 		){
-			console.log("Use last selected entry for", cachedId);
+			log("Use last selected entry for", cachedId);
 			return cached.uuid;
 		}
 	}
@@ -228,7 +244,7 @@ async function choiceModal(host, login, entries){
 
 const lastRequest = {};
 browser.credentials.onCredentialRequested.addListener(async function(credentialInfo){
-	console.log("got credential request:", credentialInfo);
+	log("got credential request:", credentialInfo);
 	await isKeepassReady();
 	const presentIds = new Map();
 	let credentialsForHost = (await keepass.retrieveCredentials(false, [credentialInfo.host, credentialInfo.host]))
@@ -251,7 +267,7 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 			credential.skipAutoSubmit = credential.skipAutoSubmit === "true";
 			return credential;
 		});
-	console.log("keepassXC provided", credentialsForHost.length, "logins");
+	log("keepassXC provided", credentialsForHost.length, "logins");
 	let autoSubmit = (await browser.storage.local.get({autoSubmit: false})).autoSubmit;
 	if (autoSubmit){
 		const requestId = credentialInfo.login + "|" + credentialInfo.host;
@@ -317,7 +333,7 @@ browser.runtime.onMessage.addListener(function(message, tab){
 });
 
 browser.credentials.onNewCredential.addListener(async function(credentialInfo){
-	console.log("Got new password for", credentialInfo.login, "at", credentialInfo.host);
+	log("Got new password for", credentialInfo.login, "at", credentialInfo.host);
 	const {saveNewCredentials, autoSaveNewCredentials} = (await browser.storage.local.get({
 		saveNewCredentials: true,
 		autoSaveNewCredentials: false
