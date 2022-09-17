@@ -29,7 +29,7 @@ const actions = {
 	reconnect: async function(){
 		const backgroundPage = browser.extension.getBackgroundPage();
 		await backgroundPage.disconnect();
-		await backgroundPage.connect();
+		await backgroundPage.connect(true);
 		await backgroundPage.keepass.associate();
 		await updateConnections();
 	},

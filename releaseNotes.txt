@@ -14,7 +14,7 @@ changes:
 
 fixes:
 
-	- 
+	- improve startup behaviour
 
 Version 1.1
 
