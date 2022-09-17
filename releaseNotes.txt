@@ -10,6 +10,7 @@ changes:
 	- own choice dialog respects auto submit
 	- use own choice dialog
 	- code cleanup
+	- also save new password if an entry with a different password is found in the database
 
 fixes:
 

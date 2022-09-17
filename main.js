@@ -326,8 +326,12 @@ browser.credentials.onNewCredential.addListener(async function(credentialInfo){
 		await isKeepassReady();
 		if (!(await keepass.retrieveCredentials(false, [credentialInfo.host, credentialInfo.host]))
 			.some(function(credential){
-				return credentialInfo.login === true || (
-					credential.login.toLowerCase?.() === credentialInfo.login.toLowerCase?.()
+				return (
+					(
+						credentialInfo.login === true ||
+						credential.login.toLowerCase?.() === credentialInfo.login.toLowerCase?.()
+					) &&
+					credential.password === credentialInfo.password
 				);
 			})
 		){
