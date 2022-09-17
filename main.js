@@ -264,6 +264,7 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 	
 	if (
 		credentialInfo.openChoiceDialog &&
+		credentialsForHost.length &&
 		(
 			!autoSubmit ||
 			credentialsForHost.length > 1 ||
