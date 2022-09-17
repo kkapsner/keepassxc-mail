@@ -1,12 +1,12 @@
-/* globals getMessage, resizeToContent */
+/* globals getMessage, resizeToContent, initModal */
 "use strict";
 
 function fillText(message){
 	document.querySelector("title").textContent = getMessage("modal.savingPassword.title", message);
 	document.querySelector(".question").textContent = getMessage(
 		message.login && message.login !== true?
-		"modal.savingPassword.questionWithLogin":
-		"modal.savingPassword.questionWithoutLogin",
+			"modal.savingPassword.questionWithLogin":
+			"modal.savingPassword.questionWithoutLogin",
 		message
 	);
 	document.getElementById("yes").textContent = browser.i18n.getMessage("modal.savingPassword.yes");

@@ -1,4 +1,4 @@
-/* globals getMessage, resizeToContent*/
+/* globals getMessage, resizeToContent, initModal*/
 "use strict";
 
 function fillText(message){
