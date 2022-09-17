@@ -160,12 +160,12 @@
 		"description": "Select correct entry for {host}"
 	},
 	"modal.choice.textWithLogin": {
-		"message": "Multiple entries were found for {login} on {host}. Please select the correct one.",
-		"description": "Multiple entries were found for {login} on {host}. Please select the correct one."
+		"message": "Please select the correct entry for {login} on {host}.",
+		"description": "Please select the correct entry for {login} on {host}."
 	},
 	"modal.choice.textWithoutLogin": {
-		"message": "Multiple entries were found for {host}. Please select the correct one.",
-		"description": "Multiple entries were found for {host}. Please select the correct one."
+		"message": "Please select the correct entry for {host}.",
+		"description": "Please select the correct entry for {host}."
 	},
 	"modal.choice.doNotAskAgain": {
 		"message": "Do not ask again.",
