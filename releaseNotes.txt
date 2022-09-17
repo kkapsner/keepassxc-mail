@@ -9,6 +9,7 @@ changes:
 
 	- own choice dialog respects auto submit
 	- use own choice dialog
+	- code cleanup
 
 fixes:
 
