@@ -361,7 +361,7 @@ browser.credentials.onNewCredential.addListener(async function(credentialInfo){
 			.some(function(credential){
 				return (
 					(
-						credentialInfo.login === true ||
+						true === credentialInfo.login ||
 						credential.login.toLowerCase?.() === credentialInfo.login.toLowerCase?.()
 					) &&
 					credential.password === credentialInfo.password
@@ -372,6 +372,7 @@ browser.credentials.onNewCredential.addListener(async function(credentialInfo){
 				autoSaveNewCredentials ||
 				await savingPasswordModal(credentialInfo.host, credentialInfo.login)
 			){
+				log("Saving password to database for", credentialInfo.login, "at", credentialInfo.host);
 				const group = await keepass.createNewGroup(null, ["KeePassXC-Mail Passwords"]);
 				keepass.addCredentials(null,
 					[credentialInfo.login, credentialInfo.password, credentialInfo.host, group.name, group.uuid]
