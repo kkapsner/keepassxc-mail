@@ -160,11 +160,11 @@
 		"description": "Select correct entry for {host}"
 	},
 	"modal.choice.textWithLogin": {
-		"message": "Please select the correct entry for {login} on {host}.",
+		"message": "Bitte wählen Sie den korrekten Eintrag für {login} auf {host} aus.",
 		"description": "Please select the correct entry for {login} on {host}."
 	},
 	"modal.choice.textWithoutLogin": {
-		"message": "Please select the correct entry for {host}.",
+		"message": "Bitte wählen Sie den korrekten Eintrag für {host} aus.",
 		"description": "Please select the correct entry for {host}."
 	},
 	"modal.choice.doNotAskAgain": {
