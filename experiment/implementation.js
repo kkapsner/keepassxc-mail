@@ -226,12 +226,12 @@ const getCredentialInfoFromStrings = function(){
 		masterType.noLoginRequired = true;
 	});
 	
-	const pgpL10n = new Localization(["messenger/openpgp/keyWizard.ftl"], true);
-	if (pgpL10n){
+	const pgpI10n = new Localization(["messenger/openpgp/keyWizard.ftl"], true);
+	if (pgpI10n){
 		const openPGPType = addDialogType({
 			protocol: "openpgp",
-			title:  pgpL10n.formatValueSync("openpgp-passphrase-prompt-title"),
-			dialog: pgpL10n.formatValueSync("openpgp-passphrase-prompt", {key: "%1$S, %2$S, %3$S"}),
+			title:  pgpI10n.formatValueSync("openpgp-passphrase-prompt-title"),
+			dialog: pgpI10n.formatValueSync("openpgp-passphrase-prompt", {key: "%1$S, %2$S, %3$S"}),
 			hostPlaceholder: "%1$S",
 			// loginPlaceholder: "%2$S",
 			otherPlaceholders: ["%2$S", "%3$S"]
