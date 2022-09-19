@@ -392,6 +392,14 @@ try {
 			passwordObjectIndex: 5,
 		},
 		{
+			name: "promptUsernameAndPassword",
+			promptType: "promptUserAndPass",
+			titleIndex: 0,
+			textIndex: 1,
+			realmIndex: 2,
+			passwordObjectIndex: 5,
+		},
+		{
 			name: "promptPassword",
 			promptType: "promptPassword",
 			titleIndex: 0,
@@ -400,13 +408,29 @@ try {
 			passwordObjectIndex: 4,
 		},
 		{
-			name: "promptUsernameAndPassword",
-			promptType: "promptUserAndPass",
+			name: "promptPassword2",
+			promptType: "promptPassword",
 			titleIndex: 0,
 			textIndex: 1,
-			realmIndex: 2,
-			passwordObjectIndex: 5,
-		}
+			passwordObjectIndex: 2,
+		},
+		{
+			name: "promptAuth",
+			promptType: "promptUserAndPass",
+			dataFunction: function(args){
+				return {
+					host: `${args[0].URI.scheme}://${args[0].URI.host}`,
+					login: args[2].username,
+				};
+			},
+			// channelIndex: 0,
+			// authInfoIndex: 2,
+			setCredentials: function(args, username, password){
+				args[2].username = username;
+				args[2].password = password;
+			},
+			// passwordObjectIndex: 2,
+		},
 	];
 	initPromptFunctions(promptFunctions, MsgAuthPrompt.prototype);
 	registerPromptFunctions(promptFunctions);
