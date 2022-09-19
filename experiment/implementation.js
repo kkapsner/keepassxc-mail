@@ -358,7 +358,7 @@ function initPromptFunction(promptFunction, object){
 				});
 				if (credentials.length === 1){
 					if (promptFunction.setCredentials){
-						promptFunction.setCredentials(args, data.login, credentials[0].password);
+						promptFunction.setCredentials(args, credentials[0].login, credentials[0].password);
 					}
 					else {
 						args[promptFunction.passwordObjectIndex].value = credentials[0].password;
