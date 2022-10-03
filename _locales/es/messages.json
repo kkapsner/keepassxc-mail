@@ -100,11 +100,11 @@
 		"description": "Database connections"
 	},
 	"options.clearSelectedEntries": {
-		"message": "Clear storage of selected entries",
+		"message": "Limpiar espacio de las entradas seleccionadas",
 		"description": "Clear storage of selected entries"
 	},
 	"options.clearingSelectedEntries": {
-		"message": "Clearing storage of selected entries...",
+		"message": "Limpiando el espacio de las entradas seleccionadas...",
 		"description": "Clearing storage of selected entries..."
 	},
 	"options.reconnect": {
@@ -112,7 +112,7 @@
 		"description": "Reconnect to Native Messaging"
 	},
 	"options.reconnecting": {
-		"message": "Reconnecting to Native Messaging...",
+		"message": "Volviendo a conectar a la Mensajería Nativa...",
 		"description": "Reconnecting to Native Messaging..."
 	},
 	"options.associate": {
@@ -120,7 +120,7 @@
 		"description": "Connect to KeePassXC"
 	},
 	"options.associating": {
-		"message": "Connecting to KeePassXC...",
+		"message": "Conectando a KeePassXC...",
 		"description": "Connecting to KeePassXC..."
 	},
 	"options.autoSubmit.label": {
@@ -156,27 +156,27 @@
 		"description": "No"
 	},
 	"modal.choice.title": {
-		"message": "Select correct entry for {host}",
+		"message": "Seleccione la entrada correcta para {host}",
 		"description": "Select correct entry for {host}"
 	},
 	"modal.choice.textWithLogin": {
-		"message": "Please select the correct entry for {login} on {host}.",
+		"message": "Por favor, seleccione la entrada correcta para {login} en {host}.",
 		"description": "Please select the correct entry for {login} on {host}."
 	},
 	"modal.choice.textWithoutLogin": {
-		"message": "Please select the correct entry for {host}.",
+		"message": "Por favor, seleccione la entrada correcta para {host}.",
 		"description": "Please select the correct entry for {host}."
 	},
 	"modal.choice.doNotAskAgain": {
-		"message": "Do not ask again.",
+		"message": "No preguntar de nuevo.",
 		"description": "Do not ask again."
 	},
 	"modal.choice.ok": {
-		"message": "OK",
+		"message": "Ok",
 		"description": "OK"
 	},
 	"modal.choice.cancel": {
-		"message": "Cancel",
+		"message": "Cancelar",
 		"description": "Cancel"
 	}
 }
