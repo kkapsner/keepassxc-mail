@@ -2,7 +2,7 @@ Version 1.3
 
 new features:
 
-	- 
+	- bump version support to 107.0
 
 changes:
 
