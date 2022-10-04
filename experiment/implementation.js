@@ -33,7 +33,7 @@ const getCredentialInfoFromStrings = function(){
 		}
 		catch(e){
 			console.log("KeePassXC-Mail: unable to get", stringName, "from bundle", bundleName);
-			return stringName;
+			return {bundleName, stringName, replace: ()=>{}, notFound: true};
 		}
 	}
 	function getDialogType({
@@ -56,6 +56,7 @@ const getCredentialInfoFromStrings = function(){
 		const dialogRegExp = new RegExp(dialogRegExpString);
 		
 		return {
+			useable: !title.notFound && !dialog.notFound,
 			protocol,
 			title: titleRegExp?
 				new RegExp(title.replace(/([\\+*?[^\]$(){}=!|.])/g, "\\$1").replace(/%(?:\d+\\\$)?S/, ".+")):
@@ -68,7 +69,12 @@ const getCredentialInfoFromStrings = function(){
 	}
 	function addDialogType(data){
 		const dialogType = getDialogType(data);
-		dialogTypes.push(dialogType);
+		if (dialogType.useable){
+			dialogTypes.push(dialogType);
+		}
+		else {
+			// console.log("Not useable dialog type:", data);
+		}
 		return dialogType;
 	}
 	
