@@ -32,7 +32,7 @@
 		"constructor-super": "warn",
 		"eqeqeq": "error",
 		"eslint-comments/no-use": ["error", {"allow": ["globals"]}],
-		"indent": ["error", "tab", {"SwitchCase": 1}],
+		"indent": ["error", "tab", {"SwitchCase": 1, "outerIIFEBody": false}],
 		"max-depth": ["warn", 4],
 		"max-len": ["warn", {"code": 120, "tabWidth": 4}],
 		"max-lines-per-function": ["warn", {"max": 80,"skipBlankLines": true, "skipComments": true}],

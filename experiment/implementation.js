@@ -1,6 +1,6 @@
 /* globals ChromeUtils, Components, XPCOMUtils, Localization*/
 "use strict";
-
+((exports) => {
 const { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
 const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
@@ -988,7 +988,7 @@ function getTranslation(name, variables){
 	});
 }
 
-this.credentials = class extends ExtensionCommon.ExtensionAPI {
+exports.credentials = class extends ExtensionCommon.ExtensionAPI {
 	getAPI(context) {
 		return {
 			credentials: {
@@ -1157,3 +1157,4 @@ function updateGUI(guiOperations, credentialInfo, credentialDetails){
 	
 	window.sizeToContent();
 }
+})(this);
