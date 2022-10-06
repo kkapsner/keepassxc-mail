@@ -9,9 +9,8 @@ XPCOMUtils.defineLazyGlobalGetters(this, ["Localization"]);
 const windowListeners = [];
 const setupFunctions = [];
 const passwordEmitter = new ExtensionCommon.EventEmitter();
-let currentPromptData = null;
 
-const getCredentialInfoFromStrings = function(){
+const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol} = function(){
 	const stringBundleService = Components.classes["@mozilla.org/intl/stringbundle;1"]
 		.getService(Components.interfaces.nsIStringBundleService);
 	
@@ -65,11 +64,33 @@ const getCredentialInfoFromStrings = function(){
 			dialogRegExp,
 			hostGroup: hostPosition === -1? false: loginPosition === -1 || loginPosition > hostPosition? 1: 2,
 			loginGroup: loginPosition === -1? false: hostPosition === -1 || hostPosition > loginPosition? 1: 2,
+			otherProtocolExists: false,
+			createTypeWithProtocolInTitle: function(){
+				const newTitle = title + ` (${protocol})`;
+				addDialogType({protocol, title: newTitle, titleRegExp, dialog, hostPlaceholder, loginPlaceholder, otherPlaceholders});
+				this.createTypeWithProtocolInTitle = () => {};
+			},
 		};
 	}
 	function addDialogType(data){
 		const dialogType = getDialogType(data);
 		if (dialogType.useable){
+			dialogTypes.some(function(otherDialogType){
+				if (
+					otherDialogType.protocol !== dialogType.protocol &&
+					otherDialogType.title.toString() === dialogType.title.toString() &&
+					otherDialogType.dialogRegExp.toString() === dialogType.dialogRegExp.toString()
+				){
+					if (!otherDialogType.otherProtocolExists){
+						otherDialogType.createTypeWithProtocolInTitle();
+					}
+					otherDialogType.otherProtocolExists = true;
+					dialogType.createTypeWithProtocolInTitle();
+					dialogType.otherProtocolExists = true;
+					return true;
+				}
+				return false;
+			});
 			dialogTypes.push(dialogType);
 		}
 		else {
@@ -245,14 +266,8 @@ const getCredentialInfoFromStrings = function(){
 		openPGPType.noLoginRequired = true;
 	}
 	
-	return function getCredentialInfoFromStrings(title, text, knownProtocol = false){
-		const matchingTypes = (
-			knownProtocol?
-				dialogTypes.filter(function(dialogType){
-					return dialogType.protocol === knownProtocol;
-				}):
-				dialogTypes
-		).filter(function(dialogType){
+	function getCredentialInfos(dialogTypes, title, text){
+		const credentialInfos = dialogTypes.filter(function(dialogType){
 			return dialogType.title === title || (dialogType.title.test && dialogType.title.test(title));
 		}).map(function(dialogType){
 			const ret = Object.create(dialogType);
@@ -260,9 +275,7 @@ const getCredentialInfoFromStrings = function(){
 			return ret;
 		}).filter(function(dialogType){
 			return dialogType.match;
-		});
-		if (matchingTypes.length){
-			const type = matchingTypes[0];
+		}).map(function(type){
 			const host = type.hostGroup?
 				(
 					(type.protocol? type.protocol + "://": "") +
@@ -271,9 +284,36 @@ const getCredentialInfoFromStrings = function(){
 			let login = type.loginGroup?
 				type.match[type.loginGroup]:
 				type.noLoginRequired || false;
-			return {host, login};
+			return {host, login, mayAddProtocol: type.otherProtocolExists};
+		}).filter(function(credentialInfo, index, credentialInfos){
+			for (let i = 0; i < index; i += 1){
+				if (
+					credentialInfos[i].host === credentialInfo.host ||
+					credentialInfos[i].login === credentialInfo.login
+				){
+					return false;
+				}
+			}
+			return true;
+		});
+		if (credentialInfos.length){
+			return credentialInfos[0];
 		}
 		return false;
+	}
+	
+	return {
+		getCredentialInfoFromStrings: function getCredentialInfoFromStrings(title, text){
+			return getCredentialInfos(dialogTypes.filter(function(dialogType){
+				return !dialogType.otherProtocolExists;
+			}), title, text);
+		},
+		getCredentialInfoFromStringsAndProtocol:
+		function getCredentialInfoFromStringsAndProtocol(title, text, knownProtocol){
+			return getCredentialInfos(dialogTypes.filter(function(dialogType){
+				return dialogType.protocol === knownProtocol;
+			}), title, text);
+		}
 	};
 }();
 
@@ -293,7 +333,7 @@ function registerPromptFunctions(promptFunctions){
 }
 
 function createPromptDataFunctions(promptFunction){
-	const promptDataFunctions = [() => currentPromptData];
+	const promptDataFunctions = [];
 	if (promptFunction.dataFunction){
 		promptDataFunctions.push(promptFunction.dataFunction);
 	}
@@ -310,12 +350,14 @@ function createPromptDataFunctions(promptFunction){
 				protocol = realmHost && Services.io.newURI(realmHost).scheme;
 			}
 			// realm data provides the correct protocol but may have wrong server name
-			const {host: stringHost, login: stringLogin} = getCredentialInfoFromStrings(
+			const {host: stringHost, login: stringLogin, mayAddProtocol} = getCredentialInfoFromStringsAndProtocol(
 				args[promptFunction.titleIndex],
 				args[promptFunction.textIndex],
 				protocol
 			);
 			return {
+				mayAddProtocol,
+				protocol,
 				host: stringHost || realmHost,
 				login: stringLogin || decodeURIComponent(realmLogin),
 				realm,
@@ -354,28 +396,32 @@ function initPromptFunction(promptFunction, object){
 			}
 			return data;
 		}, false);
-		if (data && currentPromptData !== data){
-			currentPromptData = data;
-			if (promptFunction.hasOwnProperty("passwordObjectIndex") || promptFunction.setCredentials){
-				const { credentials } = waitForCredentials({
-					host: data.host,
-					login: data.login,
-					loginChangeable: promptFunction.loginChangeable,
-				});
-				if (credentials.length === 1){
-					if (promptFunction.setCredentials){
-						promptFunction.setCredentials(args, credentials[0].login, credentials[0].password);
-					}
-					else {
-						args[promptFunction.passwordObjectIndex].value = credentials[0].password;
-					}
-					currentPromptData = null;
-					return true;
+		if (
+			data &&
+			(
+				promptFunction.hasOwnProperty("passwordObjectIndex") ||
+				promptFunction.setCredentials
+			)
+		){
+			const { credentials } = waitForCredentials({
+				host: data.host,
+				login: data.login,
+				loginChangeable: promptFunction.loginChangeable,
+			});
+			if (credentials.length === 1){
+				if (promptFunction.setCredentials){
+					promptFunction.setCredentials(args, credentials[0].login, credentials[0].password);
 				}
+				else {
+					args[promptFunction.passwordObjectIndex].value = credentials[0].password;
+				}
+				return true;
+			}
+			if (data.mayAddProtocol && promptFunction.hasOwnProperty("titleIndex")){
+				args[promptFunction.titleIndex] += ` (${data.protocol})`;
 			}
 		}
 		const ret = promptFunction.original.call(this, ...args);
-		currentPromptData = null;
 		return ret;
 	};
 }
@@ -559,7 +605,7 @@ function getCredentialInfo(window){
 		return false;
 	}
 	
-	const promptData = currentPromptData || getCredentialInfoFromStrings(window.args.title, window.args.text);
+	const promptData = getCredentialInfoFromStrings(window.args.title, window.args.text);
 	if (promptData){
 		const host = promptData.host;
 		let login = promptData.login;
