@@ -1,4 +1,6 @@
 /* globals ChromeUtils, Components, XPCOMUtils, Localization*/
+/* eslint eslint-comments/no-use: off */
+/* eslint {"indent": ["error", "tab", {"SwitchCase": 1, "outerIIFEBody": 0}]}*/
 "use strict";
 ((exports) => {
 const { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
@@ -67,7 +69,9 @@ const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol} = 
 			otherProtocolExists: false,
 			createTypeWithProtocolInTitle: function(){
 				const newTitle = title + ` (${protocol})`;
-				addDialogType({protocol, title: newTitle, titleRegExp, dialog, hostPlaceholder, loginPlaceholder, otherPlaceholders});
+				addDialogType({
+					protocol, title: newTitle, titleRegExp, dialog, hostPlaceholder, loginPlaceholder, otherPlaceholders
+				});
 				this.createTypeWithProtocolInTitle = () => {};
 			},
 		};
