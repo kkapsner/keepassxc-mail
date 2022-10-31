@@ -1,10 +1,16 @@
 "use strict";
 
-function resizeToContent(){
-	browser.runtime.sendMessage({
+const windowLoad = new Promise(function(resolve){
+	window.addEventListener("load", resolve);
+});
+
+async function resizeToContent(){
+	await windowLoad;
+	const sizingNode = document.querySelector("body");
+	await browser.runtime.sendMessage({
 		action: "resize",
-		width: document.querySelector(".content").clientWidth + 30,
-		height: document.querySelector(".content").clientHeight + 30
+		width: sizingNode.clientWidth + 10 + window.outerWidth - window.innerWidth,
+		height: sizingNode.clientHeight + 10 + window.outerHeight - window.innerHeight
 	});
 }
 
@@ -28,7 +34,6 @@ function getMessage(name, replacements){
 }
 
 function initModal(){
-	window.addEventListener("load", resizeToContent);
 	window.addEventListener("keyup", function(event){
 		if (event.key === "Escape"){
 			window.close();

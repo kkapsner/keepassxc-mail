@@ -1,0 +1,20 @@
+html {
+	margin: 0;
+	padding: 0;
+}
+body {
+	font-size: 11pt;
+	margin: 0;
+	padding: 10px;
+}
+
+.content {
+	display: grid;
+	grid-template-columns: max-content auto;
+}
+
+.icon {
+	grid-column: 1 / span 1;
+	grid-row: 1 / span 2;
+	align-self: center;
+}

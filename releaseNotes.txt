@@ -11,7 +11,7 @@ changes:
 
 fixes:
 
-	- 
+	- modal dialog size
 
 Version 1.3
 
