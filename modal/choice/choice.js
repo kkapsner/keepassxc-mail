@@ -12,7 +12,6 @@ function fillText(message){
 	document.querySelector(".doNotAskAgainText").textContent = browser.i18n.getMessage("modal.choice.doNotAskAgain");
 	document.getElementById("ok").textContent = browser.i18n.getMessage("modal.choice.ok");
 	document.getElementById("cancel").textContent = browser.i18n.getMessage("modal.choice.cancel");
-	resizeToContent();
 }
 
 function fillSelect(message, sendAnswer){
@@ -32,33 +31,29 @@ function fillSelect(message, sendAnswer){
 	});
 }
 
-browser.runtime.onMessage.addListener(function(message){
-	if (message.type === "start"){
-		return new Promise(function(resolve){
-			function sendAnswer(){
-				resolve({
-					selectedUuid: document.getElementById("entries").value,
-					doNotAskAgain: document.getElementById("doNotAskAgain").checked
-				});
-				window.close();
-			}
-			fillText(message);
-			fillSelect(message, sendAnswer);
-			document.querySelectorAll("button").forEach(function(button){
-				button.disabled = false;
-				button.addEventListener("click", function(){
-					if (button.id === "ok"){
-						sendAnswer();
-					}
-					else {
-						resolve({selectedUuid: undefined, doNotAskAgain: false});
-						window.close();
-					}
-				});
+initModal({messageCallback: function(message){
+	return new Promise(function(resolve){
+		function sendAnswer(){
+			resolve({
+				selectedUuid: document.getElementById("entries").value,
+				doNotAskAgain: document.getElementById("doNotAskAgain").checked
+			});
+			window.close();
+		}
+		fillText(message);
+		fillSelect(message, sendAnswer);
+		document.querySelectorAll("button").forEach(function(button){
+			button.disabled = false;
+			button.addEventListener("click", function(){
+				if (button.id === "ok"){
+					sendAnswer();
+				}
+				else {
+					resolve({selectedUuid: undefined, doNotAskAgain: false});
+					window.close();
+				}
 			});
 		});
-	}
-	return false;
-});
-
-initModal();
+		resizeToContent();
+	});
+}});

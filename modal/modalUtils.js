@@ -33,7 +33,17 @@ function getMessage(name, replacements){
 	});
 }
 
-function initModal(){
+function initModal({messageCallback}){
+	const port = browser.runtime.connect();
+	port.onMessage.addListener(async function(message){
+		if (message.type === "start"){
+			const value = await messageCallback(message.message);
+			port.postMessage({
+				type: "response",
+				value
+			});
+		}
+	});
 	window.addEventListener("keyup", function(event){
 		if (event.key === "Escape"){
 			window.close();

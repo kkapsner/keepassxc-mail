@@ -174,7 +174,76 @@ const isKeepassReady = (() => {
 	browser.credentials.setTranslation(stringName, browser.i18n.getMessage(stringName));
 });
 
+const waitPortPort = (function(){
+	const ports = new Map();
+	const queue = new Map();
+	function addQueue(tabId, callback){
+		const queueEntry = (queue.get(tabId) || []);
+		queueEntry.push(callback);
+		queue.set(tabId, queueEntry);
+	}
+	function removeQueue(tabId, callback){
+		const remaining = (queue.get(tabId) || []).filter(c => c !== callback);
+		if (remaining.length){
+			queue.set(tabId, remaining);
+		}
+		else {
+			queue.delete(tabId);
+		}
+	}
+	browser.runtime.onConnect.addListener(function(port){
+		const tabId = port.sender.tab.id;
+		ports.set(tabId, port);
+		if(queue.has(tabId)){
+			queue.get(tabId).forEach(function(callback){
+				callback(port);
+			});
+			queue.delete(tabId);
+		}
+		port.onDisconnect.addListener(function(){
+			ports.delete(tabId);
+		});
+	});
+	return async function waitPortPort(tabId, timeout = 1500){
+		return new Promise(function(resolve, reject){
+			if (ports.has(tabId)){
+				resolve(ports.get(tabId));
+				return;
+			}
+			addQueue(tabId, resolve);
+			const timeoutId = window.setTimeout(function(){
+				removeQueue(tabId, resolve);
+				removeQueue(tabId, cancelTimeout);
+				reject("Timeout");
+			}, timeout);
+			function cancelTimeout(){
+				window.clearTimeout(timeoutId);
+			}
+			addQueue(tabId, cancelTimeout);
+		});
+	};
+}());
+
 async function openModal({path, message, defaultReturnValue}){
+	function getPortResponse(port){
+		return new Promise(function(resolve){
+			function resolveDefault(){
+				resolve(defaultReturnValue);
+			}
+			
+			port.onDisconnect.addListener(resolveDefault);
+			port.onMessage.addListener(function(data){
+				if (data.type === "response"){
+					resolve(data.value);
+					port.onDisconnect.removeListener(resolveDefault);
+				}
+			});
+			port.postMessage({
+				type: "start",
+				message
+			});
+		});
+	}
 	const window = await browser.windows.create({
 		url: browser.runtime.getURL(path),
 		allowScriptsToClose: true,
@@ -182,21 +251,13 @@ async function openModal({path, message, defaultReturnValue}){
 		width: 600,
 		type: "detached_panel"
 	});
-	
-	const tries = 10;
-	for (let i = 0; i < tries; i += 1){
-		// wait a little bit for the modal dialog to load
-		await new Promise(function(resolve){setTimeout(resolve, 50);});
-		try{
-			return await browser.tabs.sendMessage(window.tabs[0].id, message);
-		}
-		catch (error){
-			if (i + 1 >= tries){
-				log("sending message to modal failed", tries, "times. Last error:", error);
-			}
-		}
+	try {
+		const port = await waitPortPort(window.tabs[0].id);
+		return getPortResponse(port);
 	}
-	return defaultReturnValue;
+	catch (error){
+		return defaultReturnValue;
+	}
 }
 
 const selectedEntries = new Map();
@@ -229,7 +290,6 @@ async function choiceModal(host, login, entries){
 	const {selectedUuid, doNotAskAgain} = await openModal({
 		path: "modal/choice/index.html",
 		message: {
-			type: "start",
 			host,
 			login,
 			entries
@@ -332,7 +392,6 @@ async function savingPasswordModal(host, login){
 	return openModal({
 		path: "modal/savingPassword/index.html",
 		message: {
-			type: "start",
 			host,
 			login
 		},

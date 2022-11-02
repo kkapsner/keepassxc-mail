@@ -13,25 +13,20 @@ function fillText(message){
 	document.getElementById("no").textContent = browser.i18n.getMessage("modal.savingPassword.no");
 	resizeToContent();
 }
-browser.runtime.onMessage.addListener(function(message){
-	if (message.type === "start"){
-		fillText(message);
-		return new Promise(function(resolve){
-			document.querySelectorAll("button").forEach(function(button){
-				button.disabled = false;
-				button.addEventListener("click", function(){
-					if (button.id === "yes"){
-						resolve(true);
-					}
-					else {
-						resolve(false);
-					}
-					window.close();
-				});
+initModal({messageCallback: function(message){
+	fillText(message);
+	return new Promise(function(resolve){
+		document.querySelectorAll("button").forEach(function(button){
+			button.disabled = false;
+			button.addEventListener("click", function(){
+				if (button.id === "yes"){
+					resolve(true);
+				}
+				else {
+					resolve(false);
+				}
+				window.close();
 			});
 		});
-	}
-	return false;
-});
-
-initModal();
+	});
+}});
