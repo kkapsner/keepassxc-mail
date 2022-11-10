@@ -892,14 +892,17 @@ try {
 		}
 		return originalRefreshTokenDescriptor.get.call(this);
 	};
-	// alteredRefreshTokenDescriptor.set = function(refreshToken){
-	// 	passwordEmitter.emit("password", {
-	// 		login: this._username,
-	// 		password: refreshToken,
-	// 		host: this._loginOrigin
-	// 	});
-	// 	return originalRefreshTokenDescriptor.set.call(this, refreshToken);
-	// };
+	alteredRefreshTokenDescriptor.set = function(refreshToken){
+		let stored = waitForPasswordStore({
+			login: this._username,
+			password: refreshToken,
+			host: this._loginOrigin,
+		});
+		if (!stored){
+			return originalRefreshTokenDescriptor.set.call(this, refreshToken);
+		}
+		return refreshToken;
+	};
 	setupFunctions.push({
 		setup: function(){
 			Object.defineProperty(OAuth2Module.prototype, "refreshToken", alteredRefreshTokenDescriptor);
