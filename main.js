@@ -174,7 +174,7 @@ const isKeepassReady = (() => {
 	browser.credentials.setTranslation(stringName, browser.i18n.getMessage(stringName));
 });
 
-const waitPortPort = (function(){
+const waitForPort = (function(){
 	const ports = new Map();
 	const queue = new Map();
 	function addQueue(tabId, callback){
@@ -204,7 +204,7 @@ const waitPortPort = (function(){
 			ports.delete(tabId);
 		});
 	});
-	return async function waitPortPort(tabId, timeout = 1500){
+	return async function waitForPort(tabId, timeout = 1500){
 		return new Promise(function(resolve, reject){
 			if (ports.has(tabId)){
 				resolve(ports.get(tabId));
@@ -252,7 +252,7 @@ async function openModal({path, message, defaultReturnValue}){
 		type: "detached_panel"
 	});
 	try {
-		const port = await waitPortPort(window.tabs[0].id);
+		const port = await waitForPort(window.tabs[0].id);
 		return getPortResponse(port);
 	}
 	catch (error){
