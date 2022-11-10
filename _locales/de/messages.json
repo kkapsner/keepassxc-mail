@@ -148,7 +148,7 @@
 		"description": "Do you want to save the entered password for {host} to the KeePass database?"
 	},
 	"modal.savingPassword.newEntry": {
-		"message": " - create new entry - ",
+		"message": " - neuen Eintrag erstellen - ",
 		"description": " - create new entry - "
 	},
 	"modal.savingPassword.yes": {
