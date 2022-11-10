@@ -1008,13 +1008,12 @@ async function requestCredentials(credentialInfo){
 	}, {autoSubmit: true, credentials: []});
 }
 
-function waitForCredentials(data){
+function waitForPromise(promise, defaultValue){
 	let finished = false;
-	let returnValue = false;
-	data.openChoiceDialog = true;
-	requestCredentials(data).then(function(credentialDetails){
+	let returnValue = defaultValue;
+	promise.then(function(value){
 		finished = true;
-		returnValue = credentialDetails;
+		returnValue = value;
 		return returnValue;
 	}).catch(function(){
 		finished = true;
@@ -1024,12 +1023,17 @@ function waitForCredentials(data){
 		Services.tm.spinEventLoopUntilOrShutdown(() => finished);
 	}
 	else if (Services.tm.spinEventLoopUntilOrQuit){
-		Services.tm.spinEventLoopUntilOrQuit("keepassxc-mail:waitForCredentials", () => finished);
+		Services.tm.spinEventLoopUntilOrQuit("keepassxc-mail:waitForPromise", () => finished);
 	}
 	else {
-		console.error("Unable to wait for credentials!");
+		console.error("Unable to wait for promise!");
 	}
 	return returnValue;
+}
+
+function waitForCredentials(data){
+	data.openChoiceDialog = true;
+	return waitForPromise(requestCredentials(data), false);
 }
 
 const translations = {};
