@@ -388,12 +388,13 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 	};
 });
 
-async function savingPasswordModal(host, login){
+async function savingPasswordModal(host, login, entries){
 	return openModal({
 		path: "modal/savingPassword/index.html",
 		message: {
 			host,
-			login
+			login,
+			entries,
 		},
 		defaultReturnValue: false
 	});
@@ -416,25 +417,42 @@ browser.credentials.onNewCredential.addListener(async function(credentialInfo){
 	}));
 	if (saveNewCredentials){
 		await isKeepassReady();
-		if (!(await keepass.retrieveCredentials(false, [credentialInfo.host, credentialInfo.host]))
-			.some(function(credential){
-				return (
-					(
-						true === credentialInfo.login ||
-						credential.login.toLowerCase?.() === credentialInfo.login.toLowerCase?.()
-					) &&
-					credential.password === credentialInfo.password
+		const existingCredentials = (await keepass.retrieveCredentials(
+			false,
+			[credentialInfo.host, credentialInfo.host]
+		)).filter(function (credential){
+			return (
+				true === credentialInfo.login ||
+				credential.login.toLowerCase?.() === credentialInfo.login.toLowerCase?.()
+			);
+		});
+		if (!existingCredentials.some(function(credential){
+			return credential.password === credentialInfo.password;
+		})){
+			const cachedId = credentialInfo.login?
+				`${credentialInfo.login}@${credentialInfo.host}`:
+				credentialInfo.host;
+			const cached = selectedEntries.get(cachedId) || null;
+			const {save, uuid} = autoSaveNewCredentials?
+				{save: true, uuid: cached?.uuid || null}:
+				await savingPasswordModal(
+					credentialInfo.host,
+					credentialInfo.login,
+					existingCredentials.map(function (data){
+						return {
+							name: data.name,
+							login: data.login,
+							uuid: data.uuid,
+							preselected: data.uuid === cached?.uuid
+						};
+					})
 				);
-			})
-		){
-			if (
-				autoSaveNewCredentials ||
-				await savingPasswordModal(credentialInfo.host, credentialInfo.login)
-			){
+			if (save){
 				log("Saving password to database for", credentialInfo.login, "at", credentialInfo.host);
+				log("Using uuid:", uuid);
 				const group = await keepass.createNewGroup(null, ["KeePassXC-Mail Passwords"]);
-				keepass.addCredentials(null,
-					[credentialInfo.login, credentialInfo.password, credentialInfo.host, group.name, group.uuid]
+				keepass.updateCredentials(null,
+					[uuid, credentialInfo.login, credentialInfo.password, credentialInfo.host, group.name, group.uuid]
 				);
 				return true;
 			}

@@ -9,21 +9,36 @@ function fillText(message){
 			"modal.savingPassword.questionWithoutLogin",
 		message
 	);
+	document.getElementById("createNewEntry").textContent = browser.i18n.getMessage("modal.savingPassword.newEntry");
 	document.getElementById("yes").textContent = browser.i18n.getMessage("modal.savingPassword.yes");
 	document.getElementById("no").textContent = browser.i18n.getMessage("modal.savingPassword.no");
 	resizeToContent();
 }
+function fillSelect(message){
+	if (!message.entries?.length){
+		return;
+	}
+	const select = document.getElementById("entries");
+	select.classList.remove("hidden");
+	message.entries.forEach(function(entry){
+		const option = new Option(getMessage("entryLabel", entry), entry.uuid);
+		select.appendChild(option);
+		option.selected = entry.preselected;
+	});
+}
+
 initModal({messageCallback: function(message){
 	fillText(message);
+	fillSelect(message);
 	return new Promise(function(resolve){
 		document.querySelectorAll("button").forEach(function(button){
 			button.disabled = false;
 			button.addEventListener("click", function(){
 				if (button.id === "yes"){
-					resolve(true);
+					resolve({save: true, uuid: document.getElementById("entries").value || null});
 				}
 				else {
-					resolve(false);
+					resolve({save: false, uuid: null});
 				}
 				window.close();
 			});

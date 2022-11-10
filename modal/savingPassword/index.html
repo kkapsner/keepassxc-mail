@@ -13,7 +13,10 @@
 	<body>
 		<div class="content">
 			<img class="icon" width="50" height="50" src="../../icons/icon.svg">
-			<div class="question">Do you want to save the entered password for {login} on {host}?</div>
+			<div class="question right">Do you want to save the entered password for {login} on {host}?</div>
+			<select class="right hidden" id="entries">
+				<option value="" id="createNewEntry"> - create new entry - </option>
+			</select>
 			<div class="buttons">
 				<button disabled="disabled" autofocus="autofocus" id="yes">Yes</button>
 				<button disabled="disabled" id="no">No</button>

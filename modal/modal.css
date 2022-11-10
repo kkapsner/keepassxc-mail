@@ -18,3 +18,10 @@ body {
 	grid-row: 1 / span 2;
 	align-self: center;
 }
+.right {
+	grid-column: 2;
+}
+
+.hidden {
+	display: none;
+}
