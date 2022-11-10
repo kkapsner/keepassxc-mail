@@ -1036,6 +1036,12 @@ function waitForCredentials(data){
 	return waitForPromise(requestCredentials(data), false);
 }
 
+function waitForPasswordStore(data){
+	return waitForPromise(passwordEmitter.emit("password", data), []).reduce(function(alreadyStored, stored){
+		return alreadyStored || stored;
+	}, false);
+}
+
 const translations = {};
 function getTranslation(name, variables){
 	const translation = translations[name.toLowerCase()] || name;
