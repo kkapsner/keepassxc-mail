@@ -147,6 +147,10 @@
 		"message": "¿Desea guardar la contraseña introducida para {host} en la base de datos de KeePassXC?",
 		"description": "Do you want to save the entered password for {host} to the KeePass database?"
 	},
+	"modal.savingPassword.newEntry": {
+		"message": " - create new entry - ",
+		"description": " - create new entry - "
+	},
 	"modal.savingPassword.yes": {
 		"message": "Sí",
 		"description": "Yes"
