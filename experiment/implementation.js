@@ -674,7 +674,10 @@ windowListeners.push({
 
 
 function registerWindowListener(){
-	async function handleEvent(guiOperations, credentialInfo) {
+	async function handleEvent(guiOperations, credentialInfo){
+		if (guiOperations.doHandle && !(await guiOperations.doHandle())){
+			return;
+		}
 		buildDialogGui(guiOperations, credentialInfo);
 		const credentialDetails = await requestCredentials(credentialInfo);
 		updateGUI(guiOperations, credentialInfo, credentialDetails);
@@ -757,11 +760,15 @@ try {
 					Components.interfaces.nsIWebProgressListener,
 					Components.interfaces.nsISupportsWeakReference
 				]),
-				onStateChange: function(aWebProgress, aRequest, stateFlags, aStatus){
+				onStateChange: function(_webProgress, _request, stateFlags, _status){
 					if (!(stateFlags & STATE_STOP)) return;
-					
-					const form = requestFrame.contentDocument.forms[0];
-					if (!form) return;
+					if (!requestFrame.contentDocument){
+						resolveLoginForm(false);
+						return;
+					}
+					const forms = requestFrame.contentDocument.forms;
+					if (!forms || forms.length === 0) return;
+					const form = forms[0];
 					
 					if (form.Email){
 						resolveLoginForm(form);
@@ -778,6 +785,13 @@ try {
 				progressListener,
 				window,
 				guiParent: document.getElementById("browserRequest"),
+				doHandle: async function(){
+					const loginForm = await loginFormPromise;
+					if (loginForm){
+						return true;
+					}
+					return false;
+				},
 				submit: async function(){
 					const loginForm = await loginFormPromise;
 					loginForm.signIn.click();
