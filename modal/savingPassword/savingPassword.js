@@ -9,6 +9,7 @@ function fillText(message){
 			"modal.savingPassword.questionWithoutLogin",
 		message
 	);
+	document.querySelector(".doNotAskAgainText").textContent = browser.i18n.getMessage("modal.choice.doNotAskAgain");
 	document.getElementById("createNewEntry").textContent = browser.i18n.getMessage("modal.savingPassword.newEntry");
 	document.getElementById("yes").textContent = browser.i18n.getMessage("modal.savingPassword.yes");
 	document.getElementById("no").textContent = browser.i18n.getMessage("modal.savingPassword.no");
@@ -35,10 +36,18 @@ initModal({messageCallback: function(message){
 			button.disabled = false;
 			button.addEventListener("click", function(){
 				if (button.id === "yes"){
-					resolve({save: true, uuid: document.getElementById("entries").value || null});
+					resolve({
+						save: true,
+						uuid: document.getElementById("entries").value || null,
+						doNotAskAgain: document.getElementById("doNotAskAgain").checked
+					});
 				}
 				else {
-					resolve({save: false, uuid: null});
+					resolve({
+						save: false,
+						uuid: null,
+						doNotAskAgain: document.getElementById("doNotAskAgain").checked
+					});
 				}
 				window.close();
 			});

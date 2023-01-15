@@ -13,6 +13,7 @@ changes:
 	- improve modal dialog communication
 	- do not show credential picker on oauth window when password cannot be entered
 	- choice dialog: also respect "do not ask again" when cancel is clicked
+	- add "do not ask again" to saving password dialog
 
 fixes:
 

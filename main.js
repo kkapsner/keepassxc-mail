@@ -261,13 +261,21 @@ async function openModal({path, message, defaultReturnValue}){
 }
 
 const selectedEntries = new Map();
+const storeAtEntries = new Map();
 async function clearSelectedEntries(){
 	selectedEntries.clear();
-	await browser.storage.local.set({selectedEntries: []});
+	storeAtEntries.clear();
+	await browser.storage.local.set({selectedEntries: [], storeAtEntries: []});
 }
-browser.storage.local.get({selectedEntries: []}).then(function({selectedEntries: selectedEntriesStorage}){
+browser.storage.local.get({selectedEntries: [], storeAtEntries: []}).then(function({
+	selectedEntries: selectedEntriesStorage,
+	storeAtEntries: storeAtEntriesStorage
+}){
 	selectedEntriesStorage.forEach(function(selectedEntry){
 		selectedEntries.set(selectedEntry.host, {doNotAskAgain: true, uuid: selectedEntry.uuid});
+	});
+	storeAtEntriesStorage.forEach(function(storeAtEntry){
+		storeAtEntries.set(storeAtEntry.host, {doNotAskAgain: true, save: storeAtEntry.save, uuid: storeAtEntry.uuid});
 	});
 	return undefined;
 }).catch(()=>{});
@@ -392,15 +400,47 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 });
 
 async function savingPasswordModal(host, login, entries){
-	return openModal({
+	const storeId = login? `${login}@${host}`: host;
+	if (storeAtEntries.has(storeId)){
+		const stored = storeAtEntries.get(storeId);
+		if (
+			!stored.save ||
+			entries.some(e => e.uuid === stored.uuid)
+		){
+			log("Use last store at entry for", storeId);
+			return stored;
+		}
+	}
+	const {save, uuid, doNotAskAgain} = await openModal({
 		path: "modal/savingPassword/index.html",
 		message: {
 			host,
 			login,
 			entries,
 		},
-		defaultReturnValue: false
+		defaultReturnValue: {save: false, uuid: undefined, doNotAskAgain: false}
 	});
+	if (doNotAskAgain){
+		storeAtEntries.set(storeId, {save, uuid, doNotAskAgain});
+		
+		browser.storage.local.get({storeAtEntries: []}).then(async function({storeAtEntries}){
+			let found = false;
+			for (let i = 0; i < storeAtEntries.length; i += 1){
+				if (storeAtEntries[i].host === storeId){
+					storeAtEntries[i].save = save;
+					storeAtEntries[i].uuid = uuid;
+					found = true;
+				}
+			}
+			if (!found){
+				storeAtEntries.push({host: storeId, uuid, save});
+			}
+			await browser.storage.local.set({storeAtEntries});
+			return undefined;
+		}).catch(error => console.error(error));
+	}
+	
+	return {save, uuid, doNotAskAgain};
 }
 
 browser.runtime.onMessage.addListener(function(message, tab){
