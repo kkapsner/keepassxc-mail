@@ -876,9 +876,30 @@ catch (error){
 
 try {
 	const { OAuth2Module } = ChromeUtils.import("resource:///modules/OAuth2Module.jsm");
+	const { clearTimeout, setTimeout } = ChromeUtils.import("resource://gre/modules/Timer.jsm");
 	const originalRefreshTokenDescriptor = Object.getOwnPropertyDescriptor(OAuth2Module.prototype, "refreshToken");
 	const alteredRefreshTokenDescriptor = Object.create(originalRefreshTokenDescriptor);
+	const temporaryCache = new Map();
+	const getKey = function getKey(oAuth2Module){
+		return oAuth2Module._username + "|" + oAuth2Module._loginOrigin;
+	};
+	const setCache = function setCache(key, value, timeout = 2000){
+		if (temporaryCache.has(key)){
+			clearTimeout(temporaryCache.get(key).timeout);
+		}
+		temporaryCache.set(key, {
+			value,
+			timeout: setTimeout(function(){
+				temporaryCache.delete(key);
+			}, timeout)
+		});
+	};
 	alteredRefreshTokenDescriptor.get = function(){
+		const key = getKey(this);
+		const cached = temporaryCache.get(key);
+		if (cached){
+			return cached.value;
+		}
 		const credentials = waitForCredentials({
 			login: this._username,
 			host: this._loginOrigin
@@ -888,11 +909,16 @@ try {
 			credentials.credentials.length &&
 			(typeof credentials.credentials[0].password) === "string"
 		){
+			setCache(key, credentials.credentials[0].password);
 			return credentials.credentials[0].password;
 		}
 		return originalRefreshTokenDescriptor.get.call(this);
 	};
 	alteredRefreshTokenDescriptor.set = function(refreshToken){
+		if (refreshToken === alteredRefreshTokenDescriptor.get.call(this)){
+			return refreshToken;
+		}
+		setCache(getKey(this), refreshToken, 5000);
 		let stored = waitForPasswordStore({
 			login: this._username,
 			password: refreshToken,
