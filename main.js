@@ -491,12 +491,14 @@ browser.credentials.onNewCredential.addListener(async function(credentialInfo){
 					})
 				);
 			if (save){
+				log("Get or create password group");
+				const group = await keepass.createNewGroup(null, ["KeePassXC-Mail Passwords"]);
 				log("Saving password to database for", credentialInfo.login, "at", credentialInfo.host);
 				log("Using uuid:", uuid);
-				const group = await keepass.createNewGroup(null, ["KeePassXC-Mail Passwords"]);
-				keepass.updateCredentials(null,
+				await keepass.updateCredentials(null,
 					[uuid, credentialInfo.login, credentialInfo.password, credentialInfo.host, group.name, group.uuid]
 				);
+				log("Saving done");
 				return true;
 			}
 		}
