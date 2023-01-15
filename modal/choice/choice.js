@@ -49,7 +49,7 @@ initModal({messageCallback: function(message){
 					sendAnswer();
 				}
 				else {
-					resolve({selectedUuid: undefined, doNotAskAgain: false});
+					resolve({selectedUuid: false, doNotAskAgain: document.getElementById("doNotAskAgain").checked});
 					window.close();
 				}
 			});

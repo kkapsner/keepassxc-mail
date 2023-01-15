@@ -281,7 +281,10 @@ async function choiceModal(host, login, entries){
 				cached.doNotAskAgain ||
 				Date.now() - cached.timestamp <= 60000
 			) &&
-			entries.some(e => e.uuid === cached.uuid)
+			(
+				cached.uuid === false ||
+				entries.some(e => e.uuid === cached.uuid)
+			)
 		){
 			log("Use last selected entry for", cachedId);
 			return cached.uuid;
