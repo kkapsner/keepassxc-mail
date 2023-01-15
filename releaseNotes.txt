@@ -2,7 +2,7 @@ Version 1.4
 
 new features:
 
-	- bump version support to 108.0
+	- bump version support to 110.0
 	- save oauth token to database
 	- allow overwriting existing database entries
 
