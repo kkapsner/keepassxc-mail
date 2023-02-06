@@ -85,6 +85,10 @@
 				{
 					"version": "1.3",
 					"update_link": "https://keepassxc-mail.kkapsner.de/versions/keepassxc_mail-1.3-tb.xpi"
+				},
+				{
+					"version": "1.4",
+					"update_link": "https://keepassxc-mail.kkapsner.de/versions/keepassxc_mail-1.4-tb.xpi"
 				}
 			]
 		}
