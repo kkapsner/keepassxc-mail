@@ -164,23 +164,23 @@
 		"description": "Select correct entry for {host}"
 	},
 	"modal.choice.textWithLogin": {
-		"message": "Please select the correct entry for {login} on {host}.",
+		"message": "Veuillez sélectionner l'entrée correspondante pour {login} sur {host}.",
 		"description": "Please select the correct entry for {login} on {host}."
 	},
 	"modal.choice.textWithoutLogin": {
-		"message": "Please select the correct entry for {host}.",
+		"message": "Veuillez sélectionner l'entrée correspondante à {host}.",
 		"description": "Please select the correct entry for {host}."
 	},
 	"modal.choice.doNotAskAgain": {
-		"message": "Do not ask again.",
+		"message": "Ne plus me demander.",
 		"description": "Do not ask again."
 	},
 	"modal.choice.ok": {
-		"message": "OK",
+		"message": "Ok",
 		"description": "OK"
 	},
 	"modal.choice.cancel": {
-		"message": "Cancel",
+		"message": "Annuler",
 		"description": "Cancel"
 	}
 }
