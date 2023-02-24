@@ -172,15 +172,15 @@
 		"description": "Please select the correct entry for {host}."
 	},
 	"modal.choice.doNotAskAgain": {
-		"message": "Do not ask again.",
+		"message": "Не спрашивать больше.",
 		"description": "Do not ask again."
 	},
 	"modal.choice.ok": {
-		"message": "OK",
+		"message": "ОК",
 		"description": "OK"
 	},
 	"modal.choice.cancel": {
-		"message": "Cancel",
+		"message": "Отмена",
 		"description": "Cancel"
 	}
 }
