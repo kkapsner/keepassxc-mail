@@ -100,11 +100,11 @@
 		"description": "Database connections"
 	},
 	"options.clearSelectedEntries": {
-		"message": "Clear storage of selected entries",
+		"message": "Очистить хранилище для выбранных записей",
 		"description": "Clear storage of selected entries"
 	},
 	"options.clearingSelectedEntries": {
-		"message": "Clearing storage of selected entries...",
+		"message": "Очистка хранилища для выбранных записей...",
 		"description": "Clearing storage of selected entries..."
 	},
 	"options.reconnect": {
@@ -112,7 +112,7 @@
 		"description": "Reconnect to Native Messaging"
 	},
 	"options.reconnecting": {
-		"message": "Reconnecting to Native Messaging...",
+		"message": "Повторное подключение к Native Messaging...",
 		"description": "Reconnecting to Native Messaging..."
 	},
 	"options.associate": {
@@ -120,7 +120,7 @@
 		"description": "Connect to KeePassXC"
 	},
 	"options.associating": {
-		"message": "Connecting to KeePassXC...",
+		"message": "Соединение с KeePassXC...",
 		"description": "Connecting to KeePassXC..."
 	},
 	"options.autoSubmit.label": {
@@ -148,7 +148,7 @@
 		"description": "Do you want to save the entered password for {host} to the KeePass database?"
 	},
 	"modal.savingPassword.newEntry": {
-		"message": " - create new entry - ",
+		"message": " - создать новую запись - ",
 		"description": " - create new entry - "
 	},
 	"modal.savingPassword.yes": {
@@ -160,15 +160,15 @@
 		"description": "No"
 	},
 	"modal.choice.title": {
-		"message": "Select correct entry for {host}",
+		"message": "Выберите правильную запись для {host}",
 		"description": "Select correct entry for {host}"
 	},
 	"modal.choice.textWithLogin": {
-		"message": "Please select the correct entry for {login} on {host}.",
+		"message": "Пожалуйста, выберите правильную запись для {login} на {host}.",
 		"description": "Please select the correct entry for {login} on {host}."
 	},
 	"modal.choice.textWithoutLogin": {
-		"message": "Please select the correct entry for {host}.",
+		"message": "Пожалуйста, выберите правильную запись для {host}.",
 		"description": "Please select the correct entry for {host}."
 	},
 	"modal.choice.doNotAskAgain": {
