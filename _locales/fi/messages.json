@@ -76,11 +76,11 @@
 		"description": "Retry"
 	},
 	"pickedEntry": {
-		"message": "Valittu merkintä \"{name login☐ \"---\"}\"",
+		"message": "Valittu merkintä \"{name|login|\"---\"}\"",
 		"description": "Picked entry \"{name|login|\"---\"}\""
 	},
 	"entryLabel": {
-		"message": "{nimi: \"Kirjaudu\"}: {login}",
+		"message": "{name|\"Kirjaudu\"}: {login}",
 		"description": "{name|\"Login\"}: {login}"
 	},
 	"entryTooltip": {
@@ -88,7 +88,7 @@
 		"description": "Password \"{password}\""
 	},
 	"credentialInfo": {
-		"message": "URL: {host}\nKirjaudu: {kirjaudu \"---\"}",
+		"message": "URL: {host}\nKirjaudu: {login|\"---\"}",
 		"description": "URL: {host}\nLogin: {login}"
 	},
 	"options.title": {
@@ -100,11 +100,11 @@
 		"description": "Database connections"
 	},
 	"options.clearSelectedEntries": {
-		"message": "Clear storage of selected entries",
+		"message": "Tyhjennä valittujen tietueiden tallennustila",
 		"description": "Clear storage of selected entries"
 	},
 	"options.clearingSelectedEntries": {
-		"message": "Clearing storage of selected entries...",
+		"message": "Tyhjennetään valittujen merkintöjen tallennustilaa...",
 		"description": "Clearing storage of selected entries..."
 	},
 	"options.reconnect": {
@@ -112,7 +112,7 @@
 		"description": "Reconnect to Native Messaging"
 	},
 	"options.reconnecting": {
-		"message": "Reconnecting to Native Messaging...",
+		"message": "Uudelleen yhdistetään nativiin viestintään...",
 		"description": "Reconnecting to Native Messaging..."
 	},
 	"options.associate": {
@@ -120,7 +120,7 @@
 		"description": "Connect to KeePassXC"
 	},
 	"options.associating": {
-		"message": "Connecting to KeePassXC...",
+		"message": "Yhdistetään KeePassXC: ään...",
 		"description": "Connecting to KeePassXC..."
 	},
 	"options.autoSubmit.label": {
@@ -148,7 +148,7 @@
 		"description": "Do you want to save the entered password for {host} to the KeePass database?"
 	},
 	"modal.savingPassword.newEntry": {
-		"message": " - create new entry - ",
+		"message": " - luo uusi merkintä - ",
 		"description": " - create new entry - "
 	},
 	"modal.savingPassword.yes": {
@@ -160,19 +160,19 @@
 		"description": "No"
 	},
 	"modal.choice.title": {
-		"message": "Select correct entry for {host}",
+		"message": "Valitse oikea merkintä kohteelle {host}",
 		"description": "Select correct entry for {host}"
 	},
 	"modal.choice.textWithLogin": {
-		"message": "Please select the correct entry for {login} on {host}.",
+		"message": "Valitse oikea merkintä kohteelle {login} kohteessa {host}.",
 		"description": "Please select the correct entry for {login} on {host}."
 	},
 	"modal.choice.textWithoutLogin": {
-		"message": "Please select the correct entry for {host}.",
+		"message": "Valitse oikea merkintä kohteelle {host}.",
 		"description": "Please select the correct entry for {host}."
 	},
 	"modal.choice.doNotAskAgain": {
-		"message": "Do not ask again.",
+		"message": "Älä kysy enää.",
 		"description": "Do not ask again."
 	},
 	"modal.choice.ok": {
@@ -180,7 +180,7 @@
 		"description": "OK"
 	},
 	"modal.choice.cancel": {
-		"message": "Cancel",
+		"message": "Peruuta",
 		"description": "Cancel"
 	}
 }
