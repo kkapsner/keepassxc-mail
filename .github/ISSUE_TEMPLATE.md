@@ -34,5 +34,6 @@
 ## Your Environment
 <!--- Include as many relevant details about the environment you experienced the bug in. -->
 * KeePassXC-mail version used:
+* KeePassXC version:
 * Thunderbird version:
 * Operating system and version:
