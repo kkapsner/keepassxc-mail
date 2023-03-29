@@ -555,7 +555,7 @@ keepass.createNewGroup = async function(tab, args = []) {
             keepass.updateLastUsed(keepass.databaseHash);
             return response;
         } else {
-            logError(`getDatabaseGroups rejected`);
+            logError('getDatabaseGroups rejected');
         }
 
         browserAction.showDefault(tab);
@@ -750,9 +750,7 @@ keepass.disableAutomaticReconnect = function() {
 keepass.reconnect = async function(tab, connectionTimeout) {
     keepassClient.connectToNative();
     keepass.generateNewKeyPair();
-    const keyChangeResult = await keepass.changePublicKeys(tab, true, connectionTimeout).catch((e) => {
-        return false;
-    });
+    const keyChangeResult = await keepass.changePublicKeys(tab, true, connectionTimeout).catch(() => false);
 
     // Change public keys timeout
     if (!keyChangeResult) {
@@ -802,10 +800,11 @@ keepass.setcurrentKeePassXCVersion = function(version) {
 };
 
 keepass.keePassXCUpdateAvailable = function() {
-    if (page.settings.checkUpdateKeePassXC && page.settings.checkUpdateKeePassXC != CHECK_UPDATE_NEVER) {
+    const checkUpdate = Number(page.settings.checkUpdateKeePassXC);
+    if (checkUpdate !== CHECK_UPDATE_NEVER) {
         const lastChecked = (keepass.latestKeePassXC.lastChecked) ? new Date(keepass.latestKeePassXC.lastChecked) : new Date(1986, 11, 21);
         const daysSinceLastCheck = Math.floor(((new Date()).getTime() - lastChecked.getTime()) / 86400000);
-        if (daysSinceLastCheck >= page.settings.checkUpdateKeePassXC) {
+        if (daysSinceLastCheck >= checkUpdate) {
             keepass.checkForNewKeePassXCVersion();
         }
 
@@ -857,9 +856,9 @@ keepass.handleError = function(tab, errorCode, errorMessage = '') {
     }
 };
 
-keepass.updatePopup = function(iconType) {
+keepass.updatePopup = function() {
     if (page && page.tabs.length > 0) {
-        browserAction.updateIcon(undefined, iconType);
+        browserAction.showDefault();
     }
 };
 
@@ -870,9 +869,8 @@ keepass.updateDatabase = async function() {
     page.clearAllLogins();
 
     await keepass.testAssociation(null, [ true ]);
-    const configured = await keepass.isConfigured();
 
-    keepass.updatePopup(configured ? 'normal' : 'locked');
+    keepass.updatePopup();
     keepass.updateDatabaseHashToContent();
 };
 
@@ -886,7 +884,7 @@ keepass.updateDatabaseHashToContent = async function() {
                 hash: { old: keepass.previousDatabaseHash, new: keepass.databaseHash },
                 connected: keepass.isKeePassXCAvailable
             }).catch((err) => {
-                logError(`No content script available for this tab.`);
+                logError('No content script available for this tab.');
             });
             keepass.previousDatabaseHash = keepass.databaseHash;
         }
