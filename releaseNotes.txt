@@ -6,8 +6,8 @@ new features:
 
 changes:
 
-	- update keepass.js to version 1.8.5.1
-	- update client.js to version 1.8.5.1
+	- update keepass.js to version 1.8.6
+	- update client.js to version 1.8.6
 
 fixes:
 
