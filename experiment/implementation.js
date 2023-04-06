@@ -9,6 +9,7 @@ const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/Extension
 const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 XPCOMUtils.defineLazyGlobalGetters(this, ["Localization"]);
 
+const extension = ExtensionParent.GlobalManager.getExtension("keepassxc-mail@kkapsner.de");
 function log(...args){
 	console.log("KeePassXC-Mail:", ...args);
 }
@@ -1119,9 +1120,8 @@ function waitForPasswordStore(data){
 	}, false);
 }
 
-const translations = {};
 function getTranslation(name, variables){
-	const translation = translations[name.toLowerCase()] || name;
+	const translation = extension.localeData.localizeMessage(name) || name;
 	if (!variables){
 		return translation;
 	}
@@ -1143,9 +1143,6 @@ exports.credentials = class extends ExtensionCommon.ExtensionAPI {
 	getAPI(context) {
 		return {
 			credentials: {
-				async setTranslation(name, translation) {
-					translations[name.toLowerCase()] = translation;
-				},
 				onCredentialRequested: new ExtensionCommon.EventManager({
 					context,
 					name: "credentials.onCredentialRequested",

@@ -165,15 +165,6 @@ const isKeepassReady = (() => {
 	};
 })();
 
-
-
-[
-	"pickedEntry", "entryLabel", "entryTooltip",
-	"loadingPasswords", "noPasswordsFound", "retry", "credentialInfo"
-].forEach(function(stringName){
-	browser.credentials.setTranslation(stringName, browser.i18n.getMessage(stringName));
-});
-
 const waitForPort = (function(){
 	const ports = new Map();
 	const queue = new Map();

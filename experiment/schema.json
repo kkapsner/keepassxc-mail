@@ -1,26 +1,6 @@
 [
 	{
 		"namespace": "credentials",
-		"functions": [
-			{
-				"name": "setTranslation",
-				"description": "Set the translation for a given message name.",
-				"type": "function",
-				"async": true,
-				"parameters": [
-					{
-						"name": "name",
-						"description": "The message name",
-						"type": "string"
-					},
-					{
-						"name": "translation",
-						"description": "The translation of the message",
-						"type": "string"
-					}
-				]
-			}
-		],
 		"events": [
 			{
 				"name": "onCredentialRequested",
