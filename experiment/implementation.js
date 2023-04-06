@@ -8,6 +8,9 @@ const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSu
 const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 XPCOMUtils.defineLazyGlobalGetters(this, ["Localization"]);
 
+function log(...args){
+	console.log("KeePassXC-Mail:", ...args);
+}
 const windowListeners = [];
 const setupFunctions = [];
 const passwordEmitter = new ExtensionCommon.EventEmitter();
@@ -33,7 +36,7 @@ const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol} = 
 			return bundles[bundleName].GetStringFromName(stringName);
 		}
 		catch(e){
-			console.log("KeePassXC-Mail: unable to get", stringName, "from bundle", bundleName);
+			log("unable to get", stringName, "from bundle", bundleName);
 			return {bundleName, stringName, replace: ()=>{}, notFound: true};
 		}
 	}
@@ -98,7 +101,7 @@ const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol} = 
 			dialogTypes.push(dialogType);
 		}
 		else {
-			// console.log("Not useable dialog type:", data);
+			// log("Not useable dialog type:", data);
 		}
 		return dialogType;
 	}
@@ -492,7 +495,7 @@ try {
 	registerPromptFunctions(promptFunctions);
 }
 catch (error){
-	console.log("KeePassXC-Mail: unable to change MsgAuthPrompt:", error);
+	log("unable to change MsgAuthPrompt:", error);
 }
 
 try {
@@ -519,7 +522,7 @@ try {
 	registerPromptFunctions(promptFunctions);
 }
 catch (error){
-	console.log("KeePassXC-Mail: unable to change LoginManagerAuthPrompter:", error);
+	log("unable to change LoginManagerAuthPrompter:", error);
 }
 
 try {
@@ -600,7 +603,7 @@ try {
 	registerPromptFunctions(promptFunctions);
 }
 catch (error){
-	console.log("KeePassXC-Mail: unable to change Prompter:", error);
+	log("unable to change Prompter:", error);
 }
 
 function getCredentialInfo(window){
@@ -871,7 +874,7 @@ try {
 	});
 }
 catch (error){
-	console.log("KeePassXC-Mail: unable to register support for gdata", error);
+	log("unable to register support for gdata", error);
 }
 
 try {
@@ -939,7 +942,7 @@ try {
 	});
 }
 catch (error){
-	console.log("KeePassXC-Mail: unable to register support for oauth", error);
+	log("unable to register support for oauth", error);
 }
 
 try {
@@ -989,7 +992,7 @@ try {
 	});
 }
 catch (error){
-	console.log("KeePassXC-Mail: unable to register support for CardBook", error);
+	log("unable to register support for CardBook", error);
 }
 
 const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
