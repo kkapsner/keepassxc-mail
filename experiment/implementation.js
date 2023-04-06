@@ -430,6 +430,10 @@ function initPromptFunction(promptFunction, object){
 				else {
 					args[promptFunction.passwordObjectIndex].value = credentials[0].password;
 				}
+				
+				if (promptFunction.hasOwnProperty("savePasswordIndex")){
+					args[promptFunction.savePasswordIndex].value = false;
+				}
 				return true;
 			}
 			if (data.mayAddProtocol && promptFunction.hasOwnProperty("titleIndex")){
@@ -480,6 +484,7 @@ try {
 			titleIndex: 0,
 			textIndex: 1,
 			passwordObjectIndex: 2,
+			savePasswordIndex: 4,
 		},
 		{
 			name: "promptAuth",
@@ -497,6 +502,7 @@ try {
 				args[2].password = password;
 			},
 			// passwordObjectIndex: 2,
+			savePasswordIndex: 4,
 		},
 	];
 	initPromptFunctions(promptFunctions, MsgAuthPrompt.prototype);
@@ -1239,8 +1245,8 @@ function buildDialogGui(guiOperations, credentialInfo){
 	
 	// hide "save password" checkbox
 	const checkbox = document.getElementById("checkbox");
-	if (checkbox){
-		checkbox.checked = false;
+	if (checkbox?.checked){
+		checkbox.click();
 	}
 	const checkboxContainer = document.getElementById("checkboxContainer");
 	if (checkboxContainer){
