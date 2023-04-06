@@ -5,6 +5,7 @@
 ((exports) => {
 const { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
+const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
 const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 XPCOMUtils.defineLazyGlobalGetters(this, ["Localization"]);
 
@@ -952,54 +953,83 @@ catch (error){
 	log("unable to register support for oauth", error);
 }
 
-try {
-	const { cardbookRepository } = ChromeUtils.import("chrome://cardbook/content/cardbookRepository.js");
-	const originalGetPassword = cardbookRepository.cardbookPasswordManager.getPassword;
-	const alteredGetPassword =  function(username, url){
-		const credentialDetails = waitForCredentials({
-			login: username,
-			host: url
-		});
-		if (
-			credentialDetails &&
-			credentialDetails.credentials.length &&
-			(typeof credentialDetails.credentials[0].password) === "string"
-		){
-			return credentialDetails.credentials[0].password;
-		}
-		return originalGetPassword.call(this, username, url);
-	};
-	const originalRememberPassword = cardbookRepository.cardbookPasswordManager.rememberPassword;
-	const alteredRememberPassword =  function(username, url, password, save){
-		if (save){
-			const credentialInfo = {
-				login: username,
-				password: password,
-				host: url
+const cardBookExtension = ExtensionParent.GlobalManager.getExtension("cardbook@vigneau.philippe");
+if (cardBookExtension){
+	console.log(addDialogType({
+		protocol: false,
+		title: cardBookExtension.localeData.localizeMessage("wdw_passwordMissingTitle"),
+		dialog: ["commonDialog", "EnterPasswordFor"],
+		hostPlaceholder: "%2$S",
+		loginPlaceholder: "%1$S"
+	}));
+	
+	const { setTimeout } = ChromeUtils.import("resource://gre/modules/Timer.jsm");
+	let tries = 0;
+	const registerCardbook = function registerCardbook(){
+		tries += 1;
+		try {
+			log("try to register cardbook");
+			const { cardbookRepository } = ChromeUtils.import("chrome://cardbook/content/cardbookRepository.js");
+			const originalGetPassword = cardbookRepository.cardbookPasswordManager.getPassword;
+			const alteredGetPassword = function(username, url){
+				const credentialDetails = waitForCredentials({
+					login: username,
+					host: url
+				});
+				if (
+					credentialDetails &&
+					credentialDetails.credentials.length &&
+					(typeof credentialDetails.credentials[0].password) === "string"
+				){
+					return credentialDetails.credentials[0].password;
+				}
+				return originalGetPassword.call(this, username, url);
 			};
-			credentialInfo.callback = (stored) => {
-				if (!stored){
-					originalRememberPassword.call(this, username, url, password, save);
+			const originalRememberPassword = cardbookRepository.cardbookPasswordManager.rememberPassword;
+			const alteredRememberPassword = function(username, url, password, save){
+				if (save){
+					const credentialInfo = {
+						login: username,
+						password: password,
+						host: url
+					};
+					credentialInfo.callback = (stored) => {
+						if (!stored){
+							originalRememberPassword.call(this, username, url, password, save);
+						}
+					};
+					passwordEmitter.emit("password", credentialInfo);
+					return originalRememberPassword.call(this, username, url, password, false);
+				}
+				return originalRememberPassword.call(this, username, url, password, save);
+			};
+			const setupFunction = {
+				setup: function(){
+					cardbookRepository.cardbookPasswordManager.getPassword = alteredGetPassword;
+					cardbookRepository.cardbookPasswordManager.rememberPassword = alteredRememberPassword;
+				},
+				shutdown: function(){
+					cardbookRepository.cardbookPasswordManager.getPassword = originalGetPassword;
+					cardbookRepository.cardbookPasswordManager.rememberPassword = originalRememberPassword;
 				}
 			};
-			passwordEmitter.emit("password", credentialInfo);
-			return originalRememberPassword.call(this, username, url, password, false);
+			setupFunctions.push(setupFunction);
+			if (setupFunctions.setup){
+				setupFunction.setup();
+			}
+			log("... cardbook registered");
 		}
-		return originalRememberPassword.call(this, username, url, password, save);
+		catch (error){
+			log("... cardbook registering failed", tries, "times");
+			if (tries < 50){
+				setTimeout(registerCardbook, 10);
+			}
+			else {
+				log("unable to register support for CardBook", error);
+			}
+		}
 	};
-	setupFunctions.push({
-		setup: function(){
-			cardbookRepository.cardbookPasswordManager.getPassword = alteredGetPassword;
-			cardbookRepository.cardbookPasswordManager.rememberPassword = alteredRememberPassword;
-		},
-		shutdown: function(){
-			cardbookRepository.cardbookPasswordManager.getPassword = originalGetPassword;
-			cardbookRepository.cardbookPasswordManager.rememberPassword = originalRememberPassword;
-		}
-	});
-}
-catch (error){
-	log("unable to register support for CardBook", error);
+	setTimeout(registerCardbook, 1);
 }
 
 const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
@@ -1016,6 +1046,7 @@ const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 			setupFunctions.forEach(function(setupFunction){
 				setupFunction.setup();
 			});
+			setupFunctions.setup = true;
 		}
 	}
 
@@ -1027,6 +1058,7 @@ const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 			setupFunctions.forEach(function(setupFunction){
 				setupFunction.shutdown();
 			});
+			setupFunctions.setup = false;
 		}
 	}
 };
