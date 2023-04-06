@@ -15,7 +15,7 @@ const windowListeners = [];
 const setupFunctions = [];
 const passwordEmitter = new ExtensionCommon.EventEmitter();
 
-const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol} = function(){
+const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol, addDialogType} = function(){
 	const stringBundleService = Components.classes["@mozilla.org/intl/stringbundle;1"]
 		.getService(Components.interfaces.nsIStringBundleService);
 	
@@ -43,6 +43,12 @@ const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol} = 
 	function getDialogType({
 		protocol, title, titleRegExp, dialog, hostPlaceholder, loginPlaceholder, otherPlaceholders
 	}){
+		if (Array.isArray(title)){
+			title = getBundleString(...title);
+		}
+		if (Array.isArray(dialog)){
+			dialog = getBundleString(...dialog);
+		}
 		const hostPosition = hostPlaceholder? dialog.indexOf(hostPlaceholder): -1;
 		const loginPosition = loginPlaceholder? dialog.indexOf(loginPlaceholder): -1;
 		let dialogRegExpString = dialog.replace(/([\\+*?[^\]$(){}=!|.])/g, "\\$1");
@@ -320,7 +326,8 @@ const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol} = 
 			return getCredentialInfos(dialogTypes.filter(function(dialogType){
 				return dialogType.protocol === knownProtocol;
 			}), title, text);
-		}
+		},
+		addDialogType
 	};
 }();
 
