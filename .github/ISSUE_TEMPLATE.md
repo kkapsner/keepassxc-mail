@@ -4,11 +4,11 @@
 <!--- Provide a more detailed introduction to the issue itself. -->
 <!--- Why you consider it to be a bug or a useful change/improvement? -->
 
-## Expected Behavior
+## Expected Behaviour
 <!--- If you're describing a bug, tell us what should happen. -->
 <!--- If you're suggesting a change/improvement, tell us how it should work. -->
 
-## Current Behavior
+## Current Behaviour
 <!--- If describing a bug, tell us what happens instead of the expected behavior. -->
 <!--- If suggesting a change/improvement, explain the difference from current behavior. -->
 
@@ -21,10 +21,10 @@
 <!--- Including screenshots on the involved popups and an excerpt from the error console (Ctrl + Shift + J) -->
 <!--- and the console of the extension (see https://developer.thunderbird.net/add-ons/tips-and-tricks for how -->
 <!--- to find it) can help massively to understand the underlying problem. -->
-1.
-2.
-3.
-4.
+1. create a fresh Thunderbird profile
+2. 
+3. 
+4. 
 
 ## Context
 <!--- How has this issue affected you? What are you trying to accomplish? -->
