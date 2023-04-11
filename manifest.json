@@ -37,7 +37,7 @@
 			}
 		}
 	},
-	"applications": {
+	"browser_specific_settings": {
 		"gecko": {
 			"id": "keepassxc-mail@kkapsner.de",
 			"strict_min_version": "74.0",
