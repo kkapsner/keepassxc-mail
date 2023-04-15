@@ -7,6 +7,7 @@ const { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/Extension
 const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
 const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
 const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+const { clearTimeout, setTimeout } = ChromeUtils.import("resource://gre/modules/Timer.jsm");
 XPCOMUtils.defineLazyGlobalGetters(this, ["Localization"]);
 
 const extension = ExtensionParent.GlobalManager.getExtension("keepassxc-mail@kkapsner.de");
@@ -894,7 +895,6 @@ catch (error){
 
 try {
 	const { OAuth2Module } = ChromeUtils.import("resource:///modules/OAuth2Module.jsm");
-	const { clearTimeout, setTimeout } = ChromeUtils.import("resource://gre/modules/Timer.jsm");
 	const originalRefreshTokenDescriptor = Object.getOwnPropertyDescriptor(OAuth2Module.prototype, "refreshToken");
 	const alteredRefreshTokenDescriptor = Object.create(originalRefreshTokenDescriptor);
 	const temporaryCache = new Map();
@@ -970,7 +970,6 @@ if (cardBookExtension){
 		loginPlaceholder: "%1$S"
 	}));
 	
-	const { setTimeout } = ChromeUtils.import("resource://gre/modules/Timer.jsm");
 	let tries = 0;
 	const registerCardbook = function registerCardbook(){
 		tries += 1;
