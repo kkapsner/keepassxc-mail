@@ -6,7 +6,9 @@
 const { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
 const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
-const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+const Services = globalThis.Services || ChromeUtils.import(
+  "resource://gre/modules/Services.jsm"
+).Services;
 const { clearTimeout, setTimeout } = ChromeUtils.import("resource://gre/modules/Timer.jsm");
 XPCOMUtils.defineLazyGlobalGetters(this, ["Localization"]);
 
