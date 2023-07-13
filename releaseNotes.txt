@@ -4,14 +4,6 @@ new features:
 
 	- bump version support to 117.0
 
-changes:
-
-	- 
-
-fixes:
-
-	- 
-
 Version 1.5
 
 new features:
