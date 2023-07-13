@@ -1,4 +1,4 @@
-/* globals ChromeUtils, Components, XPCOMUtils, Localization*/
+/* globals ChromeUtils, Components, XPCOMUtils, Localization, globalThis*/
 /* eslint eslint-comments/no-use: off */
 /* eslint {"indent": ["error", "tab", {"SwitchCase": 1, "outerIIFEBody": 0}]}*/
 "use strict";
@@ -6,7 +6,15 @@
 const { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
 const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
-const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+const Services = function(){
+	let Services;
+	try {
+		Services = globalThis.Services;
+	}
+	// eslint-disable-next-line no-empty
+	catch (error){}
+	return Services || ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
+}();
 const { clearTimeout, setTimeout } = ChromeUtils.import("resource://gre/modules/Timer.jsm");
 XPCOMUtils.defineLazyGlobalGetters(this, ["Localization"]);
 
