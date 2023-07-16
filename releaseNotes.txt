@@ -9,7 +9,7 @@ changes:
 	- 
 
 fixes:
-	- 
+	- was not working in 117 nightly due to changes in openpgp internationalization
 
 Version 1.6
 

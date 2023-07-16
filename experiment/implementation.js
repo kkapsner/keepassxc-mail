@@ -279,15 +279,31 @@ const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol, ad
 	
 	const pgpI10n = new Localization(["messenger/openpgp/keyWizard.ftl"], true);
 	if (pgpI10n){
-		const openPGPType = addDialogType({
-			protocol: "openpgp",
-			title:  pgpI10n.formatValueSync("openpgp-passphrase-prompt-title"),
-			dialog: pgpI10n.formatValueSync("openpgp-passphrase-prompt", {key: "%1$S, %2$S, %3$S"}),
-			hostPlaceholder: "%1$S",
-			// loginPlaceholder: "%2$S",
-			otherPlaceholders: ["%2$S", "%3$S"]
+		const title = pgpI10n.formatValueSync("openpgp-passphrase-prompt-title");
+		const dialogs = [pgpI10n.formatValueSync("openpgp-passphrase-prompt", {key: "%1$S, %2$S, %3$S"})];
+		const pgpI10n2 = new Localization(["messenger/openpgp/openpgp.ftl"], true);
+		if (pgpI10n2){
+			["passphrase-prompt2-sub", "passphrase-prompt2"].forEach(function(id){
+				dialogs.push(pgpI10n2.formatValueSync(id, {
+					subkey: "%2$S",
+					key: "%1$S",
+					date: "%3$S",
+					username_and_email: "%4$S",
+				}));
+			});
+		}
+		
+		dialogs.filter(function(dialog){return dialog;}).forEach(function(dialog){
+			const openPGPType = addDialogType({
+				protocol: "openpgp",
+				title,
+				dialog,
+				hostPlaceholder: "%1$S",
+				// loginPlaceholder: "%2$S",
+				otherPlaceholders: ["%2$S", "%3$S", "%4$S"]
+			});
+			openPGPType.noLoginRequired = true;
 		});
-		openPGPType.noLoginRequired = true;
 	}
 	
 	function getCredentialInfos(dialogTypes, title, text){
