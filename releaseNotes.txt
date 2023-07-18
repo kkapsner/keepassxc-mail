@@ -1,15 +1,8 @@
-Version 1.7
-
-new features:
-
-	- 
-
-changes:
-
-	- 
+Version 1.6.1
 
 fixes:
 	- was not working in 117 nightly due to changes in openpgp internationalization
+	- also not working in 115 release
 
 Version 1.6
 
