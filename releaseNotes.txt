@@ -1,3 +1,16 @@
+Version 1.7
+
+new features:
+
+	- 
+
+changes:
+
+	- 
+
+fixes:
+	- 
+
 Version 1.6.1
 
 fixes:
