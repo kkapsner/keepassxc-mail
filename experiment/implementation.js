@@ -34,6 +34,7 @@ const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol, ad
 		commonDialog: stringBundleService.createBundle("chrome://global/locale/commonDialogs.properties"),
 		compose: stringBundleService.createBundle("chrome://messenger/locale/messengercompose/composeMsgs.properties"),
 		imap: stringBundleService.createBundle("chrome://messenger/locale/imapMsgs.properties"),
+		ldap: stringBundleService.createBundle("chrome://mozldap/locale/ldap.properties"),
 		local: stringBundleService.createBundle("chrome://messenger/locale/localMsgs.properties"),
 		messenger: stringBundleService.createBundle("chrome://messenger/locale/messenger.properties"),
 		news: stringBundleService.createBundle("chrome://messenger/locale/news.properties"),
@@ -211,6 +212,13 @@ const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol, ad
 		dialog: getBundleString("news", "enterUserPassGroup"),
 		hostPlaceholder: "%2$S",
 		loginPlaceholder: "%1$S"
+	});
+	addDialogType({
+		protocol: "ldap",
+		title:  getBundleString("ldap", "authPromptTitle"),
+		dialog: getBundleString("ldap", "authPromptText"),
+		hostPlaceholder: "%1$S",
+		loginPlaceholder: ""
 	});
 	addDialogType({
 		protocol: false,

@@ -2,7 +2,7 @@ Version 1.7
 
 new features:
 
-	- 
+	- added LDAP support
 
 changes:
 
