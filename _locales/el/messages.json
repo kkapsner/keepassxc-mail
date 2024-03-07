@@ -1,10 +1,10 @@
 {
 	"errorMessageUnknown": {
-		"message": "Unknown error.",
+		"message": "Άγνωστο σφάλμα.",
 		"description": "Unknown error."
 	},
 	"errorMessageDatabaseNotOpened": {
-		"message": "Database not opened.",
+		"message": "Η βάση δεδομένων δεν είναι ανοιχτή.",
 		"description": "Database not opened."
 	},
 	"errorMessageDatabaseHash": {
@@ -12,11 +12,11 @@
 		"description": "Database hash not received."
 	},
 	"errorMessageClientPublicKey": {
-		"message": "Client public key not received.",
+		"message": "Το δημόσιο κλειδί πελάτη δεν ελήφθη.",
 		"description": "Client public key not received."
 	},
 	"errorMessageDecrypt": {
-		"message": "Cannot decrypt message.",
+		"message": "Αδυναμία αποκρυπτογράφησης μηνύματος.",
 		"description": "Cannot decrypt message."
 	},
 	"errorMessageTimeout": {
@@ -116,7 +116,7 @@
 		"description": "Reconnecting to Native Messaging..."
 	},
 	"options.associate": {
-		"message": "Connect to KeePassXC",
+		"message": "Σύνδεση στο KeePassXC",
 		"description": "Connect to KeePassXC"
 	},
 	"options.associating": {
@@ -124,63 +124,63 @@
 		"description": "Connecting to KeePassXC..."
 	},
 	"options.autoSubmit.label": {
-		"message": "Auto submit",
+		"message": "Αυτόματη υποβολή",
 		"description": "Auto submit"
 	},
 	"options.saveNewCredentials.label": {
-		"message": "Save new credentials",
+		"message": "Αποθήκευση νέων στοιχείων σύνδεσης",
 		"description": "Save new credentials"
 	},
 	"options.autoSaveNewCredentials.label": {
-		"message": "Save new credentials without prompt",
+		"message": "Αποθήκευση νέων στοιχείων σύνδεσης χωρίς ερώτηση",
 		"description": "Save new credentials without prompt"
 	},
 	"modal.savingPassword.title": {
-		"message": "Save password for {host} to KeePass database?",
+		"message": "Αποθήκευση κωδικού πρόσβασης για {host} στη βάση δεδομένων KeePass;",
 		"description": "Save password for {host} to KeePass database?"
 	},
 	"modal.savingPassword.questionWithLogin": {
-		"message": "Do you want to save the entered password for {login} on {host} to the KeePass database?",
+		"message": "Θέλετε να αποθηκεύσετε τον κωδικό πρόσβασης για το {login} στο {host} στη βάση δεδομένων του KeePass;",
 		"description": "Do you want to save the entered password for {login} on {host} to the KeePass database?"
 	},
 	"modal.savingPassword.questionWithoutLogin": {
-		"message": "Do you want to save the entered password for {host} to the KeePass database?",
+		"message": "Θέλετε να αποθηκεύσετε τον κωδικό πρόσβασης για το {host} στη βάση δεδομένων του KeePass;",
 		"description": "Do you want to save the entered password for {host} to the KeePass database?"
 	},
 	"modal.savingPassword.newEntry": {
-		"message": " - create new entry - ",
+		"message": " - δημιουργία νέας καταχώρησης - ",
 		"description": " - create new entry - "
 	},
 	"modal.savingPassword.yes": {
-		"message": "Yes",
+		"message": "Ναι",
 		"description": "Yes"
 	},
 	"modal.savingPassword.no": {
-		"message": "No",
+		"message": "Όχι",
 		"description": "No"
 	},
 	"modal.choice.title": {
-		"message": "Select correct entry for {host}",
+		"message": "Επιλέξτε τη σωστή καταχώρηση για το {host}",
 		"description": "Select correct entry for {host}"
 	},
 	"modal.choice.textWithLogin": {
-		"message": "Please select the correct entry for {login} on {host}.",
+		"message": "Παρακαλώ επιλέξτε τη σωστή καταχώριση για το {login} στο {host}.",
 		"description": "Please select the correct entry for {login} on {host}."
 	},
 	"modal.choice.textWithoutLogin": {
-		"message": "Please select the correct entry for {host}.",
+		"message": "Παρακαλώ επιλέξτε τη σωστή καταχώριση για το {host}.",
 		"description": "Please select the correct entry for {host}."
 	},
 	"modal.choice.doNotAskAgain": {
-		"message": "Do not ask again.",
+		"message": "Να μην ερωτηθώ ξανά.",
 		"description": "Do not ask again."
 	},
 	"modal.choice.ok": {
-		"message": "OK",
+		"message": "ΟΚ",
 		"description": "OK"
 	},
 	"modal.choice.cancel": {
-		"message": "Cancel",
+		"message": "Ακύρωση",
 		"description": "Cancel"
 	}
 }
