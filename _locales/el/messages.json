@@ -36,15 +36,15 @@
 		"description": "KeePassXC association failed, try again."
 	},
 	"errorMessageKeyExchange": {
-		"message": "Key exchange was not successful.",
+		"message": "Η ανταλλαγή κλειδιών απέτυχε.",
 		"description": "Key exchange was not successful."
 	},
 	"errorMessageEncryptionKey": {
-		"message": "Encryption key is not recognized.",
+		"message": "Το κλειδί κρυπτογράφησης δεν αναγνωρίζεται.",
 		"description": "Encryption key is not recognized."
 	},
 	"errorMessageSavedDatabases": {
-		"message": "No saved databases found.",
+		"message": "Δε βρέθηκαν αποθηκευμένες βάσεις δεδομένων.",
 		"description": "No saved databases found."
 	},
 	"errorMessageIncorrectAction": {
@@ -120,7 +120,7 @@
 		"description": "Connect to KeePassXC"
 	},
 	"options.associating": {
-		"message": "Connecting to KeePassXC...",
+		"message": "Σύνδεση στο KeePassXC...",
 		"description": "Connecting to KeePassXC..."
 	},
 	"options.autoSubmit.label": {
