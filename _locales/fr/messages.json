@@ -188,7 +188,7 @@
 		"description": "OK"
 	},
 	"createPasswordGroup.timeout.title": {
-		"message": "Creating password group timeout",
+		"message": "Création d'un délai d'expiration du groupe de mots de passe",
 		"description": "Creating password group timeout"
 	},
 	"createPasswordGroup.timeout.message": {
