@@ -4,6 +4,7 @@ new features:
 
 	- added LDAP support
 	- added timeout to password saving
+	- bump version support to 126.0
 
 changes:
 
