@@ -756,7 +756,7 @@ function registerWindowListener(){
 	windowListeners.forEach(function(listener){
 		ExtensionSupport.registerWindowListener(listener.name, {
 			chromeURLs: listener.chromeURLs,
-			onLoadWindow: function(window) {
+			onLoadWindow: function(window){
 				const credentialInfo = listener.getCredentialInfo(window);
 				if (credentialInfo){
 					handleEvent(listener.getGuiOperations(window), credentialInfo);
@@ -1071,16 +1071,16 @@ if (cardBookExtension){
 }
 
 const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
-	constructor() {
+	constructor(){
 		super();
 		this.callbackCount = 0;
 	}
 
-	add(callback) {
+	add(callback){
 		this.on("password-requested", callback);
 		this.callbackCount++;
 
-		if (this.callbackCount === 1) {
+		if (this.callbackCount === 1){
 			setupFunctions.forEach(function(setupFunction){
 				setupFunction.setup();
 			});
@@ -1088,11 +1088,11 @@ const passwordRequestEmitter = new class extends ExtensionCommon.EventEmitter {
 		}
 	}
 
-	remove(callback) {
+	remove(callback){
 		this.off("password-requested", callback);
 		this.callbackCount--;
 
-		if (this.callbackCount === 0) {
+		if (this.callbackCount === 0){
 			setupFunctions.forEach(function(setupFunction){
 				setupFunction.shutdown();
 			});
@@ -1171,13 +1171,13 @@ function getTranslation(name, variables){
 }
 
 exports.credentials = class extends ExtensionCommon.ExtensionAPI {
-	getAPI(context) {
+	getAPI(context){
 		return {
 			credentials: {
 				onCredentialRequested: new ExtensionCommon.EventManager({
 					context,
 					name: "credentials.onCredentialRequested",
-					register(fire) {
+					register(fire){
 						async function callback(event, credentialInfo){
 							try {
 								return await fire.async(credentialInfo);
@@ -1189,7 +1189,7 @@ exports.credentials = class extends ExtensionCommon.ExtensionAPI {
 						}
 						
 						passwordRequestEmitter.add(callback);
-						return function() {
+						return function(){
 							passwordRequestEmitter.remove(callback);
 						};
 					},
@@ -1197,7 +1197,7 @@ exports.credentials = class extends ExtensionCommon.ExtensionAPI {
 				onNewCredential: new ExtensionCommon.EventManager({
 					context,
 					name: "credentials.onNewCredential",
-					register(fire) {
+					register(fire){
 						async function callback(event, credentialInfo){
 							try {
 								const callback = credentialInfo.callback;
@@ -1215,7 +1215,7 @@ exports.credentials = class extends ExtensionCommon.ExtensionAPI {
 						}
 						
 						passwordEmitter.on("password", callback);
-						return function() {
+						return function(){
 							passwordEmitter.off("password", callback);
 						};
 					},
@@ -1290,7 +1290,7 @@ function updateGUI(guiOperations, credentialInfo, credentialDetails){
 	const row = document.getElementById("credentials-row");
 	const box = document.getElementById("credentials-box");
 	const description = document.getElementById("credentials-description");
-	if (!(row && box && description)) {
+	if (!(row && box && description)){
 		return;
 	}
 	
