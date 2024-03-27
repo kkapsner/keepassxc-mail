@@ -12,7 +12,7 @@ changes:
 	- update client.js to version 1.9.0.2
 
 fixes:
-	- 
+	- update OAuth handling for 126.0
 
 Version 1.6.1
 

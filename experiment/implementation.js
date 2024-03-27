@@ -927,8 +927,6 @@ catch (error){
 
 try {
 	const { OAuth2Module } = ChromeUtils.import("resource:///modules/OAuth2Module.jsm");
-	const originalRefreshTokenDescriptor = Object.getOwnPropertyDescriptor(OAuth2Module.prototype, "refreshToken");
-	const alteredRefreshTokenDescriptor = Object.create(originalRefreshTokenDescriptor);
 	const temporaryCache = new Map();
 	const getKey = function getKey(oAuth2Module){
 		return oAuth2Module._username + "|" + oAuth2Module._loginOrigin;
@@ -944,15 +942,15 @@ try {
 			}, timeout)
 		});
 	};
-	alteredRefreshTokenDescriptor.get = function(){
-		const key = getKey(this);
+	const getRefreshToken = function getRefreshToken(tokenStore){
+		const key = getKey(tokenStore);
 		const cached = temporaryCache.get(key);
 		if (cached){
 			return cached.value;
 		}
 		const credentials = waitForCredentials({
-			login: this._username,
-			host: this._loginOrigin
+			login: tokenStore._username,
+			host: tokenStore._loginOrigin
 		});
 		if (
 			credentials &&
@@ -962,31 +960,135 @@ try {
 			setCache(key, credentials.credentials[0].password);
 			return credentials.credentials[0].password;
 		}
-		return originalRefreshTokenDescriptor.get.call(this);
+		return null;
 	};
-	alteredRefreshTokenDescriptor.set = function(refreshToken){
-		if (refreshToken === alteredRefreshTokenDescriptor.get.call(this)){
-			return refreshToken;
+	const setRefreshToken = function setRefreshToken(tokenStore, refreshToken){
+		if (refreshToken === getRefreshToken(tokenStore)){
+			return true;
 		}
-		setCache(getKey(this), refreshToken, 5000);
-		let stored = waitForPasswordStore({
-			login: this._username,
+		setCache(getKey(tokenStore), refreshToken, 5000);
+		const stored = waitForPasswordStore({
+			login: tokenStore._username,
 			password: refreshToken,
-			host: this._loginOrigin,
+			host: tokenStore._loginOrigin,
 		});
-		if (!stored){
-			return originalRefreshTokenDescriptor.set.call(this, refreshToken);
-		}
-		return refreshToken;
+		return stored;
 	};
-	setupFunctions.push({
-		setup: function(){
-			Object.defineProperty(OAuth2Module.prototype, "refreshToken", alteredRefreshTokenDescriptor);
-		},
-		shutdown: function(){
-			Object.defineProperty(OAuth2Module.prototype, "refreshToken", originalRefreshTokenDescriptor);
-		}
-	});
+	if (OAuth2Module.prototype.hasOwnProperty("getRefreshToken")){
+		const originalGetRefreshToken = OAuth2Module.prototype.getRefreshToken;
+		const alteredGetRefreshToken = function(){
+			const token = getRefreshToken(this);
+			if (token !== null){
+				return token;
+			}
+			return originalGetRefreshToken.call(this);
+		};
+		setupFunctions.push({
+			setup: function(){
+				OAuth2Module.prototype.getRefreshToken = alteredGetRefreshToken;
+			},
+			shutdown: function(){
+				OAuth2Module.prototype.getRefreshToken = originalGetRefreshToken;
+			}
+		});
+	}
+	if (OAuth2Module.prototype.hasOwnProperty("setRefreshToken")){
+		const originalSetRefreshToken = OAuth2Module.prototype.setRefreshToken;
+		const alteredSetRefreshToken = async function(refreshToken){
+			const stored = setRefreshToken(this, refreshToken);
+			if (!stored){
+				return originalSetRefreshToken.call(this, refreshToken);
+			}
+			return refreshToken;
+		};
+		setupFunctions.push({
+			setup: function(){
+				OAuth2Module.prototype.setRefreshToken = alteredSetRefreshToken;
+			},
+			shutdown: function(){
+				OAuth2Module.prototype.setRefreshToken = originalSetRefreshToken;
+			}
+		});
+	}
+	
+	const { OAuth2 } = ChromeUtils.import("resource:///modules/OAuth2.jsm");
+	if (OAuth2 && OAuth2.prototype.hasOwnProperty("connect")){
+		const getUsername = function getUsername(oAuth){
+			if (!oAuth){
+				return false;
+			}
+			if (oAuth.username){
+				return oAuth.username;
+			}
+			if (!Array.isArray(oAuth.extraAuthParams)){
+				return false;
+			}
+			for (let i = 0; i + 1 < oAuth.extraAuthParams.length; i += 2){
+				if (oAuth.extraAuthParams[i] === "login_hint"){
+					return oAuth.extraAuthParams[i + 1];
+				}
+			}
+			return false;
+		};
+		const updateRefreshToken = function updateRefreshToken(oAuth){
+			const username = getUsername(oAuth);
+			if (!username){
+				return false;
+			}
+			const authorizationEndpointURL = Services.io.newURI(oAuth.authorizationEndpoint);
+			const refreshToken = getRefreshToken({
+				_username: username,
+				_loginOrigin: "oauth://" + authorizationEndpointURL.host
+			});
+			if (refreshToken !== null){
+				oAuth.refreshToken = refreshToken;
+				return true;
+			}
+			return false;
+		};
+		
+		const originalConnect = OAuth2.prototype.connect;
+		const alteredConnect = async function(...args){
+			if (!this.refreshToken){
+				updateRefreshToken(this);
+			}
+			return originalConnect.call(this, ...args);
+		};
+		setupFunctions.push({
+			setup: function(){
+				OAuth2.prototype.connect = alteredConnect;
+			},
+			shutdown: function(){
+				OAuth2.prototype.connect = originalConnect;
+			}
+		});
+	}
+	if (OAuth2Module.prototype.hasOwnProperty("refreshToken")){
+		const originalRefreshTokenDescriptor = Object.getOwnPropertyDescriptor(OAuth2Module.prototype, "refreshToken");
+		const alteredRefreshTokenDescriptor = Object.create(originalRefreshTokenDescriptor);
+		alteredRefreshTokenDescriptor.get = function(){
+			const refreshToken = getRefreshToken(this);
+			if (refreshToken !== null){
+				return refreshToken;
+			}
+			return originalRefreshTokenDescriptor.get.call(this);
+		};
+		alteredRefreshTokenDescriptor.set = function(refreshToken){
+			const stored = setRefreshToken(this, refreshToken);
+			if (!stored){
+				return originalRefreshTokenDescriptor.set.call(this, refreshToken);
+			}
+			return refreshToken;
+		};
+		setupFunctions.push({
+			setup: function(){
+				Object.defineProperty(OAuth2Module.prototype, "refreshToken", alteredRefreshTokenDescriptor);
+			},
+			shutdown: function(){
+				Object.defineProperty(OAuth2Module.prototype, "refreshToken", originalRefreshTokenDescriptor);
+			}
+		});
+	}
 }
 catch (error){
 	log("unable to register support for oauth", error);
