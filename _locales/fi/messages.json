@@ -182,5 +182,25 @@
 	"modal.choice.cancel": {
 		"message": "Peruuta",
 		"description": "Cancel"
+	},
+	"modal.message.ok": {
+		"message": "OK",
+		"description": "OK"
+	},
+	"createPasswordGroup.timeout.title": {
+		"message": "Creating password group timeout",
+		"description": "Creating password group timeout"
+	},
+	"createPasswordGroup.timeout.message": {
+		"message": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nCreating the password group timed out. Please check your KeePassXC settings to allow group creation.",
+		"description": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nCreating the password group timed out. Please check your KeePassXC settings to allow group creation."
+	},
+	"savePassword.timeout.title": {
+		"message": "Saving password timeout",
+		"description": "Saving password timeout"
+	},
+	"savePassword.timeout.message": {
+		"message": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nPlease check your KeePassXC settings to allow password saving and updating.",
+		"description": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nPlease check your KeePassXC settings to allow password saving and updating."
 	}
 }
