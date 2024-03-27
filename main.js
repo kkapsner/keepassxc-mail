@@ -69,9 +69,11 @@ async function disconnect(){
 	}
 }
 
-async function wait(ms){
+async function wait(ms, returnValue){
 	return new Promise(function(resolve){
-		window.setTimeout(resolve, ms);
+		window.setTimeout(function(){
+			resolve(returnValue);
+		}, ms);
 	});
 }
 
