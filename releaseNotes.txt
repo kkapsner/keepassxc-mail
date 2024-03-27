@@ -3,6 +3,7 @@ Version 1.7
 new features:
 
 	- added LDAP support
+	- added timeout to password saving
 
 changes:
 
