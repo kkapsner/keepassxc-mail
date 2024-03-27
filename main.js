@@ -251,6 +251,17 @@ async function openModal({path, message, defaultReturnValue}){
 	}
 }
 
+async function messageModal(title, text){
+	return await openModal({
+		path: "modal/message/index.html",
+		message: {
+			title,
+			text
+		},
+		defaultReturnValue: undefined
+	});
+}
+
 const selectedEntries = new Map();
 const storeAtEntries = new Map();
 async function clearSelectedEntries(){

@@ -182,5 +182,9 @@
 	"modal.choice.cancel":{
 		"message": "Cancel",
 		"description": "Cancel"
+	},
+	"modal.message.ok":{
+		"message": "OK",
+		"description": "OK"
 	}
 }

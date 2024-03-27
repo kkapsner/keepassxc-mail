@@ -25,3 +25,10 @@ body {
 .hidden {
 	display: none;
 }
+
+select {
+	font-weight: normal;
+	padding: 5px;
+	box-sizing: border-box;
+	max-width: 100%;
+}
