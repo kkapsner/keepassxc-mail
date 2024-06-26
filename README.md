@@ -37,6 +37,8 @@ Set-ItemProperty -path 'HKCU:\Software\Mozilla\NativeMessagingHosts\de.kkapsner.
 
 ### Linux
 
+*NOTE*: if Thunderbird is installed via Snap or flatpak it might not work (see #95 for further details)
+
 Run the following command in a terminal:
 ```Shell
 cat ~/.mozilla/native-messaging-hosts/org.keepassxc.keepassxc_browser.json \
