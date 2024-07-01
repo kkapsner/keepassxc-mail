@@ -4,8 +4,14 @@
 function fillText(message){
 	document.querySelector("title").textContent = message.title;
 	const textNode = document.querySelector(".text");
-	textNode.textContent = message.text;
-	textNode.innerHTML = textNode.innerHTML.replace(/\n/g, "<br>");
+	let first = true;
+	message.text.split(/\n/g).forEach(function(line){
+		if (!first){
+			textNode.appendChild(document.createElement("br"));
+		}
+		first = false;
+		textNode.appendChild(document.createTextNode(line));
+	});
 	document.getElementById("ok").textContent = browser.i18n.getMessage("modal.message.ok");
 }
 

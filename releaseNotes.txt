@@ -10,7 +10,7 @@ changes:
 	- update client.js to version 1.9.1
 
 fixes:
-	- 
+	- do not use innerHTML assignments
 
 Version 1.7
 
