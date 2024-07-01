@@ -2,7 +2,7 @@ Version 1.8
 
 new features:
 
-	- 
+	- bump version support to 129.0
 
 changes:
 
