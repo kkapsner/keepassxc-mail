@@ -1,3 +1,17 @@
+Version 1.9
+
+new features:
+
+	- 
+
+changes:
+
+	- 
+
+fixes:
+
+	- 
+
 Version 1.8
 
 new features:
@@ -10,6 +24,7 @@ changes:
 	- update client.js to version 1.9.1
 
 fixes:
+
 	- do not use innerHTML assignments
 
 Version 1.7
@@ -26,11 +41,13 @@ changes:
 	- update client.js to version 1.9.0.2
 
 fixes:
+
 	- update OAuth handling for 126.0
 
 Version 1.6.1
 
 fixes:
+
 	- was not working in 117 nightly due to changes in openpgp internationalization
 	- also not working in 115 release
 
