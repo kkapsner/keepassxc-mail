@@ -136,23 +136,23 @@
 		"description": "Save new credentials without prompt"
 	},
 	"options.connections.id": {
-		"message": "ID",
+		"message": "Bezeichner",
 		"description": "ID"
 	},
 	"options.connections.dbHash": {
-		"message": "DB hash",
+		"message": "DB-Hash",
 		"description": "DB hash"
 	},
 	"options.connections.key": {
-		"message": "Key",
+		"message": "Schlüssel",
 		"description": "Key"
 	},
 	"options.connections.lastUsed": {
-		"message": "Last used",
+		"message": "Zuletzt verwendet",
 		"description": "Last used"
 	},
 	"options.connections.created": {
-		"message": "Created",
+		"message": "Erstellt",
 		"description": "Created"
 	},
 	"modal.savingPassword.title": {
