@@ -5,10 +5,28 @@ body, html {
 
 body {
 	font-size: 10pt;
+	margin: 0.25em;
 }
 
 h1 {
 	font-size: 1.5em;
 	font-weight: bold;
 	margin-top: 0;
+}
+
+#connectionTable {
+	table-layout: fixed;
+	width: 100%;
+	border-collapse: collapse;
+	margin: 1em 0em;
+}
+
+#connectionTable td, #connectionTable th {
+	border: 1px solid darkgray;
+	overflow: hidden;
+	padding: 2px;
+}
+
+#connectionTable thead {
+	background-color: lightgray;
 }

@@ -19,7 +19,18 @@
 		<h2 data-translation="options.databases">Database connections</h2>
 		<button data-translation="options.reconnect" data-active-message="options.reconnecting" class="action" id="reconnect">Reconnect to Native Messaging</button><br>
 		<button data-translation="options.associate" data-active-message="options.associating" class="action" id="associate">Connect to KeePassXC</button><br>
-		<div id="connections"></div>
+		<table id="connectionTable">
+			<thead>
+				<tr>
+					<th data-translation="options.connections.id">ID</th>
+					<th data-translation="options.connections.dbHash">DB hash</th>
+					<th data-translation="options.connections.key">key</th>
+					<th data-translation="options.connections.lastUsed">last used</th>
+					<th data-translation="options.connections.created">created</th>
+				</tr>
+			</thead>
+			<tbody id="connections"></tbody>
+		</table>
 		
 		<script src="options.js"></script>
 	</body>

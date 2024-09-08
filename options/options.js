@@ -1,12 +1,20 @@
 "use strict";
+const connectionColumns = [
+	c => c.id,
+	c => c.hash,
+	c => c.key.substring(0, 8) + "*".repeat(5),
+	c => new Date(c.lastUsed).toLocaleString(),
+	c => new Date(c.created).toLocaleDateString(),
+];
 function createConnectionDisplay(connection){
-	const container = document.createElement("div");
+	const container = document.createElement("tr");
 	
-	const lastUsedDate = new Date(connection.lastUsed);
-	const createDate = new Date(connection.created);
-	
-	container.textContent =
-		`${connection.id}: ${connection.hash} (${lastUsedDate.toLocaleString()} - ${createDate.toLocaleDateString()})`;
+	connectionColumns.forEach(function(column){
+		const cell = document.createElement("td");
+		cell.textContent = column(connection);
+		cell.title = cell.textContent;
+		container.appendChild(cell);
+	});
 	
 	return container;
 }

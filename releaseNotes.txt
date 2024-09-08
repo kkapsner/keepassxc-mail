@@ -6,7 +6,7 @@ new features:
 
 changes:
 
-	- 
+	- improve display of database connections
 
 fixes:
 
