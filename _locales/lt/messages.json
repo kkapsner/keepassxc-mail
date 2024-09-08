@@ -135,6 +135,26 @@
 		"message": "Išsaugoti naujus kredencialus be įspėjimo",
 		"description": "Save new credentials without prompt"
 	},
+	"options.connections.id": {
+		"message": "ID",
+		"description": "ID"
+	},
+	"options.connections.dbHash": {
+		"message": "DB hash",
+		"description": "DB hash"
+	},
+	"options.connections.key": {
+		"message": "Key",
+		"description": "Key"
+	},
+	"options.connections.lastUsed": {
+		"message": "Last used",
+		"description": "Last used"
+	},
+	"options.connections.created": {
+		"message": "Created",
+		"description": "Created"
+	},
 	"modal.savingPassword.title": {
 		"message": "Išsaugoti slaptažodį, skirtą {host} KeePass duombazėje?",
 		"description": "Save password for {host} to KeePass database?"

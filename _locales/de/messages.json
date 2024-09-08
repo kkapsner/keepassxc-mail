@@ -135,6 +135,26 @@
 		"message": "Neue Passwörter ohne Nachfrage speichern",
 		"description": "Save new credentials without prompt"
 	},
+	"options.connections.id": {
+		"message": "Bezeichner",
+		"description": "ID"
+	},
+	"options.connections.dbHash": {
+		"message": "DB-Hash",
+		"description": "DB hash"
+	},
+	"options.connections.key": {
+		"message": "Schlüssel",
+		"description": "Key"
+	},
+	"options.connections.lastUsed": {
+		"message": "Zuletzt verwendet",
+		"description": "Last used"
+	},
+	"options.connections.created": {
+		"message": "Erstellt",
+		"description": "Created"
+	},
 	"modal.savingPassword.title": {
 		"message": "Passwort für {host} in der KeePass-Datenbank speichern?",
 		"description": "Save password for {host} to KeePass database?"
