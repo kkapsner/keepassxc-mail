@@ -135,6 +135,26 @@
 		"message": "Guardar novas credenciais sem pedir confirmação",
 		"description": "Save new credentials without prompt"
 	},
+	"options.connections.id": {
+		"message": "ID",
+		"description": "ID"
+	},
+	"options.connections.dbHash": {
+		"message": "DB hash",
+		"description": "DB hash"
+	},
+	"options.connections.key": {
+		"message": "Key",
+		"description": "Key"
+	},
+	"options.connections.lastUsed": {
+		"message": "Last used",
+		"description": "Last used"
+	},
+	"options.connections.created": {
+		"message": "Created",
+		"description": "Created"
+	},
 	"modal.savingPassword.title": {
 		"message": "Guardar a senha de {host} na base de dados do KeePass?",
 		"description": "Save password for {host} to KeePass database?"
