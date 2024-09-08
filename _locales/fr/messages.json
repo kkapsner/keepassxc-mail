@@ -135,6 +135,26 @@
 		"message": "Enregistrer les nouveaux identifiants sans confirmation",
 		"description": "Save new credentials without prompt"
 	},
+	"options.connections.id": {
+		"message": "ID",
+		"description": "ID"
+	},
+	"options.connections.dbHash": {
+		"message": "DB hash",
+		"description": "DB hash"
+	},
+	"options.connections.key": {
+		"message": "Key",
+		"description": "Key"
+	},
+	"options.connections.lastUsed": {
+		"message": "Last used",
+		"description": "Last used"
+	},
+	"options.connections.created": {
+		"message": "Created",
+		"description": "Created"
+	},
 	"modal.savingPassword.title": {
 		"message": "Enregistrer le mot de passe de {host} dans la base de données KeePass ?",
 		"description": "Save password for {host} to KeePass database?"
