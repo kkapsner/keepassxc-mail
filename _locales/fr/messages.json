@@ -140,19 +140,19 @@
 		"description": "ID"
 	},
 	"options.connections.dbHash": {
-		"message": "DB hash",
+		"message": "Hash DB",
 		"description": "DB hash"
 	},
 	"options.connections.key": {
-		"message": "Key",
+		"message": "Clef",
 		"description": "Key"
 	},
 	"options.connections.lastUsed": {
-		"message": "Last used",
+		"message": "Dernier utilisé",
 		"description": "Last used"
 	},
 	"options.connections.created": {
-		"message": "Created",
+		"message": "Créé",
 		"description": "Created"
 	},
 	"modal.savingPassword.title": {
