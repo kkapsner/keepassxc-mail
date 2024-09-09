@@ -302,15 +302,17 @@ async function choiceModal(host, login, entries){
 			return cached.uuid;
 		}
 	}
-	const {selectedUuid, doNotAskAgain} = await openModal({
-		path: "modal/choice/index.html",
-		message: {
-			host,
-			login,
-			entries
-		},
-		defaultReturnValue: {selectedUuid: undefined, doNotAskAgain: false}
-	});
+	const {selectedUuid, doNotAskAgain} = (entries.length === 1 && entries[0].autoSubmit)?
+		{selectedUuid: entries[0].uuid, doNotAskAgain: false}:
+		await openModal({
+			path: "modal/choice/index.html",
+			message: {
+				host,
+				login,
+				entries
+			},
+			defaultReturnValue: {selectedUuid: undefined, doNotAskAgain: false}
+		});
 	
 	if (selectedUuid !== undefined){
 		selectedEntries.set(cachedId, {uuid: selectedUuid, doNotAskAgain, timestamp: Date.now()});
@@ -372,12 +374,7 @@ browser.credentials.onCredentialRequested.addListener(async function(credentialI
 	
 	if (
 		credentialInfo.openChoiceDialog &&
-		credentialsForHost.length &&
-		(
-			!autoSubmit ||
-			credentialsForHost.length > 1 ||
-			credentialsForHost[0]?.skipAutoSubmit
-		)
+		credentialsForHost.length
 	){
 		const selectedUuid = await choiceModal(
 			credentialInfo.host,

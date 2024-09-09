@@ -12,7 +12,7 @@ changes:
 
 fixes:
 
-	- 
+	- auto submitted entries are not considered when storing new passwords
 
 Version 1.8
 
