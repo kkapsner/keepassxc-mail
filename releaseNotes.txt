@@ -7,8 +7,8 @@ new features:
 changes:
 
 	- improve display of database connections
-	- update keepass.js to version 1.9.3 (no changes)
-	- update client.js to version 1.9.3 (no changes)
+	- update keepass.js to version 1.9.5
+	- update client.js to version 1.9.5 (no changes)
 
 fixes:
 
