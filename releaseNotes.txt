@@ -1,16 +1,8 @@
-Version 1.910
-
-new features:
-
-	- 
-
-changes:
-
-	- 
+Version 1.9.1
 
 fixes:
 
-	- 
+	- added missing dependency from keepassxc-browser
 
 Version 1.9
 
