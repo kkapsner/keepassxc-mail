@@ -1,78 +1,78 @@
 {
 	"errorMessageUnknown": {
-		"message": "Unknown error.",
+		"message": "未知错误。",
 		"description": "Unknown error."
 	},
 	"errorMessageDatabaseNotOpened": {
-		"message": "Database not opened.",
+		"message": "数据库未打开。",
 		"description": "Database not opened."
 	},
 	"errorMessageDatabaseHash": {
-		"message": "Database hash not received.",
+		"message": "未收到数据库哈希。",
 		"description": "Database hash not received."
 	},
 	"errorMessageClientPublicKey": {
-		"message": "Client public key not received.",
+		"message": "未收到客户端公钥。",
 		"description": "Client public key not received."
 	},
 	"errorMessageDecrypt": {
-		"message": "Cannot decrypt message.",
+		"message": "无法解密消息。",
 		"description": "Cannot decrypt message."
 	},
 	"errorMessageTimeout": {
-		"message": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings.",
+		"message": "无法连接到 KeePassXC。请检查 KeePassXC 设置中是否启用了浏览器集成。",
 		"description": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings."
 	},
 	"errorMessageCanceled": {
-		"message": "Action canceled or denied.",
+		"message": "操作被取消或被拒绝。",
 		"description": "Action canceled or denied."
 	},
 	"errorMessageEncrypt": {
-		"message": "Message encryption failed. Is KeePassXC running?",
+		"message": "消息加密失败。KeepassXC 是否已运行？",
 		"description": "Message encryption failed. Is KeePassXC running?"
 	},
 	"errorMessageAssociate": {
-		"message": "KeePassXC association failed, try again.",
+		"message": "KeePassXC 关联失败，请重试。",
 		"description": "KeePassXC association failed, try again."
 	},
 	"errorMessageKeyExchange": {
-		"message": "Key exchange was not successful.",
+		"message": "密钥交换失败。",
 		"description": "Key exchange was not successful."
 	},
 	"errorMessageEncryptionKey": {
-		"message": "Encryption key is not recognized.",
+		"message": "无法识别加密密钥。",
 		"description": "Encryption key is not recognized."
 	},
 	"errorMessageSavedDatabases": {
-		"message": "No saved databases found.",
+		"message": "未找到保存的数据库。",
 		"description": "No saved databases found."
 	},
 	"errorMessageIncorrectAction": {
-		"message": "Incorrect action.",
+		"message": "错误操作。",
 		"description": "Incorrect action."
 	},
 	"errorMessageEmptyMessage": {
-		"message": "Empty message received.",
+		"message": "收到的消息为空。",
 		"description": "Empty message received."
 	},
 	"errorMessageNoURL": {
-		"message": "No URL provided.",
+		"message": "未提供 URL。",
 		"description": "No URL provided."
 	},
 	"errorMessageNoLogins": {
-		"message": "No logins found.",
+		"message": "未找到登录信息。",
 		"description": "No logins found."
 	},
 	"loadingPasswords": {
-		"message": "Loading passwords...",
+		"message": "正在加载密码...",
 		"description": "Loading passwords..."
 	},
 	"noPasswordsFound": {
-		"message": "No passwords found.",
+		"message": "找不到密码。",
 		"description": "No passwords found."
 	},
 	"retry": {
-		"message": "Retry",
+		"message": "重试",
 		"description": "Retry"
 	},
 	"pickedEntry": {
@@ -92,11 +92,11 @@
 		"description": "URL: {host}\nLogin: {login}"
 	},
 	"options.title": {
-		"message": "KeePassXC-Mail Settings",
+		"message": "KeePassXC-Mail 设置",
 		"description": "KeePassXC-Mail Settings"
 	},
 	"options.databases": {
-		"message": "Database connections",
+		"message": "已连接数据库",
 		"description": "Database connections"
 	},
 	"options.clearSelectedEntries": {
@@ -108,119 +108,119 @@
 		"description": "Clearing storage of selected entries..."
 	},
 	"options.reconnect": {
-		"message": "Reconnect to Native Messaging",
+		"message": "重新连接到 Native Messaging",
 		"description": "Reconnect to Native Messaging"
 	},
 	"options.reconnecting": {
-		"message": "Reconnecting to Native Messaging...",
+		"message": "正在重新连接到 Native Messaging...",
 		"description": "Reconnecting to Native Messaging..."
 	},
 	"options.associate": {
-		"message": "Connect to KeePassXC",
+		"message": "连接 KeePassXC",
 		"description": "Connect to KeePassXC"
 	},
 	"options.associating": {
-		"message": "Connecting to KeePassXC...",
+		"message": "正在连接到 KeePassXC...",
 		"description": "Connecting to KeePassXC..."
 	},
 	"options.autoSubmit.label": {
-		"message": "Auto submit",
+		"message": "自动提交",
 		"description": "Auto submit"
 	},
 	"options.saveNewCredentials.label": {
-		"message": "Save new credentials",
+		"message": "保存新凭据",
 		"description": "Save new credentials"
 	},
 	"options.autoSaveNewCredentials.label": {
-		"message": "Save new credentials without prompt",
+		"message": "保存新凭据时不提示",
 		"description": "Save new credentials without prompt"
 	},
 	"options.connections.id": {
-		"message": "ID",
+		"message": "标识符",
 		"description": "ID"
 	},
 	"options.connections.dbHash": {
-		"message": "DB hash",
+		"message": "数据库哈希",
 		"description": "DB hash"
 	},
 	"options.connections.key": {
-		"message": "Key",
+		"message": "密钥",
 		"description": "Key"
 	},
 	"options.connections.lastUsed": {
-		"message": "Last used",
+		"message": "上次使用",
 		"description": "Last used"
 	},
 	"options.connections.created": {
-		"message": "Created",
+		"message": "创建时间",
 		"description": "Created"
 	},
 	"modal.savingPassword.title": {
-		"message": "Save password for {host} to KeePass database?",
+		"message": "保存 {host} 的密码到KeePass 数据库？",
 		"description": "Save password for {host} to KeePass database?"
 	},
 	"modal.savingPassword.questionWithLogin": {
-		"message": "Do you want to save the entered password for {login} on {host} to the KeePass database?",
+		"message": "你想保存 {login} 在 {host} 邮箱服务密码到 KeePass 数据库吗？",
 		"description": "Do you want to save the entered password for {login} on {host} to the KeePass database?"
 	},
 	"modal.savingPassword.questionWithoutLogin": {
-		"message": "Do you want to save the entered password for {host} to the KeePass database?",
+		"message": "你想保存 {host} 邮箱服务密码到 KeePass 数据库吗？",
 		"description": "Do you want to save the entered password for {host} to the KeePass database?"
 	},
 	"modal.savingPassword.newEntry": {
-		"message": " - create new entry - ",
+		"message": " - 创建新条目 - ",
 		"description": " - create new entry - "
 	},
 	"modal.savingPassword.yes": {
-		"message": "Yes",
+		"message": "是",
 		"description": "Yes"
 	},
 	"modal.savingPassword.no": {
-		"message": "No",
+		"message": "否",
 		"description": "No"
 	},
 	"modal.choice.title": {
-		"message": "Select correct entry for {host}",
+		"message": "选择正确的登录配置项来登录 {host}",
 		"description": "Select correct entry for {host}"
 	},
 	"modal.choice.textWithLogin": {
-		"message": "Please select the correct entry for {login} on {host}.",
+		"message": "请为 {login} 在 {host} 邮箱服务中选择正确的登录配置项。",
 		"description": "Please select the correct entry for {login} on {host}."
 	},
 	"modal.choice.textWithoutLogin": {
-		"message": "Please select the correct entry for {host}.",
+		"message": "请为 {host} 邮箱服务中选择正确的登录配置项。",
 		"description": "Please select the correct entry for {host}."
 	},
 	"modal.choice.doNotAskAgain": {
-		"message": "Do not ask again.",
+		"message": "不再询问。",
 		"description": "Do not ask again."
 	},
 	"modal.choice.ok": {
-		"message": "OK",
+		"message": "确定",
 		"description": "OK"
 	},
 	"modal.choice.cancel": {
-		"message": "Cancel",
+		"message": "取消",
 		"description": "Cancel"
 	},
 	"modal.message.ok": {
-		"message": "OK",
+		"message": "好的",
 		"description": "OK"
 	},
 	"createPasswordGroup.timeout.title": {
-		"message": "Creating password group timeout",
+		"message": "创建密码分组超时",
 		"description": "Creating password group timeout"
 	},
 	"createPasswordGroup.timeout.message": {
-		"message": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nCreating the password group timed out. Please check your KeePassXC settings to allow group creation.",
+		"message": "{account} 的密码保存失败。密码已保存到Thunderbird的内置密码管理器中。\n\n创建密码分组超时。请检查 KeePassXC 设置是否允许创建群组。",
 		"description": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nCreating the password group timed out. Please check your KeePassXC settings to allow group creation."
 	},
 	"savePassword.timeout.title": {
-		"message": "Saving password timeout",
+		"message": "保存密码超时",
 		"description": "Saving password timeout"
 	},
 	"savePassword.timeout.message": {
-		"message": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nPlease check your KeePassXC settings to allow password saving and updating.",
+		"message": "{account} 的密码保存失败。密码已保存到Thunderbird的内置密码管理器中。\n\n请检查 KeePassXC 设置是否允许保存或更新密码。",
 		"description": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nPlease check your KeePassXC settings to allow password saving and updating."
 	}
 }
