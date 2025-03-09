@@ -3,9 +3,20 @@
 /* eslint {"indent": ["error", "tab", {"SwitchCase": 1, "outerIIFEBody": 0}]}*/
 "use strict";
 ((exports) => {
-const { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
-const { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
-const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
+function importModule(path, addExtension = true){
+	if (ChromeUtils.import){
+		return ChromeUtils.import(path + (addExtension? ".jsm": ""));
+	}
+	else if (ChromeUtils.importESModule){
+		return ChromeUtils.importESModule(path + (addExtension? ".sys.mjs": ""));
+	}
+	else {
+		throw "Unable to import module " + path;
+	}
+}
+const { ExtensionCommon } = importModule("resource://gre/modules/ExtensionCommon");
+const { ExtensionSupport } = importModule("resource:///modules/ExtensionSupport");
+const { ExtensionParent } = importModule("resource://gre/modules/ExtensionParent");
 const Services = function(){
 	let Services;
 	try {
@@ -13,9 +24,9 @@ const Services = function(){
 	}
 	// eslint-disable-next-line no-empty
 	catch (error){}
-	return Services || ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
+	return Services || importModule("resource://gre/modules/Services").Services;
 }();
-const { clearTimeout, setTimeout } = ChromeUtils.import("resource://gre/modules/Timer.jsm");
+const { clearTimeout, setTimeout } = importModule("resource://gre/modules/Timer");
 XPCOMUtils.defineLazyGlobalGetters(this, ["Localization"]);
 
 const extension = ExtensionParent.GlobalManager.getExtension("keepassxc-mail@kkapsner.de");
@@ -90,7 +101,7 @@ try {
 					return;
 				}
 				
-				const {OfflineStartup} = ChromeUtils.import("resource:///modules/OfflineStartup.jsm");
+				const {OfflineStartup} = importModule("resource:///modules/OfflineStartup");
 				log("Calling OfflineStartup.prototype.onProfileStartup");
 				OfflineStartup.prototype.onProfileStartup();
 				
@@ -598,7 +609,7 @@ function initPromptFunctions(promptFunctions, object){
 }
 
 try {
-	const { MsgAuthPrompt } = ChromeUtils.import("resource:///modules/MsgAsyncPrompter.jsm");
+	const { MsgAuthPrompt } = importModule("resource:///modules/MsgAsyncPrompter");
 	const promptFunctions = [
 		{
 			name: "prompt",
@@ -659,7 +670,7 @@ catch (error){
 }
 
 try {
-	const { LoginManagerAuthPrompter } = ChromeUtils.import("resource://gre/modules/LoginManagerAuthPrompter.jsm");
+	const { LoginManagerAuthPrompter } = importModule("resource://gre/modules/LoginManagerAuthPrompter");
 	const promptFunctions = [
 		{
 			name: "promptPassword",
@@ -686,7 +697,7 @@ catch (error){
 }
 
 try {
-	const { Prompter } = ChromeUtils.import("resource://gre/modules/Prompter.jsm");
+	const { Prompter } = importModule("resource://gre/modules/Prompter");
 	const promptFunctions = [
 		{
 			name: "promptUsernameAndPassword",
@@ -891,10 +902,10 @@ try {
 	// gdata support
 	const { cal } = function(){
 		try {
-			return ChromeUtils.import("resource://calendar/modules/calUtils.jsm");
+			return importModule("resource://calendar/modules/calUtils");
 		}
 		catch (error){
-			return ChromeUtils.import("resource:///modules/calendar/calUtils.jsm");
+			return importModule("resource:///modules/calendar/calUtils");
 		}
 	}();
 	const getCredentialInfoForGdata = function(){
@@ -1038,7 +1049,7 @@ catch (error){
 }
 
 try {
-	const { OAuth2Module } = ChromeUtils.import("resource:///modules/OAuth2Module.jsm");
+	const { OAuth2Module } = importModule("resource:///modules/OAuth2Module");
 	const temporaryCache = new Map();
 	const getKey = function getKey(oAuth2Module){
 		return oAuth2Module._username + "|" + oAuth2Module._loginOrigin;
@@ -1123,7 +1134,7 @@ try {
 		});
 	}
 	
-	const { OAuth2 } = ChromeUtils.import("resource:///modules/OAuth2.jsm");
+	const { OAuth2 } = importModule("resource:///modules/OAuth2");
 	if (OAuth2 && OAuth2.prototype.hasOwnProperty("connect")){
 		const getUsername = function getUsername(oAuth){
 			if (!oAuth){
@@ -1221,7 +1232,7 @@ if (cardBookExtension){
 		tries += 1;
 		try {
 			log("try to register cardbook");
-			const { cardbookRepository } = ChromeUtils.import("chrome://cardbook/content/cardbookRepository.js");
+			const { cardbookRepository } = importModule("chrome://cardbook/content/cardbookRepository.js", false);
 			const originalGetPassword = cardbookRepository.cardbookPasswordManager.getPassword;
 			const alteredGetPassword = function(username, url){
 				const credentialDetails = waitForCredentials({
