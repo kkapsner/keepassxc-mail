@@ -6,12 +6,8 @@ new features:
 
 changes:
 
-	- update keepass.js to version 1.9.5 (no changes)
-	- update client.js to version 1.9.5 (no changes)
-
-fixes:
-
-	- 
+	- update keepass.js to version 1.9.6 (no changes)
+	- update client.js to version 1.9.6 (no changes)
 
 Version 1.9.1
 
