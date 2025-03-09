@@ -1,3 +1,18 @@
+Version 1.11
+
+new features:
+
+	- 
+
+changes:
+
+	- update keepass.js to version 1.9.7 (no changes)
+	- update client.js to version 1.9.7 (no changes)
+
+fixes:
+
+	- 
+
 Version 1.10
 
 new features:
