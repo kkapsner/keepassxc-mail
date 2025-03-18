@@ -1228,12 +1228,31 @@ if (cardBookExtension){
 	}));
 	
 	let tries = 0;
+	const loadCardbookPasswordManager = function loadCardbookPasswordManager(){
+		try {
+			const { cardbookXULPasswordManager } = importModule(
+				"chrome://cardbook/content/XUL/utils/cardbookXULPasswordManager.js",
+				false
+			);
+			return cardbookXULPasswordManager;
+		}
+		catch (error){
+			log("loading cardbookXULPasswordManager failed:", error);
+			log("try loading cardbookRepository");
+			const { cardbookRepository } = importModule("chrome://cardbook/content/cardbookRepository.js", false);
+			return cardbookRepository.cardbookPasswordManager;
+		}
+	};
 	const registerCardbook = function registerCardbook(){
 		tries += 1;
 		try {
 			log("try to register cardbook");
-			const { cardbookRepository } = importModule("chrome://cardbook/content/cardbookRepository.js", false);
-			const originalGetPassword = cardbookRepository.cardbookPasswordManager.getPassword;
+			const { cardbookXULPasswordManager } = importModule(
+				"chrome://cardbook/content/XUL/utils/cardbookXULPasswordManager.js",
+				false
+			);
+			const passwordManager = loadCardbookPasswordManager();
+			const originalGetPassword = passwordManager.getPassword;
 			const alteredGetPassword = function(username, url){
 				const credentialDetails = waitForCredentials({
 					login: username,
@@ -1248,7 +1267,7 @@ if (cardBookExtension){
 				}
 				return originalGetPassword.call(this, username, url);
 			};
-			const originalRememberPassword = cardbookRepository.cardbookPasswordManager.rememberPassword;
+			const originalRememberPassword = passwordManager.rememberPassword;
 			const alteredRememberPassword = function(username, url, password, save){
 				if (save){
 					const credentialInfo = {
@@ -1268,12 +1287,12 @@ if (cardBookExtension){
 			};
 			const setupFunction = {
 				setup: function(){
-					cardbookRepository.cardbookPasswordManager.getPassword = alteredGetPassword;
-					cardbookRepository.cardbookPasswordManager.rememberPassword = alteredRememberPassword;
+					passwordManager.getPassword = alteredGetPassword;
+					passwordManager.rememberPassword = alteredRememberPassword;
 				},
 				shutdown: function(){
-					cardbookRepository.cardbookPasswordManager.getPassword = originalGetPassword;
-					cardbookRepository.cardbookPasswordManager.rememberPassword = originalRememberPassword;
+					passwordManager.getPassword = originalGetPassword;
+					passwordManager.rememberPassword = originalRememberPassword;
 				}
 			};
 			setupFunctions.push(setupFunction);

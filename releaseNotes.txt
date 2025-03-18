@@ -1,8 +1,8 @@
-Version 1.11
+Version 1.10.1
 
 new features:
 
-	- 
+	- new translations
 
 changes:
 
@@ -11,7 +11,7 @@ changes:
 
 fixes:
 
-	- 
+	- fix support for Cardbook
 
 Version 1.10
 
