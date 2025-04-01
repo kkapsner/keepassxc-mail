@@ -444,15 +444,6 @@ async function savingPasswordModal(host, login, entries){
 	return {save, uuid, doNotAskAgain};
 }
 
-browser.runtime.onMessage.addListener(function(message, tab){
-	if (message.action === "resize"){
-		browser.windows.update(tab.tab.windowId, {
-			width: message.width,
-			height: message.height
-		});
-	}
-});
-
 const timeoutSymbol = Symbol("timeout");
 async function storeCredentials(credentialInfo, uuid){
 	

@@ -7,8 +7,7 @@ const windowLoad = new Promise(function(resolve){
 async function resizeToContent(){
 	await windowLoad;
 	const sizingNode = document.querySelector("body");
-	await browser.runtime.sendMessage({
-		action: "resize",
+	await browser.windows.update(browser.windows.WINDOW_ID_CURRENT, {
 		width: sizingNode.clientWidth + 10 + window.outerWidth - window.innerWidth,
 		height: sizingNode.clientHeight + 10 + window.outerHeight - window.innerHeight
 	});
