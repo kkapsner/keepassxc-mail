@@ -6,7 +6,7 @@ new features:
 
 changes:
 
-	- 
+	- new version scheme
 
 fixes:
 
