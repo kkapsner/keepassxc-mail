@@ -203,6 +203,14 @@
 		"message": "Cancel",
 		"description": "Cancel"
 	},
+	"modal.confirm.yes": {
+		"message": "Yes",
+		"description": "Yes"
+	},
+	"modal.confirm.no": {
+		"message": "No",
+		"description": "No"
+	},
 	"modal.message.ok": {
 		"message": "OK",
 		"description": "OK"
