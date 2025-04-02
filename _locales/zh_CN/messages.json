@@ -203,6 +203,14 @@
 		"message": "取消",
 		"description": "Cancel"
 	},
+	"modal.confirm.yes": {
+		"message": "Yes",
+		"description": "Yes"
+	},
+	"modal.confirm.no": {
+		"message": "No",
+		"description": "No"
+	},
 	"modal.message.ok": {
 		"message": "好的",
 		"description": "OK"
