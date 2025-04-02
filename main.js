@@ -264,6 +264,17 @@ async function messageModal(title, text){
 	});
 }
 
+async function confirmModal(title, question){
+	return await openModal({
+		path: "modal/confirm/index.html",
+		message: {
+			title,
+			question
+		},
+		defaultReturnValue: false
+	});
+}
+
 const selectedEntries = new Map();
 const storeAtEntries = new Map();
 async function clearSelectedEntries(){

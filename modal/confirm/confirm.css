@@ -1,0 +1,13 @@
+.text {
+	padding: 1em;
+	min-width: 300px;
+	display: inline-block;
+}
+
+.buttons {
+	text-align: right;
+	padding: 0 1em;
+}
+.buttons button {
+	margin: 0 0.3em;
+}
