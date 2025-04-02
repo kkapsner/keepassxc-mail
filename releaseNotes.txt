@@ -11,6 +11,7 @@ changes:
 fixes:
 
 	- reduce delay when resizing a modal window
+	- bump version support to 139.0
 
 Version 1.10.1
 
