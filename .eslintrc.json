@@ -36,7 +36,7 @@
 		"max-depth": ["warn", 4],
 		"max-len": ["warn", {"code": 120, "tabWidth": 4}],
 		"max-lines-per-function": ["warn", {"max": 80,"skipBlankLines": true, "skipComments": true}],
-		"max-lines": ["warn", {"max": 1500, "skipBlankLines": true, "skipComments": true}],
+		"max-lines": ["warn", {"max": 500, "skipBlankLines": true, "skipComments": true}],
 		"max-params": ["warn", 4],
 		"no-console": "off",
 		"no-const-assign": "error",

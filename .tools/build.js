@@ -35,6 +35,33 @@ function updateVersion(version){
 	return parts.join(".");
 }
 
+async function updateImports(filePath, version){
+	console.log("Updating imports in", filePath);
+	const content = await fs.promises.readFile(filePath, {encoding: "utf-8"});
+	const modifiedContent = content.replace(
+		/((?:^|[\n\r;])\s*import\s+[\s{}a-zA-Z0-9_,]+\s+from\s+"\.[a-zA-Z0-9/._-]+)\??[0-9.]*";/g,
+		`$1?${version}";`
+	);
+	const originalContentPath = filePath + ".omjs";
+	await fs.promises.rename(filePath, originalContentPath);
+	await fs.promises.writeFile(filePath, modifiedContent, {encoding: "utf-8"});
+	return {
+		originalFilePath: filePath,
+		originalContentPath
+	};
+}
+
+async function updateAllImports(folder, version){
+	return Promise.all(
+		(await fs.promises.readdir(folder, {recursive: true, withFileTypes: true})).filter(function(fileInfo){
+			return !fileInfo.isDirectory();
+		}).map(async function(fileInfo){
+			const filePath = path.join(fileInfo.parentPath, fileInfo.name);
+			return await updateImports(filePath, version);
+		})
+	);
+}
+
 async function run(){
 	"use strict";
 	
@@ -50,6 +77,7 @@ async function run(){
 		JSON.stringify(manifest, undefined, "\t"),
 		{encoding: "utf-8"}
 	);
+	const modifiedModules = await updateAllImports(path.join(baseFolder, "experiment", "modules"), manifest.version);
 	
 	const outputFolder = path.join(baseFolder, "mail-ext-artifacts");
 	try {
@@ -72,6 +100,7 @@ async function run(){
 	catch (e){}
 	
 	const exclude = [
+		"experiment/modules/*.omjs", "experiment/modules/**/*.omjs",
 		"mail-ext-artifacts/", "mail-ext-artifacts/*",
 		"versions/*",
 		"crowdin.yml",
@@ -82,7 +111,15 @@ async function run(){
 	
 	process.chdir(baseFolder);
 	
-	child_process.spawn("zip", args, {stdio: "inherit"});
+	const zipProcess = child_process.spawn("zip", args, {stdio: "inherit"});
+	
+	zipProcess.on("exit", function(){
+		modifiedModules.forEach(async function(module){
+			console.log("restoring", module.originalFilePath);
+			await fs.promises.rm(module.originalFilePath);
+			await fs.promises.rename(module.originalContentPath, module.originalFilePath);
+		});
+	});
 }
 
 run();
