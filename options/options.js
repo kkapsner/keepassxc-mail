@@ -36,8 +36,9 @@ const actions = {
 	},
 	reconnect: async function(){
 		const backgroundPage = browser.extension.getBackgroundPage();
-		await backgroundPage.disconnect();
-		await backgroundPage.connect(true);
+		const { connect, disconnect } = await backgroundPage.isKeepassReady();
+		await disconnect();
+		await connect(true);
 		await backgroundPage.keepass.associate();
 		await updateConnections();
 	},

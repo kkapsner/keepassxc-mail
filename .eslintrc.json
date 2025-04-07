@@ -67,6 +67,12 @@
 			}
 		},
 		{
+			"files": ["*.mjs"],
+			"parserOptions": {
+				"sourceType": "module"
+			}
+		},
+		{
 			"files": [".tools/*.js"],
 			"env": {
 				"node": true
