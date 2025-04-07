@@ -73,7 +73,6 @@ importOwnModule("gui/browserRequest.sys.mjs");
 importOwnModule("wrappers/cal.sys.mjs");
 importOwnModule("wrappers/oauth2Module.sys.mjs");
 importOwnModule("wrappers/oauth2.sys.mjs");
-importOwnModule("wrappers/CardBook.sys.mjs");
 
 exports.credentials = class extends ExtensionCommon.ExtensionAPI {
 	getAPI(context){

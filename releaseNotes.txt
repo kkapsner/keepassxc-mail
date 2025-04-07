@@ -8,6 +8,7 @@ changes:
 
 	- new version scheme
 	- major code refactoring
+	- remove support for Cardbook (as requested by ATN)
 
 fixes:
 
