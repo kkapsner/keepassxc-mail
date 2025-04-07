@@ -9,6 +9,7 @@ changes:
 	- new version scheme
 	- major code refactoring
 	- remove support for Cardbook (as requested by ATN)
+	- increase minimal version to 128
 
 fixes:
 
