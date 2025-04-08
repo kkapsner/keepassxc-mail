@@ -18,9 +18,12 @@ const browserAction = {
 
 // enable access to keepass object in option page
 window.keepass = keepass;
-const isKeepassReady = async function(){
-	const { isReady } = await import("./modules/keepass.js");
-	return isReady;
+const isKeepassReady = function(){
+	const keepassModule = import("./modules/keepass.js");
+	return async function(){
+		const { isReady } = await keepassModule;
+		return isReady();
+	};
 }();
 window.isKeepassReady = isKeepassReady;
 
