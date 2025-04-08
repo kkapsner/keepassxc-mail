@@ -1,5 +1,5 @@
-import { Services } from "./Services.sys.mjs";
-import { storeCredentials, requestCredentials } from "./credentials.sys.mjs";
+import { Services } from "./Services.sys.js";
+import { storeCredentials, requestCredentials } from "./credentials.sys.js";
 
 
 export function waitForPromise(promise, defaultValue){

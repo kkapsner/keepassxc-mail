@@ -1,4 +1,4 @@
-import { initPromptFunctions, registerPromptFunctions } from "./utils.sys.mjs";
+import { initPromptFunctions, registerPromptFunctions } from "./utils.sys.js";
 import { Prompter } from "resource://gre/modules/Prompter.sys.mjs";
 const promptFunctions = [
 	{

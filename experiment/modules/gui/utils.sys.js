@@ -1,5 +1,5 @@
-import { extension } from "../extension.sys.mjs";
-import { requestCredentials } from "../credentials.sys.mjs";
+import { extension } from "../extension.sys.js";
+import { requestCredentials } from "../credentials.sys.js";
 
 function getTranslation(name, variables){
 	const translation = extension.localeData.localizeMessage(name) || name;

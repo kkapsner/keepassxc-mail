@@ -1,4 +1,4 @@
-import { initPromptFunctions, registerPromptFunctions } from "./utils.sys.mjs";
+import { initPromptFunctions, registerPromptFunctions } from "./utils.sys.js";
 import { MsgAuthPrompt } from "resource:///modules/MsgAsyncPrompter.sys.mjs";
 
 const promptFunctions = [

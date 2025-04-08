@@ -1,5 +1,5 @@
 /* globals Components, Localization */
-import { log } from "./log.sys.mjs";
+import { log } from "./log.sys.js";
 
 export const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol, addDialogType} = function(){
 	const stringBundleService = Components.classes["@mozilla.org/intl/stringbundle;1"]

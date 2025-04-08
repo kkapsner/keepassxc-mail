@@ -1,6 +1,6 @@
 /* globals Components */
 import { cal } from "resource:///modules/calendar/calUtils.sys.mjs";
-import { addWindowListener } from "./windowListener.sys.mjs";
+import { addWindowListener } from "./windowListener.sys.js";
 
 const getCredentialInfoForGdata = function(){
 	return function getCredentialInfoForGdata(window){

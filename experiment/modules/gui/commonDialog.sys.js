@@ -1,5 +1,5 @@
-import { getCredentialInfoFromStrings } from "../dialogStrings.sys.mjs";
-import { addWindowListener } from "./windowListener.sys.mjs";
+import { getCredentialInfoFromStrings } from "../dialogStrings.sys.js";
+import { addWindowListener } from "./windowListener.sys.js";
 
 function getCredentialInfo(window){
 	const promptType = window.args.promptType;

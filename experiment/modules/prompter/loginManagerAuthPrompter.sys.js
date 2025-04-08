@@ -1,4 +1,4 @@
-import { initPromptFunctions, registerPromptFunctions } from "./utils.sys.mjs";
+import { initPromptFunctions, registerPromptFunctions } from "./utils.sys.js";
 import { LoginManagerAuthPrompter } from "resource://gre/modules/LoginManagerAuthPrompter.sys.mjs";
 
 const promptFunctions = [

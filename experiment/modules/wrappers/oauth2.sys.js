@@ -1,7 +1,7 @@
 import { OAuth2 } from "resource:///modules/OAuth2.sys.mjs";
-import { getRefreshToken } from "./oauth2Module.sys.mjs";
-import { Services } from "../Services.sys.mjs";
-import { addSetup } from "../setup.sys.mjs";
+import { getRefreshToken } from "./oauth2Module.sys.js";
+import { Services } from "../Services.sys.js";
+import { addSetup } from "../setup.sys.js";
 
 if (OAuth2.prototype.hasOwnProperty("connect")){
 	const getUsername = function getUsername(oAuth){

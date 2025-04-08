@@ -1,4 +1,4 @@
-import { setSelectedEntry, getSelectedEntryUuid, setStoreAtEntry, getStoreAtEntry } from "./selected.mjs";
+import { setSelectedEntry, getSelectedEntryUuid, setStoreAtEntry, getStoreAtEntry } from "./selected.js";
 
 const waitForPort = (function(){
 	const ports = new Map();

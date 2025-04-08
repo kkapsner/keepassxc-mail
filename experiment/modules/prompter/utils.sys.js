@@ -1,7 +1,7 @@
-import { Services } from "../Services.sys.mjs";
-import { waitForCredentials } from "../wait.sys.mjs";
-import { getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol } from "../dialogStrings.sys.mjs";
-import { addSetup } from "../setup.sys.mjs";
+import { Services } from "../Services.sys.js";
+import { waitForCredentials } from "../wait.sys.js";
+import { getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol } from "../dialogStrings.sys.js";
+import { addSetup } from "../setup.sys.js";
 
 export function registerPromptFunctions(promptFunctions){
 	addSetup({

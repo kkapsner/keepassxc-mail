@@ -1,4 +1,4 @@
-import { passwordEmitter, passwordRequestEmitter } from "./emitters.sys.mjs";
+import { passwordEmitter, passwordRequestEmitter } from "./emitters.sys.js";
 
 export async function storeCredentials(data){
 	return passwordEmitter.emit("password", data);

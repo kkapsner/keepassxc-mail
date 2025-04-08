@@ -1,7 +1,7 @@
 /* globals keepass, keepassClient */
-import { log } from "./log.mjs";
-import { connect, disconnect } from "./nativeMessaging.mjs";
-import { wait } from "./utils.mjs";
+import { log } from "./log.js";
+import { connect, disconnect } from "./nativeMessaging.js";
+import { wait } from "./utils.js";
 
 const k = keepass;
 const kc = keepassClient;

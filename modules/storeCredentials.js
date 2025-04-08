@@ -1,8 +1,8 @@
-import { log } from "./log.mjs";
-import { keepass, isReady as isKeepassReady } from "./keepass.mjs";
-import { wait } from "./utils.mjs";
-import { messageModal, savingPasswordModal } from "./modal.mjs";
-import { selectedEntries } from "./selected.mjs";
+import { log } from "./log.js";
+import { keepass, isReady as isKeepassReady } from "./keepass.js";
+import { wait } from "./utils.js";
+import { messageModal, savingPasswordModal } from "./modal.js";
+import { selectedEntries } from "./selected.js";
 
 const timeoutSymbol = Symbol("timeout");
 async function storeCredentialsToDatabase(credentialInfo, uuid){

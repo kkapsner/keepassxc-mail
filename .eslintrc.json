@@ -67,7 +67,7 @@
 			}
 		},
 		{
-			"files": ["*.mjs"],
+			"files": ["**/modules/**/*.js"],
 			"parserOptions": {
 				"sourceType": "module"
 			}

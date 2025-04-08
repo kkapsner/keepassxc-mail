@@ -46,7 +46,7 @@ resProto.setSubstitutionWithFlags(
 );
 
 const { log } = ChromeUtils.importESModule(
-	`resource://keepassxc-mail/experiment/modules/log.sys.mjs?${extension.addonData.version}`
+	`resource://keepassxc-mail/experiment/modules/log.sys.js?${extension.addonData.version}`
 );
 function importOwnModule(name){
 	try {
@@ -59,20 +59,20 @@ function importOwnModule(name){
 		return {};
 	}
 }
-const { passwordEmitter, passwordRequestEmitter } = importOwnModule("emitters.sys.mjs");
+const { passwordEmitter, passwordRequestEmitter } = importOwnModule("emitters.sys.js");
 
-importOwnModule("onlineOfflineControl.sys.mjs");
+importOwnModule("onlineOfflineControl.sys.js");
 
-importOwnModule("prompter/asyncPrompter.sys.mjs");
-importOwnModule("prompter/loginManagerAuthPrompter.sys.mjs");
-importOwnModule("prompter/prompter.sys.mjs");
+importOwnModule("prompter/asyncPrompter.sys.js");
+importOwnModule("prompter/loginManagerAuthPrompter.sys.js");
+importOwnModule("prompter/prompter.sys.js");
 
-importOwnModule("gui/commonDialog.sys.mjs");
-importOwnModule("gui/browserRequest.sys.mjs");
+importOwnModule("gui/commonDialog.sys.js");
+importOwnModule("gui/browserRequest.sys.js");
 
-importOwnModule("wrappers/cal.sys.mjs");
-importOwnModule("wrappers/oauth2Module.sys.mjs");
-importOwnModule("wrappers/oauth2.sys.mjs");
+importOwnModule("wrappers/cal.sys.js");
+importOwnModule("wrappers/oauth2Module.sys.js");
+importOwnModule("wrappers/oauth2.sys.js");
 
 exports.credentials = class extends ExtensionCommon.ExtensionAPI {
 	getAPI(context){

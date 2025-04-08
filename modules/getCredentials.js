@@ -1,6 +1,6 @@
-import { log } from "./log.mjs";
-import { isReady as isKeepassReady, keepass } from "./keepass.mjs";
-import { choiceModal } from "./modal.mjs";
+import { log } from "./log.js";
+import { isReady as isKeepassReady, keepass } from "./keepass.js";
+import { choiceModal } from "./modal.js";
 
 const lastRequest = {};
 export async function getCredentials(credentialInfo){

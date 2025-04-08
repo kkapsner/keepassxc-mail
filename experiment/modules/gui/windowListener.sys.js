@@ -1,9 +1,9 @@
 
 import { ExtensionSupport } from "resource:///modules/ExtensionSupport.sys.mjs";
-import { addSetup } from "../setup.sys.mjs";
-import { passwordEmitter } from "../emitters.sys.mjs";
-import { buildDialogGui, updateGUI } from "./utils.sys.mjs";
-import { requestCredentials } from "../credentials.sys.mjs";
+import { addSetup } from "../setup.sys.js";
+import { passwordEmitter } from "../emitters.sys.js";
+import { buildDialogGui, updateGUI } from "./utils.sys.js";
+import { requestCredentials } from "../credentials.sys.js";
 
 const windowListeners = [];
 

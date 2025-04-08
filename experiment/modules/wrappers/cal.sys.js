@@ -1,8 +1,8 @@
 
 import { cal } from "resource:///modules/calendar/calUtils.sys.mjs";
-import { waitForCredentials } from "../wait.sys.mjs";
-import { storeCredentials } from "../credentials.sys.mjs";
-import { addSetup } from "../setup.sys.mjs";
+import { waitForCredentials } from "../wait.sys.js";
+import { storeCredentials } from "../credentials.sys.js";
+import { addSetup } from "../setup.sys.js";
 
 const originalPasswordManagerGet = cal.auth.passwordManagerGet;
 const originalPasswordManagerSave = cal.auth.passwordManagerSave;

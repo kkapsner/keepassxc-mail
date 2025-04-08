@@ -1,8 +1,8 @@
 /* globals ChromeUtils */
-import { log } from "./log.sys.mjs";
-import { Services } from "./Services.sys.mjs";
+import { log } from "./log.sys.js";
+import { Services } from "./Services.sys.js";
 import { OfflineStartup } from "resource:///modules/OfflineStartup.sys.mjs";
-import { addSetup } from "./setup.sys.mjs";
+import { addSetup } from "./setup.sys.js";
 
 // online/offline control
 const ALWAYS_OFFLINE = 3;

@@ -1,5 +1,5 @@
 /* globals keepassClient, keepass, onDisconnected */
-import { log } from "./log.mjs";
+import { log } from "./log.js";
 
 keepassClient.nativeHostName = "de.kkapsner.keepassxc_mail";
 export async function connect(forceOptionSearch){

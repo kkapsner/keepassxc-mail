@@ -1,7 +1,7 @@
 import { OAuth2Module } from "resource:///modules/OAuth2Module.sys.mjs";
 import { clearTimeout, setTimeout } from "resource://gre/modules/Timer.sys.mjs";
-import { waitForCredentials, waitForPasswordStore } from "../wait.sys.mjs";
-import { addSetup } from "../setup.sys.mjs";
+import { waitForCredentials, waitForPasswordStore } from "../wait.sys.js";
+import { addSetup } from "../setup.sys.js";
 
 const temporaryCache = new Map();
 const getKey = function getKey(oAuth2Module){

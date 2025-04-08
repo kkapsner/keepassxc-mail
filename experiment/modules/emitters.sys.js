@@ -1,6 +1,6 @@
-import { log } from "./log.sys.mjs";
+import { log } from "./log.sys.js";
 import { ExtensionCommon } from "resource://gre/modules/ExtensionCommon.sys.mjs";
-import { setup, shutdown } from "./setup.sys.mjs";
+import { setup, shutdown } from "./setup.sys.js";
 
 log("initializing emitters");
 
