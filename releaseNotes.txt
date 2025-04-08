@@ -2,19 +2,19 @@ Version 1.11
 
 new features:
 
-	- 
+	- bump version support to 139.0
 
 changes:
 
 	- new version scheme
 	- major code refactoring
 	- remove support for Cardbook (as requested by ATN)
-	- increase minimal version to 128
+	- bump minimal version to 128 (older not tested after code refactoring)
 
 fixes:
 
 	- reduce delay when resizing a modal window
-	- bump version support to 139.0
+	- show correct code location for logging
 
 Version 1.10.1
 

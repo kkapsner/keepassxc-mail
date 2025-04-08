@@ -4,13 +4,17 @@ export const log = function(){
 		const s = d.toString();
 		return "0".repeat(n - s.length) + s;
 	}
-	return function log(...args){
+	function getCurrentTimestamp(){
 		const now = new Date();
-		console.log(
-			`${f(now.getFullYear(), 4)}-${f(now.getMonth() + 1, 2)}-${f(now.getDate(), 2)} `+
+		return `${f(now.getFullYear(), 4)}-${f(now.getMonth() + 1, 2)}-${f(now.getDate(), 2)} `+
 			`${f(now.getHours(), 2)}:${f(now.getMinutes(), 2)}:` +
-			`${f(now.getSeconds(), 2)}.${f(now.getMilliseconds(), 3)}:`,
-			...args
-		);
-	};
+			`${f(now.getSeconds(), 2)}.${f(now.getMilliseconds(), 3)}`;
+	}
+	class Prefix{
+		toString(){
+			return `KeePassXC-Mail (${getCurrentTimestamp()}):`;
+		}
+	}
+	
+	return console.log.bind(console, "%s", new Prefix());
 }();
