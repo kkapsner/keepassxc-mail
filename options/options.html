@@ -16,6 +16,21 @@
 		<label><input type="checkbox" class="setting" id="autoSaveNewCredentials" data-default-value="false"> <span data-translation="options.autoSaveNewCredentials.label">Save new credentials without prompt</span></label>
 		<button data-translation="options.clearSelectedEntries" data-active-message="options.clearingSelectedEntries" class="action" id="clearSelectedEntries">Clear storage of selected entries</button><br>
 		
+		<section id="privilegesSection">
+			<h2 data-translation="options.externalPrivileges">External privileges</h2>
+			<table id="privilegesTable">
+				<thead>
+					<tr>
+						<th data-translation="options.externalPrivileges.extensionName">extension</th>
+						<th data-translation="options.externalPrivileges.request">request</th>
+						<th data-translation="options.externalPrivileges.store">store</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody id="privileges"></tbody>
+			</table>
+		</section>
+		
 		<h2 data-translation="options.databases">Database connections</h2>
 		<button data-translation="options.reconnect" data-active-message="options.reconnecting" class="action" id="reconnect">Reconnect to Native Messaging</button><br>
 		<button data-translation="options.associate" data-active-message="options.associating" class="action" id="associate">Connect to KeePassXC</button><br>

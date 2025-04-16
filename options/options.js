@@ -29,6 +29,86 @@ async function updateConnections(){
 }
 updateConnections();
 
+function createPrivilegeInput(extension, privileges, privilegesApi, type){
+	const input = document.createElement("input");
+	input.type = "checkbox";
+	const state = privileges[type];
+	input.checked = state;
+	input.indeterminate = state === undefined;
+	input.addEventListener("change", function(){
+		privilegesApi.setPrivileges(extension.id, type, input.checked);
+	});
+	return input;
+}
+
+function createPrivilegeResetButton(extension, privileges, privilegesApi, reset){
+	const button = document.createElement("button");
+	button.textContent = "🗑";
+	button.addEventListener("click", async function(){
+		await privilegesApi.setPrivileges(extension.id, "request", undefined);
+		await privilegesApi.setPrivileges(extension.id, "store", undefined);
+		await reset();
+	});
+	return button;
+}
+
+const privilegeColumns = [
+	e => {
+		const name = document.createElement("span");
+		name.textContent = e.name;
+		name.title = e.id;
+		return name;
+	},
+	(e, p, api) => createPrivilegeInput(e, p, api, "request"),
+	(e, p, api) => createPrivilegeInput(e, p, api, "store"),
+	(e, p, api, reset) => createPrivilegeResetButton(e, p, api, reset),
+];
+async function createPrivilegesDisplay(extension, privilegesApi){
+	const container = document.createElement("tr");
+	async function reset(){
+		const privileges = await privilegesApi.getPrivileges(extension.id);
+		container.innerHTML = "";
+		privilegeColumns
+			.map(c => c(extension, privileges, privilegesApi, reset))
+			.forEach(function(content){
+				const cell = document.createElement("td");
+				if (!(content instanceof Node)){
+					cell.title = content;
+					content = document.createTextNode(content);
+				}
+				cell.appendChild(content);
+				container.appendChild(cell);
+			});
+	}
+	reset();
+	return container;
+}
+
+async function updatePrivileges(){
+	const [privilegesApi, extensions, self] = await Promise.all([
+		import("../modules/externalPrivileges.js"),
+		browser.management.getAll(),
+		browser.management.getSelf(),
+	]);
+	
+	const privileges = document.getElementById("privileges");
+	let onePresent = false;
+	privileges.innerHTML = "";
+	const rows = await Promise.all(
+		extensions
+			.filter(extension => extension.type === "extension" && extension.id !== self.id)
+			.map(extension => createPrivilegesDisplay(extension, privilegesApi))
+	);
+	rows.forEach(row => {
+		onePresent = true;
+		privileges.appendChild(row);
+	});
+	if (!onePresent){
+		document.getElementById("privilegesSection").style.display = "none";
+	}
+}
+updatePrivileges();
+
 const actions = {
 	clearSelectedEntries: async function(){
 		const backgroundPage = browser.extension.getBackgroundPage();

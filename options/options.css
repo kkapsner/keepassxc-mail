@@ -30,3 +30,20 @@ h1 {
 #connectionTable thead {
 	background-color: lightgray;
 }
+
+#privilegesTable {
+	table-layout: fixed;
+	width: 100%;
+	border-collapse: collapse;
+	margin: 1em 0em;
+}
+
+#privilegesTable td, #privilegesTable th {
+	border: 1px solid darkgray;
+	overflow: hidden;
+	padding: 2px;
+}
+
+#privilegesTable thead {
+	background-color: lightgray;
+}
