@@ -156,19 +156,19 @@
 		"description": "Created"
 	},
 	"options.externalPrivileges": {
-		"message": "External privileges",
+		"message": "Externe Berechtigungen",
 		"description": "External privileges"
 	},
 	"options.externalPrivileges.extensionName": {
-		"message": "extension",
+		"message": "Extension",
 		"description": "extension"
 	},
 	"options.externalPrivileges.request": {
-		"message": "request",
+		"message": "anfordern",
 		"description": "request"
 	},
 	"options.externalPrivileges.store": {
-		"message": "store",
+		"message": "speichern",
 		"description": "store"
 	},
 	"modal.savingPassword.title": {
@@ -248,19 +248,19 @@
 		"description": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nPlease check your KeePassXC settings to allow password saving and updating."
 	},
 	"privilegeRequest.title": {
-		"message": "Privilege request",
+		"message": "Berechtigungsanfrage",
 		"description": "Privilege request"
 	},
 	"privilegeRequest.message": {
-		"message": "{typeMessage}\n\nDo you want to allow this?\n\nThis decision will be stored for further requests and can be changed in the extension preferences.",
+		"message": "{typeMessage}\n\nWollen Sie dies erlauben?\n\nDiese Entscheidung wird für zukünftige Anfragen gespeichert und kann in den Einstellungen geändert werden.",
 		"description": "{typeMessage}\n\nDo you want to allow this?\n\nThis decision will be stored for further requests and can be changed in the extension preferences."
 	},
 	"privilegeRequest.message.request": {
-		"message": "The extension {extensionName} wants to request passwords.",
+		"message": "Die Extension {extensionName} will Passwörter anfordern.",
 		"description": "The extension {extensionName} wants to request passwords."
 	},
 	"privilegeRequest.message.store": {
-		"message": "The extension {extensionName} wants to store passwords.",
+		"message": "Die Extension {extensionName} will Passwörter speichern.",
 		"description": "The extension {extensionName} wants to store passwords."
 	}
 }
