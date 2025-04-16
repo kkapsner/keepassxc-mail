@@ -1,7 +1,7 @@
 {
 	"name": "keepassxc-mail",
 	"description": "MailExtension to talk to keepassxc",
-	"version": "1.11.20250416.5",
+	"version": "1.11.20250416.6",
 	"icons": {
 		"48": "icons/icon.svg",
 		"96": "icons/icon.svg"
