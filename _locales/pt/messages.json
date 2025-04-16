@@ -155,6 +155,22 @@
 		"message": "Created",
 		"description": "Created"
 	},
+	"options.externalPrivileges": {
+		"message": "External privileges",
+		"description": "External privileges"
+	},
+	"options.externalPrivileges.extensionName": {
+		"message": "extension",
+		"description": "extension"
+	},
+	"options.externalPrivileges.request": {
+		"message": "request",
+		"description": "request"
+	},
+	"options.externalPrivileges.store": {
+		"message": "store",
+		"description": "store"
+	},
 	"modal.savingPassword.title": {
 		"message": "Guardar a senha de {host} na base de dados do KeePass?",
 		"description": "Save password for {host} to KeePass database?"
@@ -230,5 +246,21 @@
 	"savePassword.timeout.message": {
 		"message": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nPlease check your KeePassXC settings to allow password saving and updating.",
 		"description": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nPlease check your KeePassXC settings to allow password saving and updating."
+	},
+	"privilegeRequest.title": {
+		"message": "Privilege request",
+		"description": "Privilege request"
+	},
+	"privilegeRequest.message": {
+		"message": "{typeMessage}\n\nDo you want to allow this?\n\nThis decision will be stored for further requests and can be changed in the extension preferences.",
+		"description": "{typeMessage}\n\nDo you want to allow this?\n\nThis decision will be stored for further requests and can be changed in the extension preferences."
+	},
+	"privilegeRequest.message.request": {
+		"message": "The extension {extensionName} wants to request passwords.",
+		"description": "The extension {extensionName} wants to request passwords."
+	},
+	"privilegeRequest.message.store": {
+		"message": "The extension {extensionName} wants to store passwords.",
+		"description": "The extension {extensionName} wants to store passwords."
 	}
 }
