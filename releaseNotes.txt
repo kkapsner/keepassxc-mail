@@ -2,7 +2,8 @@ Version 1.12
 
 new features:
 
-	- 
+	- new translations
+	- bump version support to 141.*
 
 changes:
 
