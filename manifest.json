@@ -1,7 +1,7 @@
 {
 	"name": "keepassxc-mail",
 	"description": "MailExtension to talk to keepassxc",
-	"version": "1.12.20250629.0",
+	"version": "1.13",
 	"icons": {
 		"48": "icons/icon.svg",
 		"96": "icons/icon.svg"
@@ -47,7 +47,7 @@
 		"gecko": {
 			"id": "keepassxc-mail@kkapsner.de",
 			"strict_min_version": "128.0",
-			"strict_max_version": "141.*"
+			"strict_max_version": "142.0"
 		}
 	},
 	"default_locale": "en",
