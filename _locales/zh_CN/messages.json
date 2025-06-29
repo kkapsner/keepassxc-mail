@@ -76,7 +76,7 @@
 		"description": "Retry"
 	},
 	"pickedEntry": {
-		"message": "Picked entry \"{name|login|\"---\"}\"",
+		"message": "已选中条目：{name|login|\"---\"}",
 		"description": "Picked entry \"{name|login|\"---\"}\""
 	},
 	"entryLabel": {
