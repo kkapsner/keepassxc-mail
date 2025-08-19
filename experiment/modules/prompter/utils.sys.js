@@ -1,4 +1,4 @@
-import { Services } from "../Services.sys.js";
+/* globals Services */
 import { waitForCredentials } from "../wait.sys.js";
 import { getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol } from "../dialogStrings.sys.js";
 import { addSetup } from "../setup.sys.js";

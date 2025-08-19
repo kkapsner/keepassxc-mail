@@ -1,6 +1,5 @@
-/* globals ChromeUtils */
+/* globals ChromeUtils, Services */
 import { log } from "./log.sys.js";
-import { Services } from "./Services.sys.js";
 import { OfflineStartup } from "resource:///modules/OfflineStartup.sys.mjs";
 import { addSetup } from "./setup.sys.js";
 
