@@ -9,10 +9,6 @@ changes:
 	- update keepass.js to version 1.9.10
 	- update client.js to version 1.9.10 (no changes)
 
-fixes:
-
-	- 
-
 Version 1.12
 
 new features:

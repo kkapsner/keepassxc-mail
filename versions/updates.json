@@ -129,6 +129,10 @@
 				{
 					"version": "1.12.20250629.0",
 					"update_link": "https://keepassxc-mail.kkapsner.de/versions/keepassxc_mail-1.12.20250629.0-tb.xpi"
+				},
+				{
+					"version": "1.13.20251007.0",
+					"update_link": "https://keepassxc-mail.kkapsner.de/versions/keepassxc_mail-1.13.20251007.0-tb.xpi"
 				}
 			]
 		}
