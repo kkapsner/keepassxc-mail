@@ -47,7 +47,7 @@
 		"gecko": {
 			"id": "keepassxc-mail@kkapsner.de",
 			"strict_min_version": "128.0",
-			"strict_max_version": "142.0"
+			"strict_max_version": "145.*"
 		}
 	},
 	"default_locale": "en",
