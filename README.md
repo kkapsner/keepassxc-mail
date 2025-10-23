@@ -37,8 +37,6 @@ Set-ItemProperty -path 'HKCU:\Software\Mozilla\NativeMessagingHosts\de.kkapsner.
 
 ### Linux
 
-*NOTE*: if Thunderbird is installed via Snap or flatpak it might not work (see #95 for further details)
-
 Run the following command in a terminal:
 ```Shell
 cat ~/.mozilla/native-messaging-hosts/org.keepassxc.keepassxc_browser.json \
@@ -46,6 +44,8 @@ cat ~/.mozilla/native-messaging-hosts/org.keepassxc.keepassxc_browser.json \
  | sed s/org.keepassxc.keepassxc_browser/de.kkapsner.keepassxc_mail/ \
  > ~/.mozilla/native-messaging-hosts/de.kkapsner.keepassxc_mail.json
 ```
+
+If Thunderbird is installed via Snap or flatpak you might need to enable the native messaging via the `widget.use-xdg-desktop-portal.native-messaging` setting (set it to 1 or 2) or do some deeper workarounds. See https://github.com/kkapsner/keepassxc-mail/issues/95 for further details.
 
 ### Mac OS X
 
