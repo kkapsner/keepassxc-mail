@@ -188,13 +188,15 @@ export const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProto
 		hostPlaceholder: "%2$S",
 		loginPlaceholder: "%1$S"
 	});
-	addDialogType({
+	const ldapType = addDialogType({
 		protocol: "ldap",
 		title:  getBundleString("ldap", "authPromptTitle"),
 		dialog: getBundleString("ldap", "authPromptText"),
 		hostPlaceholder: "%1$S",
 		loginPlaceholder: ""
 	});
+	ldapType.noLoginRequired = true;
+	
 	addDialogType({
 		protocol: false,
 		title:  getBundleString("wcap", "loginDialog.label"),

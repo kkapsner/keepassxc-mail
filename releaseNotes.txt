@@ -11,6 +11,7 @@ changes:
 fixes:
 
 	- "Clear storage of selected entries" caused an error
+	- support for LDAP was broken
 
 Version 1.13
 
