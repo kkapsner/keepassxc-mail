@@ -112,7 +112,8 @@ updatePrivileges();
 const actions = {
 	clearSelectedEntries: async function(){
 		const backgroundPage = browser.extension.getBackgroundPage();
-		backgroundPage.clearSelectedEntries();
+		const selectedModule = await backgroundPage.selectedModule;
+		selectedModule.clearSelectedEntries();
 	},
 	reconnect: async function(){
 		const backgroundPage = browser.extension.getBackgroundPage();

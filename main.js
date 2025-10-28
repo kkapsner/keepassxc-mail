@@ -29,6 +29,8 @@ window.isKeepassReady = isKeepassReady;
 
 import("./modules/externalRequests.js");
 
+window.selectedModule = import("./modules/selected.js");
+
 const getCredentialsModule = import("./modules/getCredentials.js");
 browser.credentials.onCredentialRequested.addListener(async function(credentialInfo){
 	const { getCredentials } = await getCredentialsModule;

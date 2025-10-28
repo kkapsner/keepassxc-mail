@@ -10,7 +10,7 @@ changes:
 
 fixes:
 
-	- 
+	- "Clear storage of selected entries" caused an error
 
 Version 1.13
 
