@@ -63,6 +63,78 @@
 		"message": "No logins found.",
 		"description": "No logins found."
 	},
+	"errorMessageNoGroupsFound": {
+		"message": "No groups found.",
+		"description": "No groups found."
+	},
+	"errorMessageCannotCreateNewGroup": {
+		"message": "Cannot create new group.",
+		"description": "Cannot create new group."
+	},
+	"errorMessageNoValidUuidProvided": {
+		"message": "No valid UUID provided.",
+		"description": "No valid UUID provided."
+	},
+	"errorMessageAccessToAllEntriesDenied": {
+		"message": "Access to all entries denied.",
+		"description": "Access to all entries denied."
+	},
+	"errorMessagePasskeysAttestationNotSupported": {
+		"message": "Attestation not supported.",
+		"description": "Attestation not supported."
+	},
+	"errorMessagePasskeysCredentialIsExcluded": {
+		"message": "Credential is excluded.",
+		"description": "Credential is excluded."
+	},
+	"errorMessagePasskeysRequestCanceled": {
+		"message": "Passkeys request canceled.",
+		"description": "Passkeys request canceled."
+	},
+	"errorMessagePasskeysInvalidUserVerification": {
+		"message": "Invalid user verification.",
+		"description": "Invalid user verification."
+	},
+	"errorMessagePasskeysEmptyPublicKey": {
+		"message": "Empty public key.",
+		"description": "Empty public key."
+	},
+	"errorMessagePasskeysInvalidUrlProvided": {
+		"message": "Invalid URL provided.",
+		"description": "Invalid URL provided."
+	},
+	"errorMessagePasskeysOriginNotAllowed": {
+		"message": "Origin is empty or not allowed.",
+		"description": "Origin is empty or not allowed."
+	},
+	"errorMessagePasskeysDomainNotValid": {
+		"message": "Effective domain is not a valid domain.",
+		"description": "Effective domain is not a valid domain."
+	},
+	"errorMessagePasskeysDomainRpIdMismatch": {
+		"message": "Origin and RP ID do not match.",
+		"description": "Origin and RP ID do not match."
+	},
+	"errorMessagePasskeysNoSupportedAlgorithms": {
+		"message": "No supported algorithms were provided.",
+		"description": "No supported algorithms were provided."
+	},
+	"errorMessagePasskeysWaitforLifeTimer": {
+		"message": "Wait for timer to expire.",
+		"description": "Wait for timer to expire."
+	},
+	"errorMessagePasskeysUnknownError": {
+		"message": "Unknown passkeys error.",
+		"description": "Unknown passkeys error."
+	},
+	"errorMessagePasskeysInvalidChallenge": {
+		"message": "Challenge is shorter than required minimum length.",
+		"description": "Challenge is shorter than required minimum length."
+	},
+	"errorMessagePasskeysInvalidUserId": {
+		"message": "user.id does not match the required length.",
+		"description": "user.id does not match the required length."
+	},
 	"loadingPasswords": {
 		"message": "Loading passwords...",
 		"description": "Loading passwords..."
@@ -171,79 +243,79 @@
 		"message": "store",
 		"description": "store"
 	},
-	"modal.savingPassword.title":{
+	"modal.savingPassword.title": {
 		"message": "Save password for {host} to KeePass database?",
 		"description": "Save password for {host} to KeePass database?"
 	},
-	"modal.savingPassword.questionWithLogin":{
+	"modal.savingPassword.questionWithLogin": {
 		"message": "Do you want to save the entered password for {login} on {host} to the KeePass database?",
 		"description": "Do you want to save the entered password for {login} on {host} to the KeePass database?"
 	},
-	"modal.savingPassword.questionWithoutLogin":{
+	"modal.savingPassword.questionWithoutLogin": {
 		"message": "Do you want to save the entered password for {host} to the KeePass database?",
 		"description": "Do you want to save the entered password for {host} to the KeePass database?"
 	},
-	"modal.savingPassword.newEntry":{
+	"modal.savingPassword.newEntry": {
 		"message": " - create new entry - ",
 		"description": " - create new entry - "
 	},
-	"modal.savingPassword.yes":{
+	"modal.savingPassword.yes": {
 		"message": "Yes",
 		"description": "Yes"
 	},
-	"modal.savingPassword.no":{
+	"modal.savingPassword.no": {
 		"message": "No",
 		"description": "No"
 	},
-	"modal.choice.title":{
+	"modal.choice.title": {
 		"message": "Select correct entry for {host}",
 		"description": "Select correct entry for {host}"
 	},
-	"modal.choice.textWithLogin":{
+	"modal.choice.textWithLogin": {
 		"message": "Please select the correct entry for {login} on {host}.",
 		"description": "Please select the correct entry for {login} on {host}."
 	},
-	"modal.choice.textWithoutLogin":{
+	"modal.choice.textWithoutLogin": {
 		"message": "Please select the correct entry for {host}.",
 		"description": "Please select the correct entry for {host}."
 	},
-	"modal.choice.doNotAskAgain":{
+	"modal.choice.doNotAskAgain": {
 		"message": "Do not ask again.",
 		"description": "Do not ask again."
 	},
-	"modal.choice.ok":{
+	"modal.choice.ok": {
 		"message": "OK",
 		"description": "OK"
 	},
-	"modal.choice.cancel":{
+	"modal.choice.cancel": {
 		"message": "Cancel",
 		"description": "Cancel"
 	},
-	"modal.confirm.yes":{
+	"modal.confirm.yes": {
 		"message": "Yes",
 		"description": "Yes"
 	},
-	"modal.confirm.no":{
+	"modal.confirm.no": {
 		"message": "No",
 		"description": "No"
 	},
-	"modal.message.ok":{
+	"modal.message.ok": {
 		"message": "OK",
 		"description": "OK"
 	},
-	"createPasswordGroup.timeout.title":{
+	"createPasswordGroup.timeout.title": {
 		"message": "Creating password group timeout",
 		"description": "Creating password group timeout"
 	},
-	"createPasswordGroup.timeout.message":{
+	"createPasswordGroup.timeout.message": {
 		"message": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nCreating the password group timed out. Please check your KeePassXC settings to allow group creation.",
 		"description": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nCreating the password group timed out. Please check your KeePassXC settings to allow group creation."
 	},
-	"savePassword.timeout.title":{
+	"savePassword.timeout.title": {
 		"message": "Saving password timeout",
 		"description": "Saving password timeout"
 	},
-	"savePassword.timeout.message":{
+	"savePassword.timeout.message": {
 		"message": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nPlease check your KeePassXC settings to allow password saving and updating.",
 		"description": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nPlease check your KeePassXC settings to allow password saving and updating."
 	},

@@ -12,6 +12,7 @@ fixes:
 
 	- "Clear storage of selected entries" caused an error
 	- support for LDAP was broken
+	- added missing translations for new error messages form keepassxc-browser
 
 Version 1.13
 
