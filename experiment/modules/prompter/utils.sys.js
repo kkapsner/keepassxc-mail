@@ -113,10 +113,15 @@ function initPromptFunction(promptFunction, object){
 					args[promptFunction.passwordObjectIndex].value = credentials[0].password;
 				}
 				
-				if (promptFunction.hasOwnProperty("savePasswordIndex")){
+				return true;
+			}
+			if (promptFunction.hasOwnProperty("savePasswordIndex")){
+				if (promptFunction.hasOwnProperty("savePasswordValue")){
+					args[promptFunction.savePasswordIndex] = promptFunction.savePasswordValue;
+				}
+				else {
 					args[promptFunction.savePasswordIndex].value = false;
 				}
-				return true;
 			}
 			if (data.mayAddProtocol && promptFunction.hasOwnProperty("titleIndex")){
 				args[promptFunction.titleIndex] += ` (${data.protocol})`;
