@@ -68,7 +68,6 @@ importOwnModule("prompter/loginManagerAuthPrompter.sys.js");
 importOwnModule("prompter/prompter.sys.js");
 
 importOwnModule("gui/commonDialog.sys.js");
-importOwnModule("gui/browserRequest.sys.js");
 
 importOwnModule("wrappers/cal.sys.js");
 importOwnModule("wrappers/oauth2Module.sys.js");
