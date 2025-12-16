@@ -1,9 +1,5 @@
 Version 1.14
 
-new features:
-
-	- 
-
 changes:
 
 	- bump version support to 148.*
