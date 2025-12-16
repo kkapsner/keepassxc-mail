@@ -1,5 +1,6 @@
 /* globals Services */
 import { waitForCredentials } from "../wait.sys.js";
+import { log }  from "../log.sys.js";
 import { getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol } from "../dialogStrings.sys.js";
 import { addSetup } from "../setup.sys.js";
 
@@ -76,6 +77,12 @@ function initPromptFunction(promptFunction, object){
 	promptFunction.promptDataFunctions = createPromptDataFunctions(promptFunction);
 	promptFunction.loginChangeable = promptFunction.promptType === "promptUserAndPass";
 	promptFunction.original = object[promptFunction.name];
+	
+	if (!promptFunction.original){
+		log("Unable to find", promptFunction.name, "in", object);
+		promptFunction.replacement = promptFunction.original;
+		return;
+	}
 	promptFunction.replacement = function(...args){
 		const data = promptFunction.promptDataFunctions.reduce((data, func) => {
 			if (!data){
