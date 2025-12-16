@@ -1,5 +1,6 @@
 /* globals Services */
-import { waitForCredentials } from "../wait.sys.js";
+import { waitForPromise } from "../wait.sys.js";
+import { requestCredentials } from "../credentials.sys.js";
 import { log }  from "../log.sys.js";
 import { getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProtocol } from "../dialogStrings.sys.js";
 import { addSetup } from "../setup.sys.js";
@@ -83,7 +84,8 @@ function initPromptFunction(promptFunction, object){
 		promptFunction.replacement = promptFunction.original;
 		return;
 	}
-	promptFunction.replacement = function(...args){
+	
+	const changedFunction = async function changedFunction(...args){
 		const data = promptFunction.promptDataFunctions.reduce((data, func) => {
 			if (!data){
 				return func.call(this, args);
@@ -97,7 +99,8 @@ function initPromptFunction(promptFunction, object){
 				promptFunction.setCredentials
 			)
 		){
-			const { credentials } = waitForCredentials({
+			const { credentials } = await requestCredentials({
+				openChoiceDialog: true,
 				host: data.host,
 				login: data.login,
 				loginChangeable: promptFunction.loginChangeable,
@@ -121,6 +124,10 @@ function initPromptFunction(promptFunction, object){
 		}
 		const ret = promptFunction.original.call(this, ...args);
 		return ret;
+	};
+	
+	promptFunction.replacement = promptFunction.isAsync? changedFunction: function(...args){
+		return waitForPromise(changedFunction.call(this, ...args), false);
 	};
 }
 
