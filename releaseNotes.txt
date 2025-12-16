@@ -8,6 +8,8 @@ changes:
 
 	- bump version support to 148.*
 	- remove integration with browser request windows
+	- update keepass.js to version 1.9.11 (no changes)
+	- update client.js to version 1.9.11 (no changes)
 
 fixes:
 
