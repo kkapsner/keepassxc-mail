@@ -33,7 +33,7 @@ export function getSelectedEntryUuid(id, entries){
 				entries.some(e => e.uuid === cached.uuid)
 			)
 		){
-			log("Use last selected entry for", id);
+			log(`Use last selected entry for ${id}: ${cached.uuid}`);
 			return cached.uuid;
 		}
 	}
