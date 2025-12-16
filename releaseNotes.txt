@@ -6,7 +6,7 @@ new features:
 
 changes:
 
-	- bump version support to 146.*
+	- bump version support to 148.*
 
 fixes:
 

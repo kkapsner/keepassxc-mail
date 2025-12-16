@@ -24,7 +24,7 @@ export const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProto
 		}
 		catch(e){
 			log("unable to get", stringName, "from bundle", bundleName);
-			return {bundleName, stringName, replace: ()=>{}, notFound: true};
+			return {bundleName, stringName, replace: () => "", indexOf: () => -1, notFound: true};
 		}
 	}
 	function getDialogType({
