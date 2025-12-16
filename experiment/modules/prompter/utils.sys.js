@@ -26,28 +26,29 @@ function createPromptDataFunctions(promptFunction){
 	if (promptFunction.hasOwnProperty("realmIndex")){
 		promptDataFunctions.push(function(args){
 			const realm = args[promptFunction.realmIndex];
-			let [realmHost, , realmLogin] = this._getRealmInfo(realm);
-			let protocol;
-			if (realmHost && realmHost.startsWith("mailbox://")){
-				realmHost = realmHost.replace("mailbox://", "pop3://");
-				protocol = "pop3";
+			try {
+				const uri = Services.io.newURI(realm);
+				const protocol = uri.scheme === "mailbox"? "pop3": uri.scheme;
+				const realmLogin = uri.username;
+				const realmHost = protocol + "://" + uri.displayHostPort;
+				// realm data provides the correct protocol but may have wrong server name
+				const {host: stringHost, login: stringLogin, mayAddProtocol} = getCredentialInfoFromStringsAndProtocol(
+					args[promptFunction.titleIndex],
+					args[promptFunction.textIndex],
+					protocol
+				);
+				return {
+					mayAddProtocol,
+					protocol,
+					host: stringHost || realmHost,
+					login: stringLogin || decodeURIComponent(realmLogin),
+					realm,
+				};
 			}
-			else {
-				protocol = realmHost && Services.io.newURI(realmHost).scheme;
+			catch (error){
+				log("Error retrieving realm data from", args, error);
+				return false;
 			}
-			// realm data provides the correct protocol but may have wrong server name
-			const {host: stringHost, login: stringLogin, mayAddProtocol} = getCredentialInfoFromStringsAndProtocol(
-				args[promptFunction.titleIndex],
-				args[promptFunction.textIndex],
-				protocol
-			);
-			return {
-				mayAddProtocol,
-				protocol,
-				host: stringHost || realmHost,
-				login: stringLogin || decodeURIComponent(realmLogin),
-				realm,
-			};
 		});
 	}
 	if (promptFunction.hasOwnProperty("titleIndex")){
