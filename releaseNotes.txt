@@ -10,7 +10,7 @@ changes:
 
 fixes:
 
-	- 
+	- sometimes passwords were stored in the Thunderbird password manager
 
 Version 1.14
 

@@ -86,6 +86,15 @@ function initPromptFunction(promptFunction, object){
 	}
 	
 	const changedFunction = async function changedFunction(...args){
+		if (promptFunction.hasOwnProperty("savePasswordIndex")){
+			if (promptFunction.hasOwnProperty("savePasswordValue")){
+				args[promptFunction.savePasswordIndex] = promptFunction.savePasswordValue;
+			}
+			else {
+				args[promptFunction.savePasswordIndex].value = false;
+			}
+		}
+		
 		const data = promptFunction.promptDataFunctions.reduce((data, func) => {
 			if (!data){
 				return func.call(this, args);
@@ -114,14 +123,6 @@ function initPromptFunction(promptFunction, object){
 				}
 				
 				return true;
-			}
-			if (promptFunction.hasOwnProperty("savePasswordIndex")){
-				if (promptFunction.hasOwnProperty("savePasswordValue")){
-					args[promptFunction.savePasswordIndex] = promptFunction.savePasswordValue;
-				}
-				else {
-					args[promptFunction.savePasswordIndex].value = false;
-				}
 			}
 			if (data.mayAddProtocol && promptFunction.hasOwnProperty("titleIndex")){
 				args[promptFunction.titleIndex] += ` (${data.protocol})`;
