@@ -11,6 +11,7 @@ changes:
 fixes:
 
 	- sometimes passwords were stored in the Thunderbird password manager
+	- use correct return values in LoginManagerAuthPrompter
 
 Version 1.14
 

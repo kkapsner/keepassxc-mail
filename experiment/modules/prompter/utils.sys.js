@@ -122,6 +122,10 @@ function initPromptFunction(promptFunction, object){
 					args[promptFunction.passwordObjectIndex].value = credentials[0].password;
 				}
 				
+				if (promptFunction.createReturnValue){
+					const returnValue = promptFunction.createReturnValue(credentials[0]);
+					return returnValue;
+				}
 				return true;
 			}
 			if (data.mayAddProtocol && promptFunction.hasOwnProperty("titleIndex")){

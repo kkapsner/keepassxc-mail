@@ -13,6 +13,12 @@ const promptFunctions = [
 		savePasswordIndex: 3,
 		savePasswordValue: Ci.nsIAuthPrompt.SAVE_PASSWORD_NEVER,
 		passwordObjectIndex: 4,
+		createReturnValue: function(credentials){
+			return {
+				ok: !!credentials,
+				password: credentials? credentials.password: ""
+			};
+		},
 	},
 	{
 		name: "asyncPromptUsernameAndPassword",
@@ -25,6 +31,13 @@ const promptFunctions = [
 		savePasswordValue: Ci.nsIAuthPrompt.SAVE_PASSWORD_NEVER,
 		usernameObjectIndex: 4,
 		passwordObjectIndex: 5,
+		createReturnValue: function(credentials){
+			return {
+				ok: !!credentials,
+				username: credentials? credentials.login: "",
+				password: credentials? credentials.password: ""
+			};
+		},
 	},
 	{
 		name: "prompt",
