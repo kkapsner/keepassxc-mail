@@ -188,14 +188,16 @@ export const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProto
 		hostPlaceholder: "%2$S",
 		loginPlaceholder: "%1$S"
 	});
-	const ldapType = addDialogType({
-		protocol: "ldap",
-		title:  getBundleString("ldap", "authPromptTitle"),
-		dialog: getBundleString("ldap", "authPromptText"),
-		hostPlaceholder: "%1$S",
-		loginPlaceholder: ""
+	["ldaps", "ldap"].forEach(function(protocol){
+		const ldapType = addDialogType({
+			protocol,
+			title:  getBundleString("ldap", "authPromptTitle"),
+			dialog: getBundleString("ldap", "authPromptText"),
+			hostPlaceholder: "%1$S",
+			loginPlaceholder: ""
+		});
+		ldapType.noLoginRequired = true;
 	});
-	ldapType.noLoginRequired = true;
 	
 	addDialogType({
 		protocol: false,

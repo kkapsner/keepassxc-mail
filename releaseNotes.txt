@@ -2,7 +2,7 @@ Version 1.15
 
 new features:
 
-	- 
+	- added support for ldaps
 
 changes:
 
