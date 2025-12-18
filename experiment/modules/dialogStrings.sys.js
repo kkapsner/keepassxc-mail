@@ -28,7 +28,7 @@ export const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProto
 		}
 	}
 	function getDialogType({
-		protocol, title, titleRegExp, dialog, hostPlaceholder, loginPlaceholder, otherPlaceholders
+		protocol, title, titleRegExp, dialog, hostPlaceholder, loginPlaceholder, otherPlaceholders, noLoginRequired
 	}){
 		if (Array.isArray(title)){
 			title = getBundleString(...title);
@@ -63,10 +63,13 @@ export const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProto
 			hostGroup: hostPosition === -1? false: loginPosition === -1 || loginPosition > hostPosition? 1: 2,
 			loginGroup: loginPosition === -1? false: hostPosition === -1 || hostPosition > loginPosition? 1: 2,
 			otherProtocolExists: false,
+			noLoginRequired,
 			createTypeWithProtocolInTitle: function(){
 				const newTitle = title + ` (${protocol})`;
-				addDialogType({
-					protocol, title: newTitle, titleRegExp, dialog, hostPlaceholder, loginPlaceholder, otherPlaceholders
+				const withTitleType = addDialogType({
+					protocol, title: newTitle, titleRegExp, dialog,
+					hostPlaceholder, loginPlaceholder, otherPlaceholders,
+					noLoginRequired
 				});
 				this.createTypeWithProtocolInTitle = () => {};
 			},
@@ -189,14 +192,14 @@ export const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProto
 		loginPlaceholder: "%1$S"
 	});
 	["ldaps", "ldap"].forEach(function(protocol){
-		const ldapType = addDialogType({
+		addDialogType({
 			protocol,
 			title:  getBundleString("ldap", "authPromptTitle"),
 			dialog: getBundleString("ldap", "authPromptText"),
 			hostPlaceholder: "%1$S",
-			loginPlaceholder: ""
+			loginPlaceholder: "",
+			noLoginRequired: true,
 		});
-		ldapType.noLoginRequired = true;
 	});
 	
 	addDialogType({
@@ -258,10 +261,10 @@ export const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProto
 			dialog: getBundleString("pipnss", dialogStringName),
 			titleRegExp: true,
 			hostPlaceholder: "",
-			loginPlaceholder: ""
+			loginPlaceholder: "",
+			noLoginRequired: true,
 		});
 		masterType.forcedHost = "masterPassword://Thunderbird";
-		masterType.noLoginRequired = true;
 	});
 	
 	const pgpI10n = new Localization(["messenger/openpgp/keyWizard.ftl"], true);
@@ -281,15 +284,15 @@ export const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProto
 		}
 		
 		dialogs.filter(function(dialog){return dialog;}).forEach(function(dialog){
-			const openPGPType = addDialogType({
+			addDialogType({
 				protocol: "openpgp",
 				title,
 				dialog,
 				hostPlaceholder: "%1$S",
 				// loginPlaceholder: "%2$S",
-				otherPlaceholders: ["%2$S", "%3$S", "%4$S"]
+				otherPlaceholders: ["%2$S", "%3$S", "%4$S"],
+				noLoginRequired: true,
 			});
-			openPGPType.noLoginRequired = true;
 		});
 	}
 	
