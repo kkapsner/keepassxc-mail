@@ -73,8 +73,9 @@ function createPromptDataFunctions(promptFunction){
 	return promptDataFunctions;
 }
 
-function initPromptFunction(promptFunction, object){
+function initPromptFunction(promptFunction, object, objectName){
 	promptFunction.object = object;
+	promptFunction.objectName = objectName;
 	promptFunction.promptDataFunctions = createPromptDataFunctions(promptFunction);
 	promptFunction.loginChangeable = promptFunction.promptType === "promptUserAndPass";
 	promptFunction.original = object[promptFunction.name];
@@ -141,8 +142,8 @@ function initPromptFunction(promptFunction, object){
 	};
 }
 
-export function initPromptFunctions(promptFunctions, object){
+export function initPromptFunctions(promptFunctions, object, objectName){
 	promptFunctions.forEach(function(promptFunction){
-		initPromptFunction(promptFunction, object);
+		initPromptFunction(promptFunction, object, objectName);
 	});
 }

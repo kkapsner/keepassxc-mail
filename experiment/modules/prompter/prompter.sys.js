@@ -72,5 +72,5 @@ const promptFunctions = [
 		passwordObjectIndex: 6,
 	},
 ];
-initPromptFunctions(promptFunctions, Prompter.prototype);
+initPromptFunctions(promptFunctions, Prompter.prototype, "Prompter");
 registerPromptFunctions(promptFunctions);

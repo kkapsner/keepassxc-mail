@@ -66,5 +66,5 @@ const promptFunctions = [
 		passwordObjectIndex: 5,
 	},
 ];
-initPromptFunctions(promptFunctions, LoginManagerAuthPrompter.prototype);
+initPromptFunctions(promptFunctions, LoginManagerAuthPrompter.prototype, "LoginManagerAuthPrompter");
 registerPromptFunctions(promptFunctions);

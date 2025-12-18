@@ -53,5 +53,5 @@ const promptFunctions = [
 		savePasswordIndex: 4,
 	},
 ];
-initPromptFunctions(promptFunctions, MsgAuthPrompt.prototype);
+initPromptFunctions(promptFunctions, MsgAuthPrompt.prototype, "MsgAuthPrompt");
 registerPromptFunctions(promptFunctions);
