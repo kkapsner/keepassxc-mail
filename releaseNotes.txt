@@ -13,6 +13,7 @@ fixes:
 	- sometimes passwords were stored in the Thunderbird password manager
 	- native password prompts for LDAP did not fetch passwords properly 
 	- use correct return values in LoginManagerAuthPrompter
+	- use correct return values in Prompter
 
 Version 1.14
 

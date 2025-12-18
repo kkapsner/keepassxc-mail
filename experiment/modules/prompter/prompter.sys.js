@@ -17,10 +17,18 @@ const promptFunctions = [
 	},
 	{
 		name: "asyncPromptUsernameAndPassword",
+		isAsync: true,
 		promptType: "promptUserAndPass",
 		titleIndex: 2,
 		textIndex: 3,
 		passwordObjectIndex: 5,
+		createReturnValue: function(credentials){
+			return {
+				ok: !!credentials,
+				user: credentials? credentials.login: "",
+				pass: credentials? credentials.password: ""
+			};
+		},
 	},
 	{
 		name: "promptPassword",
@@ -38,10 +46,17 @@ const promptFunctions = [
 	},
 	{
 		name: "asyncPromptPassword",
+		isAsync: true,
 		promptType: "promptPassword",
 		titleIndex: 2,
 		textIndex: 3,
 		passwordObjectIndex: 4,
+		createReturnValue: function(credentials){
+			return {
+				ok: !!credentials,
+				password: credentials? credentials.password: ""
+			};
+		},
 	},
 	{
 		name: "promptAuth",
