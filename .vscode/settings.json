@@ -18,6 +18,7 @@
 		"menulist",
 		"menupopup",
 		"messengercompose",
+		"mozilla",
 		"mozldap",
 		"Msgs",
 		"nacl",
@@ -26,6 +27,7 @@
 		"openpgp",
 		"Passwd",
 		"pipnss",
+		"startupcache",
 		"stringbundle",
 		"tooltiptext",
 		"tweetnacl",
@@ -39,6 +41,7 @@
 		"**/from-keepassxc-browser/**",
 		"**/vscode-extension/**",
 		"**/.git/objects/**",
+		"experiment/modules/wrappers/LDAPListenerBase.sys.js",
 		".vscode",
 		".eslintrc.json"
 	],
