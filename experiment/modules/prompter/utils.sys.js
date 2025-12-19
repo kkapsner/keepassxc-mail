@@ -81,7 +81,7 @@ function initPromptFunction(promptFunction, object, objectName){
 	promptFunction.original = object[promptFunction.name];
 	
 	if (!promptFunction.original){
-		log("Unable to find", promptFunction.name, "in", object);
+		log("Unable to find", promptFunction.name, "in", objectName);
 		promptFunction.replacement = promptFunction.original;
 		return;
 	}
