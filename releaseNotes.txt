@@ -14,6 +14,7 @@ fixes:
 	- native password prompts for LDAP did not fetch passwords properly 
 	- use correct return values in LoginManagerAuthPrompter
 	- use correct return values in Prompter
+	- support for LDAP was still broken
 
 Version 1.14
 

@@ -1,6 +1,7 @@
-/* globals Ci */
+/* globals Services, Ci */
 import { initPromptFunctions, registerPromptFunctions } from "./utils.sys.js";
 import { LoginManagerAuthPrompter } from "resource://gre/modules/LoginManagerAuthPrompter.sys.mjs";
+import { AppConstants } from "resource://gre/modules/AppConstants.sys.mjs";
 
 const promptFunctions = [
 	{
@@ -13,7 +14,7 @@ const promptFunctions = [
 		savePasswordIndex: 3,
 		savePasswordValue: Ci.nsIAuthPrompt.SAVE_PASSWORD_NEVER,
 		passwordObjectIndex: 4,
-		createReturnValue: function(credentials){
+		createReturnValue: Services.vc.compare(AppConstants.MOZ_APP_VERSION, "148.0a1") >= 0 && function(credentials){
 			return {
 				ok: !!credentials,
 				password: credentials? credentials.password: ""
@@ -31,7 +32,7 @@ const promptFunctions = [
 		savePasswordValue: Ci.nsIAuthPrompt.SAVE_PASSWORD_NEVER,
 		usernameObjectIndex: 4,
 		passwordObjectIndex: 5,
-		createReturnValue: function(credentials){
+		createReturnValue: Services.vc.compare(AppConstants.MOZ_APP_VERSION, "148.0a1") >= 0 && function(credentials){
 			return {
 				ok: !!credentials,
 				username: credentials? credentials.login: "",

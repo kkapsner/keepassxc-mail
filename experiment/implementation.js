@@ -73,6 +73,9 @@ importOwnModule("wrappers/cal.sys.js");
 importOwnModule("wrappers/oauth2Module.sys.js");
 importOwnModule("wrappers/oauth2.sys.js");
 
+// workaround to avoid the XPCOutParam objects problem
+importOwnModule("wrappers/LDAPListenerBase.sys.js");
+
 exports.credentials = class extends ExtensionCommon.ExtensionAPI {
 	getAPI(context){
 		return {
