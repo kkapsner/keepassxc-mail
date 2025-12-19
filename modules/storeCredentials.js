@@ -1,5 +1,5 @@
 import { log } from "./log.js";
-import { keepass, isReady as isKeepassReady } from "./keepass.js";
+import { keepass, isReady as isKeepassReady, handleLockedDatabase } from "./keepass.js";
 import { wait } from "./utils.js";
 import { messageModal, savingPasswordModal } from "./modal.js";
 import { selectedEntries } from "./selected.js";
@@ -69,6 +69,15 @@ export async function storeCredentials(credentialInfo){
 			credential.login.toLowerCase?.() === credentialInfo.login.toLowerCase?.()
 		);
 	});
+	if (keepass.isDatabaseClosed){
+		if (await handleLockedDatabase()){
+			return storeCredentials(credentialInfo);
+		}
+		else {
+			log("Unable to unlock database. Cannot store.");
+			return true;
+		}
+	}
 	if (existingCredentials.some(function(credential){
 		return credential.password === credentialInfo.password;
 	})){

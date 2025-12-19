@@ -1,5 +1,5 @@
 import { log } from "./log.js";
-import { isReady as isKeepassReady, keepass } from "./keepass.js";
+import { isReady as isKeepassReady, keepass, handleLockedDatabase } from "./keepass.js";
 import { choiceModal } from "./modal.js";
 
 const lastRequest = {};
@@ -27,6 +27,9 @@ export async function getCredentials(credentialInfo){
 			credential.skipAutoSubmit = credential.skipAutoSubmit === "true";
 			return credential;
 		});
+	if (keepass.isDatabaseClosed && await handleLockedDatabase()){
+		return getCredentials(credentialInfo);
+	}
 	log("keepassXC provided", credentialsForHost.length, "logins");
 	let autoSubmit = (await browser.storage.local.get({autoSubmit: false})).autoSubmit;
 	if (autoSubmit){

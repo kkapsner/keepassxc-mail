@@ -3,6 +3,7 @@ Version 1.15
 new features:
 
 	- added support for ldaps
+	- added database unlock functionality
 
 changes:
 
