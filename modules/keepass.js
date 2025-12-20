@@ -2,6 +2,7 @@
 import { log } from "./log.js";
 import { connect, disconnect } from "./nativeMessaging.js";
 import { wait } from "./utils.js";
+import { confirmModal, messageModal } from "./modal.js";
 
 const k = keepass;
 const kc = keepassClient;
@@ -79,6 +80,9 @@ export const isReady = (() => {
 		await connect();
 		await keepass.enableAutomaticReconnect();
 		await keepass.associate();
+		if (keepass.isDatabaseClosed){
+			await unlockDatabase();
+		}
 		// check key ring storage - initially done in keepass.js but it fails sometimes...
 		checkKeyRingStorage();
 		
@@ -97,3 +101,50 @@ export const isReady = (() => {
 		}
 	};
 })();
+
+let currentUnlockAttempt = undefined;
+async function unlockDatabase(){
+	try {
+		log("Database is locked -> ask to open");
+		if (!await confirmModal(
+			browser.i18n.getMessage("unlockDatabase.title"),
+			browser.i18n.getMessage("unlockDatabase.question")
+		)){
+			throw "user declined";
+		}
+		log("try to unlock");
+		await keepass.testAssociation(undefined, [true, true]);
+		// check for one minute every second
+		// automatic reconnect handles the connection
+		for (let i = 0; i < 1 * 60; i += 1){
+			await wait(1000);
+			if (!keepass.isDatabaseClosed){
+				break;
+			}
+		}
+		if (keepass.isDatabaseClosed){
+			await messageModal(
+				browser.i18n.getMessage("unlockDatabase.title"),
+				browser.i18n.getMessage("unlockDatabase.failed")
+			);
+			throw "unlock timeout";
+		}
+		log("Unlock successful");
+		return true;
+	}
+	catch (error){
+		log("Unlock not successful:", error);
+		return false;
+	}
+	finally {
+		currentUnlockAttempt = undefined;
+	}
+}
+export async function handleLockedDatabase(){
+	if (currentUnlockAttempt){
+		log("Unlock attempt already running");
+		return currentUnlockAttempt;
+	}
+	currentUnlockAttempt = unlockDatabase();
+	return currentUnlockAttempt;
+}
