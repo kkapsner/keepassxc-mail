@@ -320,15 +320,15 @@
 		"description": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nPlease check your KeePassXC settings to allow password saving and updating."
 	},
 	"unlockDatabase.title": {
-		"message": "Locked database",
+		"message": "Base de données verrouillée",
 		"description": "Locked database"
 	},
 	"unlockDatabase.question": {
-		"message": "Your database is locked.\n\nDo you want to unlock it?",
+		"message": "Votre base de données est verrouillée. Voulez-vous la déverrouiller ?",
 		"description": "Your database is locked.\n\nDo you want to unlock it?"
 	},
 	"unlockDatabase.failed": {
-		"message": "The database was not unlocked in time.\n\nPassword retrieval and storage is not possible with a locked database.",
+		"message": "La base de données n'a pas été déverrouillée à temps. La récupération de mot de passe et le stockage sont impossibles pour une base de données verrouillée.",
 		"description": "The database was not unlocked in time.\n\nPassword retrieval and storage is not possible with a locked database."
 	},
 	"privilegeRequest.title": {
