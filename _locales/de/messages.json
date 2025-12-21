@@ -331,6 +331,18 @@
 		"message": "Die Datenbank wurde nicht rechtzeitig entsperrt.\n\nMit einer gesperrten Datenbank können Passwörter weder ausgelesen noch gespeichert werden.",
 		"description": "The database was not unlocked in time.\n\nPassword retrieval and storage is not possible with a locked database."
 	},
+	"passwordsStoredInThunderbird.title": {
+		"message": "Password stored in Thunderbird",
+		"description": "Password stored in Thunderbird"
+	},
+	"passwordsStoredInThunderbird.message": {
+		"message": "There are passwords stored in the Thunderbird password vault.\n\nPlease review if this is intended.",
+		"description": "There are passwords stored in the Thunderbird password vault.\n\nPlease review if this is intended."
+	},
+	"passwordsStoredInThunderbird.newStored": {
+		"message": "New passwords were added to the Thunderbird password vault.\n\nPlease review if this is intended.",
+		"description": "New passwords were added to the Thunderbird password vault.\n\nPlease review if this is intended."
+	},
 	"privilegeRequest.title": {
 		"message": "Berechtigungsanfrage",
 		"description": "Privilege request"
