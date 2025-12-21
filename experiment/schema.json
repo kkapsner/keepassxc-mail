@@ -1,6 +1,15 @@
 [
 	{
 		"namespace": "credentials",
+		"functions": [
+			{
+				"name": "getThunderbirdSavedLoginsStatus",
+				"description": "Returns some status information about credentials that are stored in the Thunderbird password vault",
+				"type": "function",
+				"async": true,
+				"parameters": []
+			}
+		],
 		"events": [
 			{
 				"name": "onCredentialRequested",

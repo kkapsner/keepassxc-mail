@@ -43,3 +43,22 @@ browser.credentials.onNewCredential.addListener(async function(credentialInfo){
 	const { storeCredentials } = await storeCredentialsModule;
 	return await storeCredentials(credentialInfo);
 });
+
+browser.credentials.getThunderbirdSavedLoginsStatus().then(async function(status){
+	if (status.count === 0){
+		return false;
+	}
+	const currentSeenPasswordChange = Math.max(status.latestTimeCreated, status.latestTimePasswordChanged);
+	const { lastSeenPasswordChange } = await browser.storage.local.get({lastSeenPasswordChange: -1});
+	browser.storage.local.set({lastSeenPasswordChange: currentSeenPasswordChange});
+	if (lastSeenPasswordChange >= currentSeenPasswordChange){
+		return false;
+	}
+	(await import("./modules/modal.js")).messageModal(
+		browser.i18n.getMessage("passwordsStoredInThunderbird.title"),
+		lastSeenPasswordChange === -1?
+			browser.i18n.getMessage("passwordsStoredInThunderbird.message"):
+			browser.i18n.getMessage("passwordsStoredInThunderbird.newStored")
+	);
+	return true;
+}).catch(error => {});

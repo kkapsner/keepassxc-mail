@@ -4,6 +4,7 @@ new features:
 
 	- added support for ldaps
 	- added database unlock functionality
+	- added a notification when passwords are stored in the Thunderbird password manager
 
 changes:
 

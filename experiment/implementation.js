@@ -80,6 +80,23 @@ exports.credentials = class extends ExtensionCommon.ExtensionAPI {
 	getAPI(context){
 		return {
 			credentials: {
+				getThunderbirdSavedLoginsStatus: async function(){
+					return Services.logins.findLogins("", null, "").reduce(function(status, login){
+						status.count += 1;
+						status.latestTimeCreated = Math.max(status.latestTimeCreated, login.timeCreated);
+						status.latestTimeLastUsed = Math.max(status.latestTimeCreated, login.timeLastUsed);
+						status.latestTimePasswordChanged = Math.max(
+							status.latestTimeCreated,
+							login.timePasswordChanged
+						);
+						return status;
+					}, {
+						count: 0,
+						latestTimeCreated: -1,
+						latestTimeLastUsed: -1,
+						latestTimePasswordChanged: -1
+					});
+				},
 				onCredentialRequested: new ExtensionCommon.EventManager({
 					context,
 					name: "credentials.onCredentialRequested",
