@@ -332,15 +332,15 @@
 		"description": "The database was not unlocked in time.\n\nPassword retrieval and storage is not possible with a locked database."
 	},
 	"passwordsStoredInThunderbird.title": {
-		"message": "Password stored in Thunderbird",
+		"message": "Passwort in Thunderbird gespeichert",
 		"description": "Password stored in Thunderbird"
 	},
 	"passwordsStoredInThunderbird.message": {
-		"message": "There are passwords stored in the Thunderbird password vault.\n\nPlease review if this is intended.",
+		"message": "Im Thunderbird-Passwort-Speicher sind Passwörter vorhanden.\n\nBitte prüfen Sie, ob dies beabsichtigt ist.",
 		"description": "There are passwords stored in the Thunderbird password vault.\n\nPlease review if this is intended."
 	},
 	"passwordsStoredInThunderbird.newStored": {
-		"message": "New passwords were added to the Thunderbird password vault.\n\nPlease review if this is intended.",
+		"message": "Neue Passwörter wurden in den Thunderbird-Passwort-Speicher hinzugefügt.\n\nBitte prüfen Sie, ob dies beabsichtigt ist.",
 		"description": "New passwords were added to the Thunderbird password vault.\n\nPlease review if this is intended."
 	},
 	"privilegeRequest.title": {
