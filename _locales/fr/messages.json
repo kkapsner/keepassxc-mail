@@ -64,75 +64,75 @@
 		"description": "No logins found."
 	},
 	"errorMessageNoGroupsFound": {
-		"message": "No groups found.",
+		"message": "Aucun groupe trouvé.",
 		"description": "No groups found."
 	},
 	"errorMessageCannotCreateNewGroup": {
-		"message": "Cannot create new group.",
+		"message": "Impossible de créer un nouveau groupe.",
 		"description": "Cannot create new group."
 	},
 	"errorMessageNoValidUuidProvided": {
-		"message": "No valid UUID provided.",
+		"message": "Aucun UUID valide fourni.",
 		"description": "No valid UUID provided."
 	},
 	"errorMessageAccessToAllEntriesDenied": {
-		"message": "Access to all entries denied.",
+		"message": "Accès à toutes les entrées refusé.",
 		"description": "Access to all entries denied."
 	},
 	"errorMessagePasskeysAttestationNotSupported": {
-		"message": "Attestation not supported.",
+		"message": "Attestation non prise en charge.",
 		"description": "Attestation not supported."
 	},
 	"errorMessagePasskeysCredentialIsExcluded": {
-		"message": "Credential is excluded.",
+		"message": "Les informations d'identification sont exclues.",
 		"description": "Credential is excluded."
 	},
 	"errorMessagePasskeysRequestCanceled": {
-		"message": "Passkeys request canceled.",
+		"message": "Demande de mots de passe annulée.",
 		"description": "Passkeys request canceled."
 	},
 	"errorMessagePasskeysInvalidUserVerification": {
-		"message": "Invalid user verification.",
+		"message": "Vérification d'utilisateur invalide.",
 		"description": "Invalid user verification."
 	},
 	"errorMessagePasskeysEmptyPublicKey": {
-		"message": "Empty public key.",
+		"message": "Clef publique vide.",
 		"description": "Empty public key."
 	},
 	"errorMessagePasskeysInvalidUrlProvided": {
-		"message": "Invalid URL provided.",
+		"message": "URL fournie invalide.",
 		"description": "Invalid URL provided."
 	},
 	"errorMessagePasskeysOriginNotAllowed": {
-		"message": "Origin is empty or not allowed.",
+		"message": "L'origine est vide ou non autorisée.",
 		"description": "Origin is empty or not allowed."
 	},
 	"errorMessagePasskeysDomainNotValid": {
-		"message": "Effective domain is not a valid domain.",
+		"message": "Le domaine effectif n'est pas un domaine valide.",
 		"description": "Effective domain is not a valid domain."
 	},
 	"errorMessagePasskeysDomainRpIdMismatch": {
-		"message": "Origin and RP ID do not match.",
+		"message": "L'origine et l'ID RP ne correspondent pas.",
 		"description": "Origin and RP ID do not match."
 	},
 	"errorMessagePasskeysNoSupportedAlgorithms": {
-		"message": "No supported algorithms were provided.",
+		"message": "Aucun algorithme pris en charge n'a été fourni.",
 		"description": "No supported algorithms were provided."
 	},
 	"errorMessagePasskeysWaitforLifeTimer": {
-		"message": "Wait for timer to expire.",
+		"message": "Attendre que le minuteur expire.",
 		"description": "Wait for timer to expire."
 	},
 	"errorMessagePasskeysUnknownError": {
-		"message": "Unknown passkeys error.",
+		"message": "Erreur de mots de passe inconnue.",
 		"description": "Unknown passkeys error."
 	},
 	"errorMessagePasskeysInvalidChallenge": {
-		"message": "Challenge is shorter than required minimum length.",
+		"message": "Le défi est plus court que la longueur minimale requise.",
 		"description": "Challenge is shorter than required minimum length."
 	},
 	"errorMessagePasskeysInvalidUserId": {
-		"message": "user.id does not match the required length.",
+		"message": "user.id ne correspond pas à la longueur requise.",
 		"description": "user.id does not match the required length."
 	},
 	"loadingPasswords": {
@@ -318,6 +318,30 @@
 	"savePassword.timeout.message": {
 		"message": "L'enregistrement du mot de passe pour {account} a échoué. Le mot de passe a été enregistré dans le gestionnaire de mot de passe intégré à Thunderbird.\n\nVérifiez s'il vous plaît les paramètres de KeePassXC afin de permettre l'enregistrement et la mise à jour des mots de passe.",
 		"description": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nPlease check your KeePassXC settings to allow password saving and updating."
+	},
+	"unlockDatabase.title": {
+		"message": "Base de données verrouillée",
+		"description": "Locked database"
+	},
+	"unlockDatabase.question": {
+		"message": "Votre base de données est verrouillée. Voulez-vous la déverrouiller ?",
+		"description": "Your database is locked.\n\nDo you want to unlock it?"
+	},
+	"unlockDatabase.failed": {
+		"message": "La base de données n'a pas été déverrouillée à temps. La récupération de mot de passe et le stockage sont impossibles pour une base de données verrouillée.",
+		"description": "The database was not unlocked in time.\n\nPassword retrieval and storage is not possible with a locked database."
+	},
+	"passwordsStoredInThunderbird.title": {
+		"message": "Mot de passe stocké dans Thunderbird",
+		"description": "Password stored in Thunderbird"
+	},
+	"passwordsStoredInThunderbird.message": {
+		"message": "Il y a des mots de passe stockés dans le coffre de mots de passe de Thunderbird.\n\nVeuillez vérifier si c'est volontaire.",
+		"description": "There are passwords stored in the Thunderbird password vault.\n\nPlease review if this is intended."
+	},
+	"passwordsStoredInThunderbird.newStored": {
+		"message": "De nouveaux mots de passe ont été ajoutés au coffre Thunderbird.\n\nVeuillez vérifier si c'est volontaire.",
+		"description": "New passwords were added to the Thunderbird password vault.\n\nPlease review if this is intended."
 	},
 	"privilegeRequest.title": {
 		"message": "Demande de droit",

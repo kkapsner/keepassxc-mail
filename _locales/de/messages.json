@@ -319,6 +319,30 @@
 		"message": "Das Passwort für {account} konnte nicht gespeichert werden. Es wurde im eingebauten Thunderbird-Passwort-Manager gespeichert.\n\nBitte überprüfen Sie Ihre KeePassXC-Einstellungen, um das Speichern und Aktualisieren von Passwörtern zu erlauben.",
 		"description": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nPlease check your KeePassXC settings to allow password saving and updating."
 	},
+	"unlockDatabase.title": {
+		"message": "Datenbank gesperrt",
+		"description": "Locked database"
+	},
+	"unlockDatabase.question": {
+		"message": "Ihre Datenbank ist gesperrt.\n\nWollen Sie sie entsperren?",
+		"description": "Your database is locked.\n\nDo you want to unlock it?"
+	},
+	"unlockDatabase.failed": {
+		"message": "Die Datenbank wurde nicht rechtzeitig entsperrt.\n\nMit einer gesperrten Datenbank können Passwörter weder ausgelesen noch gespeichert werden.",
+		"description": "The database was not unlocked in time.\n\nPassword retrieval and storage is not possible with a locked database."
+	},
+	"passwordsStoredInThunderbird.title": {
+		"message": "Passwort in Thunderbird gespeichert",
+		"description": "Password stored in Thunderbird"
+	},
+	"passwordsStoredInThunderbird.message": {
+		"message": "Im Thunderbird-Passwort-Speicher sind Passwörter vorhanden.\n\nBitte prüfen Sie, ob dies beabsichtigt ist.",
+		"description": "There are passwords stored in the Thunderbird password vault.\n\nPlease review if this is intended."
+	},
+	"passwordsStoredInThunderbird.newStored": {
+		"message": "Neue Passwörter wurden in den Thunderbird-Passwort-Speicher hinzugefügt.\n\nBitte prüfen Sie, ob dies beabsichtigt ist.",
+		"description": "New passwords were added to the Thunderbird password vault.\n\nPlease review if this is intended."
+	},
 	"privilegeRequest.title": {
 		"message": "Berechtigungsanfrage",
 		"description": "Privilege request"
