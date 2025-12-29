@@ -6,10 +6,6 @@ new features:
 	- added database unlock functionality
 	- added a notification when passwords are stored in the Thunderbird password manager
 
-changes:
-
-	- 
-
 fixes:
 
 	- sometimes passwords were stored in the Thunderbird password manager
