@@ -1,4 +1,4 @@
-# KeePassXC-Mail [![codebeat badge](https://codebeat.co/badges/0365004b-6336-4f7c-8611-bbd217f29aa0)](https://codebeat.co/projects/github-com-kkapsner-keepassxc-mail-master)
+# KeePassXC-Mail
 
 Mozilla Thunderbird extension for [KeePassXC](https://keepassxc.org/) with Native Messaging.
 
