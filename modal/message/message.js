@@ -13,6 +13,12 @@ function fillText(message){
 		textNode.appendChild(document.createTextNode(line));
 	});
 	document.getElementById("ok").textContent = browser.i18n.getMessage("modal.message.ok");
+	if (message.id){
+		document.querySelector("div.doNotNotifyAgain").style.display = "block";
+		document.querySelector(".doNotNotifyAgainText").textContent = browser.i18n.getMessage(
+			"modal.message.doNotNotifyAgain"
+		);
+	}
 }
 
 initModal({messageCallback: function(message){
@@ -22,7 +28,7 @@ initModal({messageCallback: function(message){
 			button.disabled = false;
 			button.addEventListener("click", function(){
 				if (button.id === "ok"){
-					resolve(true);
+					resolve({ok: true, doNotNotifyAgain: document.getElementById("doNotNotifyAgain").checked});
 					window.close();
 				}
 			});

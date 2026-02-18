@@ -58,7 +58,8 @@ browser.credentials.getThunderbirdSavedLoginsStatus().then(async function(status
 		browser.i18n.getMessage("passwordsStoredInThunderbird.title"),
 		lastSeenPasswordChange === -1?
 			browser.i18n.getMessage("passwordsStoredInThunderbird.message"):
-			browser.i18n.getMessage("passwordsStoredInThunderbird.newStored")
+			browser.i18n.getMessage("passwordsStoredInThunderbird.newStored"),
+		"passwordsStoredInThunderbird"
 	);
 	return true;
 }).catch(error => {});

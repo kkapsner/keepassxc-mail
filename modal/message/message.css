@@ -11,3 +11,7 @@
 .buttons button {
 	margin: 0 0.3em;
 }
+
+div.doNotNotifyAgain {
+	display: none;
+}

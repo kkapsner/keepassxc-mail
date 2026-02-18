@@ -2,7 +2,7 @@ Version 1.16
 
 new features:
 
-	- 
+	- add "Do not notify me again." checkbox
 
 changes:
 

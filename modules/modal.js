@@ -86,15 +86,28 @@ async function openModal({path, message, defaultReturnValue}){
 	}
 }
 
-export async function messageModal(title, text){
-	return await openModal({
+export async function messageModal(title, text, id){
+	if (id){
+		const storage = await browser.storage.local.get({notificationDisabled: {}});
+		if (storage.notificationDisabled[id]){
+			return true;
+		}
+	}
+	const result = await openModal({
 		path: "modal/message/index.html",
 		message: {
 			title,
-			text
+			text,
+			id
 		},
-		defaultReturnValue: undefined
+		defaultReturnValue: {ok: undefined, doNotNotifyAgain: false}
 	});
+	if (id && result.ok && result.doNotNotifyAgain){
+		const storage = await browser.storage.local.get({notificationDisabled: {}});
+		storage.notificationDisabled[id] = true;
+		browser.storage.local.set(storage);
+	}
+	return result.ok;
 }
 
 export async function confirmModal(title, question){
