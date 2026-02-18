@@ -3,6 +3,7 @@ import { LDAPListenerBase } from "resource:///modules/LDAPListenerBase.sys.mjs";
 import { LoginManagerAuthPrompter } from "resource://gre/modules/LoginManagerAuthPrompter.sys.mjs";
 import { AppConstants } from "resource://gre/modules/AppConstants.sys.mjs";
 import { addSetup } from "../setup.sys.js";
+import { log } from "../log.sys.js";
 
 
 const originalOnLDAPInit = LDAPListenerBase.prototype.onLDAPInit;
@@ -89,8 +90,13 @@ function changeLDAPListenerBase(){
 function restoreLDAPListenerBase(){
 	LDAPListenerBase.prototype.onLDAPInit = originalOnLDAPInit;
 }
-
-addSetup({
-	setup: changeLDAPListenerBase,
-	shutdown: restoreLDAPListenerBase
-});
+if (Services.vc.compare(AppConstants.MOZ_APP_VERSION, "149.0a1") < 0){
+	log("Fix LDAPListenerBase");
+	addSetup({
+		setup: changeLDAPListenerBase,
+		shutdown: restoreLDAPListenerBase
+	});
+}
+else {
+	log("LDAPListenerBase fixed in version 149 - do not apply own fix");
+}
