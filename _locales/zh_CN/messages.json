@@ -303,6 +303,10 @@
 		"message": "好的",
 		"description": "OK"
 	},
+	"modal.message.doNotNotifyAgain": {
+		"message": "Do not notify me again.",
+		"description": "Do not notify me again."
+	},
 	"createPasswordGroup.timeout.title": {
 		"message": "创建密码分组超时",
 		"description": "Creating password group timeout"
