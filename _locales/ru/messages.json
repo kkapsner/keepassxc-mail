@@ -303,6 +303,10 @@
 		"message": "ОК",
 		"description": "OK"
 	},
+	"modal.message.doNotNotifyAgain": {
+		"message": "Do not notify me again.",
+		"description": "Do not notify me again."
+	},
 	"createPasswordGroup.timeout.title": {
 		"message": "Истекло время ожидания создания группы паролей",
 		"description": "Creating password group timeout"
