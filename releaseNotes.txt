@@ -9,10 +9,6 @@ changes:
 	- bump version support to 150.*
 	- remove workaround for LDAP bug in Thunderbird (bug 2007097) for version 149 and higher
 
-fixes:
-
-	- 
-
 Version 1.15
 
 new features:
