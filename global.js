@@ -61,3 +61,10 @@ const compareVersion = function(minimum, current, canBeEqual = true) {
 	const cur = current.split(".", 3).map(s => s.padStart(4, "0")).join(".");
 	return (canBeEqual ? (min <= cur) : (min < cur));
 };
+
+const getCurrentTab = async function() {
+	// we do not have tabs
+	return undefined;
+	// const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+	// return tabs?.length > 0 ? tabs[0] : undefined;
+};
