@@ -1,4 +1,4 @@
-/* globals keepass, keepassClient, onDisconnected */
+/* globals keepass, keepassClient, onDisconnected, ConnectionMethod */
 "use strict";
 
 const page = {
@@ -7,7 +7,8 @@ const page = {
 	clearAllLogins: () => {},
 	settings: {
 		autoReconnect: true,
-		checkUpdateKeePassXC: 0
+		checkUpdateKeePassXC: 0,
+		ConnectionMethod: ConnectionMethod.NATIVE_MESSAGING
 	}
 };
 

@@ -10,6 +10,11 @@ const AssociatedAction = {
 	CANCELED: 3
 };
 
+const ConnectionMethod = {
+	NATIVE_MESSAGING: "nativemessaging",
+	WEBSOCKET: "websocket",
+};
+
 function tr(key, params) {
 	return browser.i18n.getMessage(key, params);
 }
@@ -60,6 +65,13 @@ const compareVersion = function(minimum, current, canBeEqual = true) {
 	const min = minimum.split(".", 3).map(s => s.padStart(4, "0")).join(".");
 	const cur = current.split(".", 3).map(s => s.padStart(4, "0")).join(".");
 	return (canBeEqual ? (min <= cur) : (min < cur));
+};
+
+
+const tabs = {
+	tabList: [],
+	getTabFromId: () => {},
+	updateTabValues: () => {},
 };
 
 const getCurrentTab = async function() {

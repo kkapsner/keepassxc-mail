@@ -21,6 +21,7 @@
 		"mozldap",
 		"Msgs",
 		"nacl",
+		"nativemessaging",
 		"nntp",
 		"oauth",
 		"openpgp",

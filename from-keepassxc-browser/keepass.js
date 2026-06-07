@@ -9,6 +9,7 @@ keepass.featuresList = {
     passkeys: false,
     passkeysDefaultGroup: false,
     requiredKeePassXCVersionFound: false,
+    webSocket: false
 };
 keepass.cacheTimeout = 30 * 1000; // Milliseconds
 keepass.clientID = '';
@@ -272,7 +273,7 @@ keepass.testAssociation = async function(tab, args = []) {
         }
 
         if (!keepass.serverPublicKey) {
-            if (tab && page.tabs[tab.id]) {
+            if (tab && tabs.getTabFromId(tab.id)) {
                 keepass.handleError(tab, kpErrors.PUBLIC_KEY_NOT_FOUND);
             }
             return false;
@@ -283,7 +284,7 @@ keepass.testAssociation = async function(tab, args = []) {
         const [ dbid, dbkey ] = keepass.getCryptoKey();
 
         if (dbkey === null || dbid === null) {
-            if (tab && page.tabs[tab.id]) {
+            if (tab && tabs.getTabFromId(tab.id)) {
                 keepass.handleError(tab, kpErrors.NO_SAVED_DATABASES_FOUND);
             }
             return false;
@@ -430,7 +431,7 @@ keepass.changePublicKeys = async function(tab, enableTimeout = false, connection
         keepass.updateFeaturesList(response.version);
 
         if (!keepassClient.verifyKeyResponse(response, key, incrementedNonce)) {
-            if (tab && page.tabs[tab.id]) {
+            if (tab && tabs.getTabFromId(tab.id)) {
                 keepass.handleError(tab, kpErrors.KEY_CHANGE_FAILED);
             }
 
@@ -560,7 +561,7 @@ keepass.createNewGroup = async function(tab, args = []) {
 
 keepass.getTotp = async function(tab, args = []) {
     const [ uuid, oldTotp ] = args;
-    if (!keepass.featuresList.newTotpSupported) {
+    if (!keepass.featuresList.newTotp) {
         return oldTotp;
     }
 
@@ -822,7 +823,12 @@ keepass.disableAutomaticReconnect = function() {
 };
 
 keepass.reconnect = async function(tab = null, connectionTimeout = 1500) {
-    keepassClient.connectToNative();
+    if (page?.settings?.connectionMethod === ConnectionMethod.WEBSOCKET) {
+        await keepassClient.connectToWebSocket();
+    } else {
+        keepassClient.connectToNative();
+    }
+    
     keepass.generateNewKeyPair();
     const keyChangeResult = await keepass
         .changePublicKeys(tab, !!connectionTimeout, connectionTimeout)
@@ -951,9 +957,7 @@ keepass.getPasskeysRelatedOrigins = async function(rpId) {
 };
 
 keepass.clearErrorMessage = function(tab) {
-    if (tab && page.tabs[tab.id]) {
-        page.tabs[tab.id].errorMessage = undefined;
-    }
+    tabs.updateTabValues(tab?.id, { errorMessage: undefined });
 };
 
 keepass.handleError = function(tab, errorCode, errorMessage = '') {
@@ -962,13 +966,11 @@ keepass.handleError = function(tab, errorCode, errorMessage = '') {
     }
 
     logError(`${errorCode}: ${errorMessage}`);
-    if (tab && page.tabs[tab.id]) {
-        page.tabs[tab.id].errorMessage = errorMessage;
-    }
+    tabs.updateTabValues(tab?.id, { errorMessage: errorMessage });
 };
 
 keepass.updatePopup = function() {
-    if (page && page.tabs.length > 0) {
+    if (page && tabs.tabList.length > 0) {
         browserAction.showDefault();
     }
 };
@@ -1020,6 +1022,7 @@ keepass.updateFeaturesList = function (currentVersion) {
         passkeys: versionResults['2.7.7'],
         passkeysDefaultGroup: versionResults['2.7.10'],
         requiredKeePassXCVersionFound: versionResults[keepass.requiredKeePassXC],
+        webSocket: false // TODO: Enable when released in KeePassXC
     };
 };
 
