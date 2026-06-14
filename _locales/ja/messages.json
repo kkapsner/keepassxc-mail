@@ -12,7 +12,7 @@
 		"description": "Database hash not received."
 	},
 	"errorMessageClientPublicKey": {
-		"message": "Client public key not received.",
+		"message": "クライアント公開鍵が受信されていません。",
 		"description": "Client public key not received."
 	},
 	"errorMessageDecrypt": {
@@ -20,7 +20,7 @@
 		"description": "Cannot decrypt message."
 	},
 	"errorMessageTimeout": {
-		"message": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings.",
+		"message": "KeePassXCと接続できません。KeePassXCの設定でブラウザ統合が有効になっていることを確認してください。",
 		"description": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings."
 	},
 	"errorMessageCanceled": {
@@ -36,7 +36,7 @@
 		"description": "KeePassXC association failed, try again."
 	},
 	"errorMessageKeyExchange": {
-		"message": "Key exchange was not successful.",
+		"message": "鍵交換が成功しませんでした。",
 		"description": "Key exchange was not successful."
 	},
 	"errorMessageEncryptionKey": {
@@ -64,75 +64,75 @@
 		"description": "No logins found."
 	},
 	"errorMessageNoGroupsFound": {
-		"message": "No groups found.",
+		"message": "グループが見つかりません。",
 		"description": "No groups found."
 	},
 	"errorMessageCannotCreateNewGroup": {
-		"message": "Cannot create new group.",
+		"message": "新しいグループを作成できません。",
 		"description": "Cannot create new group."
 	},
 	"errorMessageNoValidUuidProvided": {
-		"message": "No valid UUID provided.",
+		"message": "有効なUUIDが提供されていません。",
 		"description": "No valid UUID provided."
 	},
 	"errorMessageAccessToAllEntriesDenied": {
-		"message": "Access to all entries denied.",
+		"message": "アクセスが拒否されました。",
 		"description": "Access to all entries denied."
 	},
 	"errorMessagePasskeysAttestationNotSupported": {
-		"message": "Attestation not supported.",
+		"message": "対応していない認証です。",
 		"description": "Attestation not supported."
 	},
 	"errorMessagePasskeysCredentialIsExcluded": {
-		"message": "Credential is excluded.",
+		"message": "資格情報は除外されます。",
 		"description": "Credential is excluded."
 	},
 	"errorMessagePasskeysRequestCanceled": {
-		"message": "Passkeys request canceled.",
+		"message": "パスキー要求がキャンセルされました。",
 		"description": "Passkeys request canceled."
 	},
 	"errorMessagePasskeysInvalidUserVerification": {
-		"message": "Invalid user verification.",
+		"message": "無効なユーザー認証です。",
 		"description": "Invalid user verification."
 	},
 	"errorMessagePasskeysEmptyPublicKey": {
-		"message": "Empty public key.",
+		"message": "空の公開鍵です。",
 		"description": "Empty public key."
 	},
 	"errorMessagePasskeysInvalidUrlProvided": {
-		"message": "Invalid URL provided.",
+		"message": "無効なURLです。",
 		"description": "Invalid URL provided."
 	},
 	"errorMessagePasskeysOriginNotAllowed": {
-		"message": "Origin is empty or not allowed.",
+		"message": "オリジンが空であるか，または許可されていません。",
 		"description": "Origin is empty or not allowed."
 	},
 	"errorMessagePasskeysDomainNotValid": {
-		"message": "Effective domain is not a valid domain.",
+		"message": "有効なドメインではありません。",
 		"description": "Effective domain is not a valid domain."
 	},
 	"errorMessagePasskeysDomainRpIdMismatch": {
-		"message": "Origin and RP ID do not match.",
+		"message": "オリジンとRP IDが一致しません。",
 		"description": "Origin and RP ID do not match."
 	},
 	"errorMessagePasskeysNoSupportedAlgorithms": {
-		"message": "No supported algorithms were provided.",
+		"message": "サポートされているアルゴリズムがありません。",
 		"description": "No supported algorithms were provided."
 	},
 	"errorMessagePasskeysWaitforLifeTimer": {
-		"message": "Wait for timer to expire.",
+		"message": "タイマーが切れるのを待ちます。",
 		"description": "Wait for timer to expire."
 	},
 	"errorMessagePasskeysUnknownError": {
-		"message": "Unknown passkeys error.",
+		"message": "不明なパスキーエラーです。",
 		"description": "Unknown passkeys error."
 	},
 	"errorMessagePasskeysInvalidChallenge": {
-		"message": "Challenge is shorter than required minimum length.",
+		"message": "最低限の長さよりも短いチャレンジキーです。",
 		"description": "Challenge is shorter than required minimum length."
 	},
 	"errorMessagePasskeysInvalidUserId": {
-		"message": "user.id does not match the required length.",
+		"message": "ユーザーIDが要求よりも短いです。",
 		"description": "user.id does not match the required length."
 	},
 	"loadingPasswords": {
@@ -148,7 +148,7 @@
 		"description": "Retry"
 	},
 	"pickedEntry": {
-		"message": "Picked entry \"{name|login|\"---\"}\"",
+		"message": "項目を選択してください",
 		"description": "Picked entry \"{name|login|\"---\"}\""
 	},
 	"entryLabel": {
@@ -172,11 +172,11 @@
 		"description": "Database connections"
 	},
 	"options.clearSelectedEntries": {
-		"message": "Clear storage of selected entries",
+		"message": "選択した項目をクリアーします。",
 		"description": "Clear storage of selected entries"
 	},
 	"options.clearingSelectedEntries": {
-		"message": "Clearing storage of selected entries...",
+		"message": "選択した項目の保存内容を消去しています...",
 		"description": "Clearing storage of selected entries..."
 	},
 	"options.reconnect": {
@@ -184,7 +184,7 @@
 		"description": "Reconnect to Native Messaging"
 	},
 	"options.reconnecting": {
-		"message": "Reconnecting to Native Messaging...",
+		"message": "Native Messageに再接続しています...",
 		"description": "Reconnecting to Native Messaging..."
 	},
 	"options.associate": {
@@ -192,7 +192,7 @@
 		"description": "Connect to KeePassXC"
 	},
 	"options.associating": {
-		"message": "Connecting to KeePassXC...",
+		"message": "KeePassXCに接続中...",
 		"description": "Connecting to KeePassXC..."
 	},
 	"options.autoSubmit.label": {
@@ -204,7 +204,7 @@
 		"description": "Save new credentials"
 	},
 	"options.autoSaveNewCredentials.label": {
-		"message": "Save new credentials without prompt",
+		"message": "プロンプトなしで新しい資格情報を保存します",
 		"description": "Save new credentials without prompt"
 	},
 	"options.connections.id": {
@@ -212,75 +212,75 @@
 		"description": "ID"
 	},
 	"options.connections.dbHash": {
-		"message": "DB hash",
+		"message": "DB ハッシュ値",
 		"description": "DB hash"
 	},
 	"options.connections.key": {
-		"message": "Key",
+		"message": "鍵",
 		"description": "Key"
 	},
 	"options.connections.lastUsed": {
-		"message": "Last used",
+		"message": "前回使用",
 		"description": "Last used"
 	},
 	"options.connections.created": {
-		"message": "Created",
+		"message": "作成済み",
 		"description": "Created"
 	},
 	"options.externalPrivileges": {
-		"message": "External privileges",
+		"message": "外部の権限",
 		"description": "External privileges"
 	},
 	"options.externalPrivileges.extensionName": {
-		"message": "extension",
+		"message": "拡張子",
 		"description": "extension"
 	},
 	"options.externalPrivileges.request": {
-		"message": "request",
+		"message": "要求",
 		"description": "request"
 	},
 	"options.externalPrivileges.store": {
-		"message": "store",
+		"message": "保存",
 		"description": "store"
 	},
 	"modal.savingPassword.title": {
-		"message": "Save password for {host} to KeePass database?",
+		"message": "{host} のパスワードを KeePass データベースに保存しますか？",
 		"description": "Save password for {host} to KeePass database?"
 	},
 	"modal.savingPassword.questionWithLogin": {
-		"message": "Do you want to save the entered password for {login} on {host} to the KeePass database?",
+		"message": "KeePassデータベースに  {host} 用の {login} パスワードを保存しますか？",
 		"description": "Do you want to save the entered password for {login} on {host} to the KeePass database?"
 	},
 	"modal.savingPassword.questionWithoutLogin": {
-		"message": "Do you want to save the entered password for {host} to the KeePass database?",
+		"message": "KeePassデータベースに  {host} 用のパスワードを保存しますか？",
 		"description": "Do you want to save the entered password for {host} to the KeePass database?"
 	},
 	"modal.savingPassword.newEntry": {
-		"message": " - create new entry - ",
+		"message": " - 新しい項目を作成 - ",
 		"description": " - create new entry - "
 	},
 	"modal.savingPassword.yes": {
-		"message": "Yes",
+		"message": "はい",
 		"description": "Yes"
 	},
 	"modal.savingPassword.no": {
-		"message": "No",
+		"message": "いいえ",
 		"description": "No"
 	},
 	"modal.choice.title": {
-		"message": "Select correct entry for {host}",
+		"message": "{host} に対する正しい項目の選択",
 		"description": "Select correct entry for {host}"
 	},
 	"modal.choice.textWithLogin": {
-		"message": "Please select the correct entry for {login} on {host}.",
+		"message": "{host} 用の 正しい{login} 項目を選択してください。",
 		"description": "Please select the correct entry for {login} on {host}."
 	},
 	"modal.choice.textWithoutLogin": {
-		"message": "Please select the correct entry for {host}.",
+		"message": "{host} 用の 正しい項目を選択してください。",
 		"description": "Please select the correct entry for {host}."
 	},
 	"modal.choice.doNotAskAgain": {
-		"message": "Do not ask again.",
+		"message": "今後確認しない。",
 		"description": "Do not ask again."
 	},
 	"modal.choice.ok": {
@@ -288,15 +288,15 @@
 		"description": "OK"
 	},
 	"modal.choice.cancel": {
-		"message": "Cancel",
+		"message": "キャンセル",
 		"description": "Cancel"
 	},
 	"modal.confirm.yes": {
-		"message": "Yes",
+		"message": "はい",
 		"description": "Yes"
 	},
 	"modal.confirm.no": {
-		"message": "No",
+		"message": "いいえ",
 		"description": "No"
 	},
 	"modal.message.ok": {
@@ -304,63 +304,63 @@
 		"description": "OK"
 	},
 	"modal.message.doNotNotifyAgain": {
-		"message": "Do not notify me again.",
+		"message": "今後通知しない。",
 		"description": "Do not notify me again."
 	},
 	"createPasswordGroup.timeout.title": {
-		"message": "Creating password group timeout",
+		"message": "パスワードグループのタイムアウトを設定する",
 		"description": "Creating password group timeout"
 	},
 	"createPasswordGroup.timeout.message": {
-		"message": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nCreating the password group timed out. Please check your KeePassXC settings to allow group creation.",
+		"message": "{account} のパスワード保存が失敗しました。このパスワードは Thunderbirdの内蔵パスワードマネージャに保存されました。\n\nパスワードグループのタイムアウトが設定されています。KeePassXCの設定でグループ作成が許可されていることを確認してください。",
 		"description": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nCreating the password group timed out. Please check your KeePassXC settings to allow group creation."
 	},
 	"savePassword.timeout.title": {
-		"message": "Saving password timeout",
+		"message": "パスワード保存のタイムアウト",
 		"description": "Saving password timeout"
 	},
 	"savePassword.timeout.message": {
-		"message": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nPlease check your KeePassXC settings to allow password saving and updating.",
+		"message": "{account} のパスワード保存が失敗しました。このパスワードは Thunderbirdの内蔵パスワードマネージャに保存されました。\n\nKeePassXCの設定でパスワードの保存と更新が許可されていることを確認してください。",
 		"description": "Saving the password for {account} was not successful. The password was saved to the built-in Thunderbird password manager.\n\nPlease check your KeePassXC settings to allow password saving and updating."
 	},
 	"unlockDatabase.title": {
-		"message": "Locked database",
+		"message": "データベースがロックされました",
 		"description": "Locked database"
 	},
 	"unlockDatabase.question": {
-		"message": "Your database is locked.\n\nDo you want to unlock it?",
+		"message": "データベースがロックされました。\n\nロックを解除しますか？",
 		"description": "Your database is locked.\n\nDo you want to unlock it?"
 	},
 	"unlockDatabase.failed": {
-		"message": "The database was not unlocked in time.\n\nPassword retrieval and storage is not possible with a locked database.",
+		"message": "データベースが時間内にロック解除されませんでした。\n\nロックされたデータベースでは ､パスワードの取得と保存はできません。",
 		"description": "The database was not unlocked in time.\n\nPassword retrieval and storage is not possible with a locked database."
 	},
 	"passwordsStoredInThunderbird.title": {
-		"message": "Password stored in Thunderbird",
+		"message": "パスワードがThunderbirdに保存されました",
 		"description": "Password stored in Thunderbird"
 	},
 	"passwordsStoredInThunderbird.message": {
-		"message": "There are passwords stored in the Thunderbird password vault.\n\nPlease review if this is intended.",
+		"message": "Thunderbirdのパスワード保管庫にパスワードが保存されています。\n\nこれが意図された動作か､ご確認下さい。",
 		"description": "There are passwords stored in the Thunderbird password vault.\n\nPlease review if this is intended."
 	},
 	"passwordsStoredInThunderbird.newStored": {
-		"message": "New passwords were added to the Thunderbird password vault.\n\nPlease review if this is intended.",
+		"message": "新しいパスワードがThunderbirdのパスワード保管庫に保存されました。\n\nこれが意図された動作か､ご確認下さい。",
 		"description": "New passwords were added to the Thunderbird password vault.\n\nPlease review if this is intended."
 	},
 	"privilegeRequest.title": {
-		"message": "Privilege request",
+		"message": "権限の要求",
 		"description": "Privilege request"
 	},
 	"privilegeRequest.message": {
-		"message": "{typeMessage}\n\nDo you want to allow this?\n\nThis decision will be stored for further requests and can be changed in the extension preferences.",
+		"message": "{typeMessage}\n\n許可しますか？\n\nこの設定は今後のリクエストにも反映され､拡張機能の設定画面で変更できます。",
 		"description": "{typeMessage}\n\nDo you want to allow this?\n\nThis decision will be stored for further requests and can be changed in the extension preferences."
 	},
 	"privilegeRequest.message.request": {
-		"message": "The extension {extensionName} wants to request passwords.",
+		"message": "{extensionName} がパスワードを要求しています。",
 		"description": "The extension {extensionName} wants to request passwords."
 	},
 	"privilegeRequest.message.store": {
-		"message": "The extension {extensionName} wants to store passwords.",
+		"message": "{extensionName} がパスワードの保存を要求しています。",
 		"description": "The extension {extensionName} wants to store passwords."
 	}
 }
