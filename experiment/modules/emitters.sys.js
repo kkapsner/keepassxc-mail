@@ -31,3 +31,5 @@ export const passwordRequestEmitter = new class extends ExtensionCommon.EventEmi
 		}
 	}
 };
+
+export const messageEmitter = new ExtensionCommon.EventEmitter();

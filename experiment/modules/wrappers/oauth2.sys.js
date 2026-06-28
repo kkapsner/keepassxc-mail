@@ -2,6 +2,7 @@
 import { OAuth2 } from "resource:///modules/OAuth2.sys.mjs";
 import { getRefreshToken } from "./oauth2Module.sys.js";
 import { addSetup } from "../setup.sys.js";
+import { messageEmitter } from "../emitters.sys.js";
 
 if (OAuth2.prototype.hasOwnProperty("connect")){
 	const getUsername = function getUsername(oAuth){
@@ -21,13 +22,13 @@ if (OAuth2.prototype.hasOwnProperty("connect")){
 		}
 		return false;
 	};
-	const updateRefreshToken = function updateRefreshToken(oAuth){
+	const updateRefreshToken = async function updateRefreshToken(oAuth){
 		const username = getUsername(oAuth);
 		if (!username){
 			return false;
 		}
 		const authorizationEndpointURL = Services.io.newURI(oAuth.authorizationEndpoint);
-		const refreshToken = getRefreshToken({
+		const refreshToken = await getRefreshToken({
 			_username: username,
 			_loginOrigin: "oauth://" + authorizationEndpointURL.host
 		});
@@ -41,7 +42,7 @@ if (OAuth2.prototype.hasOwnProperty("connect")){
 	const originalConnect = OAuth2.prototype.connect;
 	const alteredConnect = async function(...args){
 		if (!this.refreshToken){
-			updateRefreshToken(this);
+			await updateRefreshToken(this);
 		}
 		return originalConnect.call(this, ...args);
 	};
@@ -54,3 +55,19 @@ if (OAuth2.prototype.hasOwnProperty("connect")){
 		}
 	});
 }
+
+addSetup({
+	setup: async function checkOauthPreferences(){
+		if (
+			Services.prefs.prefHasDefaultValue("mailnews.oauth.useExternalBrowser") &&
+			Services.prefs.getBoolPref("mailnews.oauth.useExternalBrowser")
+		){
+			const confirmations = await messageEmitter.emit("confirm", "updateExternalBrowserUsage");
+			if (confirmations && confirmations.every(a => a)){
+				Services.prefs.setBoolPref("mailnews.oauth.useExternalBrowser", false);
+				Services.startup.quit(Services.startup.eForceQuit | Services.startup.eRestart);
+			}
+		}
+	},
+	shutdown: function(){}
+});

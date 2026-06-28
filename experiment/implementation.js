@@ -59,7 +59,7 @@ function importOwnModule(name){
 		return {};
 	}
 }
-const { passwordEmitter, passwordRequestEmitter } = importOwnModule("emitters.sys.js");
+const { passwordEmitter, passwordRequestEmitter, messageEmitter } = importOwnModule("emitters.sys.js");
 
 importOwnModule("onlineOfflineControl.sys.js");
 
@@ -76,12 +76,38 @@ importOwnModule("wrappers/oauth2.sys.js");
 // workaround to avoid the XPCOutParam objects problem
 importOwnModule("wrappers/LDAPListenerBase.sys.js");
 
+function getOnConfirmApi(context){
+	return new ExtensionCommon.EventManager({
+		context,
+		name: "credentials.onConfirm",
+		register(fire){
+			async function callback(event, messageId){
+				try {
+					return await fire.async(messageId);
+				}
+				catch (e){
+					console.error(e);
+					return false;
+				}
+			}
+			
+			messageEmitter.on("confirm", callback);
+			return function(){
+				messageEmitter.off("confirm", callback);
+			};
+		}
+	}).api();
+}
+
 exports.credentials = class extends ExtensionCommon.ExtensionAPI {
 	getAPI(context){
 		return {
 			credentials: {
 				getThunderbirdSavedLoginsStatus: async function(){
-					return Services.logins.findLogins("", null, "").reduce(function(status, login){
+					return (Services.logins.getAllLogins?
+						await Services.logins.getAllLogins():
+						Services.logins.findLogins("", null, "")
+					).reduce(function(status, login){
 						status.count += 1;
 						status.latestTimeCreated = Math.max(status.latestTimeCreated, login.timeCreated);
 						status.latestTimeLastUsed = Math.max(status.latestTimeCreated, login.timeLastUsed);
@@ -143,6 +169,7 @@ exports.credentials = class extends ExtensionCommon.ExtensionAPI {
 						};
 					},
 				}).api(),
+				onConfirm: getOnConfirmApi(context),
 			},
 		};
 	}

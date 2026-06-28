@@ -31,7 +31,5 @@ export function waitForCredentials(data){
 }
 
 export function waitForPasswordStore(data){
-	return waitForPromise(storeCredentials(data), []).reduce(function(alreadyStored, stored){
-		return alreadyStored || stored;
-	}, false);
+	return waitForPromise(storeCredentials(data), false);
 }

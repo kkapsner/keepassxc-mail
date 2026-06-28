@@ -1,7 +1,8 @@
 import { OAuth2Module } from "resource:///modules/OAuth2Module.sys.mjs";
 import { clearTimeout, setTimeout } from "resource://gre/modules/Timer.sys.mjs";
-import { waitForCredentials, waitForPasswordStore } from "../wait.sys.js";
-import { addSetup } from "../setup.sys.js";
+import { requestCredentials, storeCredentials } from "../credentials.sys.js";
+import { addSetup, addReplacerSetup } from "../setup.sys.js";
+import { log } from "../log.sys.js";
 
 const temporaryCache = new Map();
 const getKey = function getKey(oAuth2Module){
@@ -18,32 +19,38 @@ const setCache = function setCache(key, value, timeout = 2000){
 		}, timeout)
 	});
 };
-export const getRefreshToken = function getRefreshToken(tokenStore){
+export const getRefreshToken = async function getRefreshToken(tokenStore){
 	const key = getKey(tokenStore);
 	const cached = temporaryCache.get(key);
 	if (cached){
 		return cached.value;
 	}
-	const credentials = waitForCredentials({
-		login: tokenStore._username,
-		host: tokenStore._loginOrigin
-	});
-	if (
-		credentials &&
-		credentials.credentials.length &&
-		(typeof credentials.credentials[0].password) === "string"
-	){
-		setCache(key, credentials.credentials[0].password);
-		return credentials.credentials[0].password;
+	try {
+		const credentials = await requestCredentials({
+			openChoiceDialog: true,
+			login: tokenStore._username,
+			host: tokenStore._loginOrigin
+		});
+		if (
+			credentials &&
+			credentials.credentials.length &&
+			(typeof credentials.credentials[0].password) === "string"
+		){
+			setCache(key, credentials.credentials[0].password);
+			return credentials.credentials[0].password;
+		}
+	}
+	catch (error){
+		log("requestCredentials failed:", error);
 	}
 	return null;
 };
-export const setRefreshToken = function setRefreshToken(tokenStore, refreshToken){
-	if (refreshToken === getRefreshToken(tokenStore)){
+export const setRefreshToken = async function setRefreshToken(tokenStore, refreshToken){
+	if (refreshToken === await getRefreshToken(tokenStore)){
 		return true;
 	}
 	setCache(getKey(tokenStore), refreshToken, 5000);
-	const stored = waitForPasswordStore({
+	const stored = await storeCredentials({
 		login: tokenStore._username,
 		password: refreshToken,
 		host: tokenStore._loginOrigin,
@@ -52,39 +59,37 @@ export const setRefreshToken = function setRefreshToken(tokenStore, refreshToken
 };
 if (OAuth2Module.prototype.hasOwnProperty("getRefreshToken")){
 	const originalGetRefreshToken = OAuth2Module.prototype.getRefreshToken;
-	const alteredGetRefreshToken = function(){
-		const token = getRefreshToken(this);
+	const alteredGetRefreshToken = async function(){
+		const token = await getRefreshToken(this);log(token);
 		if (token !== null){
 			return token;
 		}
 		return originalGetRefreshToken.call(this);
 	};
-	addSetup({
-		setup: function(){
-			OAuth2Module.prototype.getRefreshToken = alteredGetRefreshToken;
-		},
-		shutdown: function(){
-			OAuth2Module.prototype.getRefreshToken = originalGetRefreshToken;
+	addReplacerSetup(OAuth2Module.prototype, [
+		{
+			name: "getRefreshToken",
+			replacement: alteredGetRefreshToken,
+			defaultReturn: false,
 		}
-	});
+	]);
 }
 if (OAuth2Module.prototype.hasOwnProperty("setRefreshToken")){
 	const originalSetRefreshToken = OAuth2Module.prototype.setRefreshToken;
 	const alteredSetRefreshToken = async function(refreshToken){
-		const stored = setRefreshToken(this, refreshToken);
+		const stored = await setRefreshToken(this, refreshToken);
 		if (!stored){
 			return originalSetRefreshToken.call(this, refreshToken);
 		}
 		return refreshToken;
 	};
-	addSetup({
-		setup: function(){
-			OAuth2Module.prototype.setRefreshToken = alteredSetRefreshToken;
-		},
-		shutdown: function(){
-			OAuth2Module.prototype.setRefreshToken = originalSetRefreshToken;
+	addReplacerSetup(OAuth2Module.prototype, [
+		{
+			name: "setRefreshToken",
+			replacement: alteredSetRefreshToken,
+			defaultReturn: false,
 		}
-	});
+	]);
 }
 
 if (OAuth2Module.prototype.hasOwnProperty("refreshToken")){

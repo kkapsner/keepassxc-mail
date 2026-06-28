@@ -67,6 +67,16 @@
 						}
 					}
 				}]
+			},
+			{
+				"name": "onConfirm",
+				"description": "Fires when the implementation needs a confirmation from the user",
+				"type": "function",
+				"parameters": [{
+					"name": "messageID",
+					"description": "The id of the message to confirm. The extension has to translate this.",
+					"type": "string"
+				}]
 			}
 		]
 	}

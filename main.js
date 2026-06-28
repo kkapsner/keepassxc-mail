@@ -32,12 +32,20 @@ import("./modules/externalRequests.js");
 
 window.selectedModule = import("./modules/selected.js");
 
+const modalModule = import("./modules/modal.js");
+browser.credentials.onConfirm.addListener(async function(messageId){
+	const { confirmModal } = await modalModule;
+	return await confirmModal(
+		browser.i18n.getMessage(`modal.confirm.${messageId}.title`),
+		browser.i18n.getMessage(`modal.confirm.${messageId}.text`),
+	);
+});
+
 const getCredentialsModule = import("./modules/getCredentials.js");
 browser.credentials.onCredentialRequested.addListener(async function(credentialInfo){
 	const { getCredentials } = await getCredentialsModule;
 	return await getCredentials(credentialInfo);
 });
-
 
 const storeCredentialsModule = import("./modules/storeCredentials.js");
 browser.credentials.onNewCredential.addListener(async function(credentialInfo){
