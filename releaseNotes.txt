@@ -3,15 +3,12 @@ Version 1.17
 new features:
 
 	- new translations
+
 changes:
 
 	- bump version support to 154.*
 	- update keepass.js to version 1.10.3
 	- update client.js to version 1.10.3
-
-fixes:
-
-	- 
 
 Version 1.16
 
