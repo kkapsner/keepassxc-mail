@@ -1,7 +1,10 @@
 import { passwordEmitter, passwordRequestEmitter } from "./emitters.sys.js";
 
 export async function storeCredentials(data){
-	return passwordEmitter.emit("password", data).reduce(function(alreadyStored, stored){
+	const eventData = await passwordEmitter.emit(
+		"password", data
+	);
+	return eventData.reduce(function(alreadyStored, stored){
 		return alreadyStored || stored;
 	}, false);
 }
