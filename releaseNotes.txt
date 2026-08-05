@@ -2,7 +2,7 @@ Version 1.18
 
 new features:
 
-	- 
+	- force auto submit if the only matching entry is in a group called "forceAutoSubmit"
 
 changes:
 

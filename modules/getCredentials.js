@@ -41,6 +41,10 @@ export async function getCredentials(credentialInfo){
 		lastRequest[requestId] = now;
 	}
 	
+	if (!autoSubmit && credentialsForHost.length === 1 && credentialsForHost[0].group === "forceAutoSubmit"){
+		autoSubmit = true;
+	}
+	
 	if (
 		credentialInfo.openChoiceDialog &&
 		credentialsForHost.length
