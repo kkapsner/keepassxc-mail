@@ -372,11 +372,11 @@
 		"description": "The extension {extensionName} wants to store passwords."
 	},
 	"nativeMessageConnectFailed.title": {
-		"message": "Native messaging connect failed",
+		"message": "Verbindung zu native messaging fehlgeschlagen",
 		"description": "Native messaging connect failed"
 	},
 	"nativeMessageConnectFailed.message": {
-		"message": "Connecting to the native messaging failed. Please check if everything is properly installed and set up.\n\nPlease follow the instructions here: (https://github.com/kkapsner/keepassxc-mail#installation-for-keepassxc)",
+		"message": "Die Verbindung zu native messaging ist fehlgeschlagen. Bitte prüfen Sie, ob alles korrekt installiert und eingerichtet ist.\n\nBitte folgen Sie den Anweisungen hier: (https://github.com/kkapsner/keepassxc-mail#installation-for-keepassxc)",
 		"description": "Connecting to the native messaging failed. Please check if everything is properly installed and set up.\n\nPlease follow the instructions here: (https://github.com/kkapsner/keepassxc-mail#installation-for-keepassxc)"
 	}
 }
