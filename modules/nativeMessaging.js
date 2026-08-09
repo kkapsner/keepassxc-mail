@@ -1,5 +1,6 @@
 /* globals keepassClient, keepass, onDisconnected */
 import { log } from "./log.js";
+import { messageModal } from "./modal.js";
 
 keepassClient.nativeHostName = "de.kkapsner.keepassxc_mail";
 export async function connect(forceOptionSearch){
@@ -28,6 +29,10 @@ export async function connect(forceOptionSearch){
 			}
 		}
 	}
+	messageModal(
+		browser.i18n.getMessage("nativeMessageConnectFailed.title"),
+		browser.i18n.getMessage("nativeMessageConnectFailed.message")
+	);
 	throw "Unable to connect to native messaging";
 }
 

@@ -13,6 +13,31 @@ async function resizeToContent(){
 	});
 }
 
+function parseText(text){
+	const container = document.createDocumentFragment();
+	
+	let first = true;
+	text.split(/\n/g).forEach(function(line){
+		if (!first){
+			container.appendChild(document.createElement("br"));
+		}
+		first = false;
+		line.split(/\((http[^)]+)\)/g).forEach(function(linePart, index){
+			if (index % 2 === 0){
+				container.appendChild(document.createTextNode(linePart));
+			}
+			else {
+				const a = document.createElement("a");
+				a.target = "_blank";
+				a.href = linePart;
+				a.textContent = linePart;
+				container.appendChild(a);
+			}
+		});
+	});
+	return container;
+}
+
 function getMessage(name, replacements){
 	const message = browser.i18n.getMessage(name) || name;
 	if (!replacements){

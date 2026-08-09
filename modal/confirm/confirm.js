@@ -1,17 +1,10 @@
-/* globals resizeToContent, initModal*/
+/* globals parseText, initModal, resizeToContent*/
 "use strict";
 
 function fillText(message){
 	document.querySelector("title").textContent = message.title;
 	const textNode = document.querySelector(".question");
-	let first = true;
-	message.question.split(/\n/g).forEach(function(line){
-		if (!first){
-			textNode.appendChild(document.createElement("br"));
-		}
-		first = false;
-		textNode.appendChild(document.createTextNode(line));
-	});
+	textNode.appendChild(parseText(message.question));
 	document.getElementById("yes").textContent = browser.i18n.getMessage("modal.confirm.yes");
 	document.getElementById("no").textContent = browser.i18n.getMessage("modal.confirm.no");
 }
