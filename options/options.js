@@ -29,7 +29,11 @@ async function updateConnections(){
 }
 updateConnections();
 
+const allowedPrivilegeTypes = ["request", "store"];
 function createPrivilegeInput(extension, privileges, privilegesApi, type){
+	if (!allowedPrivilegeTypes.includes(type)){
+		throw new Error("Invalid privilege type: " + type);
+	}
 	const input = document.createElement("input");
 	input.type = "checkbox";
 	const state = privileges[type];
