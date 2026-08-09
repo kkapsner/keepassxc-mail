@@ -300,11 +300,11 @@
 		"description": "No"
 	},
 	"modal.confirm.updateExternalBrowserUsage.title": {
-		"message": "Restart required",
+		"message": "Redémarrage nécessaire",
 		"description": "Restart required"
 	},
 	"modal.confirm.updateExternalBrowserUsage.text": {
-		"message": "The preference mailnews.oauth.useExternalBrowser is set to a value that is not compatible with KeePassXC-mail. It has to be changed and Thunderbird has to be restarted.\n\nDo you want to continue?",
+		"message": "La préférence mailnews.oauth.useExternalBrowser est définie à une valeur incompatible avec KeePassXC-mail. Elle doit être modifiée et Thunderbird doit être redémarré.\n\nVoulez-vous continuer ?",
 		"description": "The preference mailnews.oauth.useExternalBrowser is set to a value that is not compatible with KeePassXC-mail. It has to be changed and Thunderbird has to be restarted.\n\nDo you want to continue?"
 	},
 	"modal.message.ok": {
@@ -370,5 +370,13 @@
 	"privilegeRequest.message.store": {
 		"message": "L'extension {extensionName} souhaite enregistrer des mots de passe.",
 		"description": "The extension {extensionName} wants to store passwords."
+	},
+	"nativeMessageConnectFailed.title": {
+		"message": "Native messaging connect failed",
+		"description": "Native messaging connect failed"
+	},
+	"nativeMessageConnectFailed.message": {
+		"message": "Connecting to the native messaging failed. Please check if everything is properly installed and set up.\n\nPlease follow the instructions here: (https://github.com/kkapsner/keepassxc-mail#installation-for-keepassxc)",
+		"description": "Connecting to the native messaging failed. Please check if everything is properly installed and set up.\n\nPlease follow the instructions here: (https://github.com/kkapsner/keepassxc-mail#installation-for-keepassxc)"
 	}
 }
