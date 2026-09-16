@@ -84,8 +84,8 @@
 		"description": "Attestation not supported."
 	},
 	"errorMessagePasskeysCredentialIsExcluded": {
-		"message": "Les informations d'identification sont exclues.",
-		"description": "Credential is excluded."
+		"message": "Passkey not registered due to an existing credential. Remove the existing credential to continue.",
+		"description": "Passkey not registered due to an existing credential. Remove the existing credential to continue."
 	},
 	"errorMessagePasskeysRequestCanceled": {
 		"message": "Demande de mots de passe annulée.",
@@ -134,6 +134,22 @@
 	"errorMessagePasskeysInvalidUserId": {
 		"message": "user.id ne correspond pas à la longueur requise.",
 		"description": "user.id does not match the required length."
+	},
+	"errorMessageCannotUseReferences": {
+		"message": "Username or password cannot contain references.",
+		"description": "Username or password cannot contain references."
+	},
+	"errorMessagePasskeysEvalByCredentialNotSupported": {
+		"message": "evalByCredential is not supported at registration.",
+		"description": "evalByCredential is not supported at registration."
+	},
+	"errorMessagePasskeysEvalByCredentialNotEmpty": {
+		"message": "evalByCredential is not empty, but allowedCredentials is.",
+		"description": "evalByCredential is not empty, but allowedCredentials is."
+	},
+	"errorMessagePasskeysEvalByCredentialNotFound": {
+		"message": "Credential ID provided in evalByCredential not found.",
+		"description": "Credential ID provided in evalByCredential not found."
 	},
 	"loadingPasswords": {
 		"message": "Chargement des mots de passe...",
