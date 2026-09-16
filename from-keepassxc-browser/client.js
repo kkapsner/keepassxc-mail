@@ -44,6 +44,10 @@ const kpErrors = {
     PASSKEYS_UNKNOWN_ERROR: 31,
     PASSKEYS_INVALID_CHALLENGE: 32,
     PASSKEYS_INVALID_USER_ID: 33,
+    CANNOT_USE_REFERENCES: 34,
+    PASSKEYS_EVAL_BY_CREDENTIAL_NOT_SUPPORTED: 35,
+    PASSKEYS_EVAL_BY_CREDENTIAL_NOT_EMPTY: 36,
+    PASSKEYS_EVAL_BY_CREDENTIAL_NOT_FOUND: 37,
 
     errorMessages: {
         0: { msg: tr('errorMessageUnknown') },
@@ -80,6 +84,10 @@ const kpErrors = {
         31: { msg: tr('errorMessagePasskeysUnknownError') },
         32: { msg: tr('errorMessagePasskeysInvalidChallenge') },
         33: { msg: tr('errorMessagePasskeysInvalidUserId') },
+        34: { msg: tr('errorMessageCannotUseReferences') },
+        35: { msg: tr('errorMessagePasskeysEvalByCredentialNotSupported') },
+        36: { msg: tr('errorMessagePasskeysEvalByCredentialNotEmpty') },
+        37: { msg: tr('errorMessagePasskeysEvalByCredentialNotFound') }
     },
 
     getError(errorCode) {

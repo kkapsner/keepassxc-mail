@@ -65,6 +65,12 @@ keepass.addCredentials = async function(tab, args = []) {
 keepass.updateCredentials = async function(tab, args = []) {
     try {
         const [ entryId, username, password, url, group, groupUuid ] = args;
+
+        if (containsPlaceholder(username) || containsPlaceholder(password)) {
+            logError('References are not allowed in username or password');
+            return CreationError.REFERENCES;
+        }
+
         const taResponse = await keepass.testAssociation(tab);
         if (!taResponse) {
             browserAction.showDefault(tab);
@@ -102,12 +108,12 @@ keepass.updateCredentials = async function(tab, args = []) {
             // KeePassXC versions lower than 2.5.0 will have an empty parsed.error
             let successMessage = response.error;
             if (response.error === 'success' || response.error === '') {
-                successMessage = entryId ? 'updated' : 'created';
+                successMessage = entryId ? CreationError.UPDATED : CreationError.CREATED;
             }
 
             return successMessage;
         } else {
-            return 'error';
+            return CreationError.GENERAL;
         }
     } catch (err) {
         logError(`updateCredentials failed: ${err}`);
@@ -620,7 +626,7 @@ keepass.passkeysRegister = async function(tab, args = []) {
         const taResponse = await keepass.testAssociation(tab, [ false ]);
         if (!taResponse || !keepass.isConnected || args.length < 2) {
             browserAction.showDefault(tab);
-            return [];
+            return null;
         }
 
         const kpAction = kpActions.PASSKEYS_REGISTER;
@@ -644,10 +650,10 @@ keepass.passkeysRegister = async function(tab, args = []) {
         }
 
         browserAction.showDefault(tab);
-        return [];
+        return null;
     } catch (err) {
         logError(`passkeysRegister failed: ${err}`);
-        return [];
+        return null;
     }
 };
 
@@ -656,7 +662,7 @@ keepass.passkeysGet = async function(tab, args = []) {
         const taResponse = await keepass.testAssociation(tab, [ false ]);
         if (!taResponse || !keepass.isConnected || args.length < 2) {
             browserAction.showDefault(tab);
-            return [];
+            return null;
         }
 
         const kpAction = kpActions.PASSKEYS_GET;
@@ -679,10 +685,10 @@ keepass.passkeysGet = async function(tab, args = []) {
         }
 
         browserAction.showDefault(tab);
-        return [];
+        return null;
     } catch (err) {
         logError(`passkeysGet failed: ${err}`);
-        return [];
+        return null;
     }
 };
 
@@ -694,7 +700,7 @@ keepass.migrateKeyRing = function() {
     return new Promise((resolve, reject) => {
         browser.storage.local.get('keyRing').then((item) => {
             const keyring = item.keyRing;
-            // Change dates to numbers, for compatibilty with Chromium based browsers
+            // Change dates to numbers, for compatibility with Chromium based browsers
             if (keyring) {
                 let num = 0;
                 for (const keyHash in keyring) {
@@ -828,7 +834,7 @@ keepass.reconnect = async function(tab = null, connectionTimeout = 1500) {
     } else {
         keepassClient.connectToNative();
     }
-    
+
     keepass.generateNewKeyPair();
     const keyChangeResult = await keepass
         .changePublicKeys(tab, !!connectionTimeout, connectionTimeout)
@@ -989,18 +995,25 @@ keepass.updateDatabase = async function() {
 
 keepass.updateDatabaseHashToContent = async function() {
     try {
-        const tab = await getCurrentTab();
-        if (tab?.id) {
-            // Send message to content script
-            browser.tabs.sendMessage(tab.id, {
-                action: 'check_database_hash',
-                hash: { old: keepass.previousDatabaseHash, new: keepass.databaseHash },
-                connected: keepass.isKeePassXCAvailable
-            }).catch((err) => {
-                logError('No content script available for this tab.');
-            });
-            keepass.previousDatabaseHash = keepass.databaseHash;
+        // Get all active tabs from all windows
+        const currentWindowTabs = await browser.tabs.query({ active: true, currentWindow: true, discarded: false });
+        const otherTabs = await browser.tabs.query({ active: true, currentWindow: false, discarded: false });
+        const allTabs = [ ...currentWindowTabs, ...otherTabs ];
+
+        for (const tab of allTabs) {
+            if (tab?.id) {
+                // Send message to content script
+                browser.tabs.sendMessage(tab.id, {
+                    action: 'check_database_hash',
+                    hash: { old: keepass.previousDatabaseHash, new: keepass.databaseHash },
+                    connected: keepass.isKeePassXCAvailable
+                }).catch((err) => {
+                    logError('No content script available for this tab.');
+                });
+            }
         }
+
+        keepass.previousDatabaseHash = keepass.databaseHash;
     } catch (err) {
         logError(`updateDatabaseHashToContent failed: ${err}`);
     }

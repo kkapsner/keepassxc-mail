@@ -7,6 +7,8 @@ new features:
 changes:
 
 	- bump version support to 158.*
+	- update keepass.js to version 1.10.4
+	- update client.js to version 1.10.4
 
 fixes:
 	- 
