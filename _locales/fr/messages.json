@@ -84,7 +84,7 @@
 		"description": "Attestation not supported."
 	},
 	"errorMessagePasskeysCredentialIsExcluded": {
-		"message": "Passkey not registered due to an existing credential. Remove the existing credential to continue.",
+		"message": "Le mot de passe n'est pas enregistré en raison d'un identifiant existant. Supprimez les identifiants existants pour poursuivre.",
 		"description": "Passkey not registered due to an existing credential. Remove the existing credential to continue."
 	},
 	"errorMessagePasskeysRequestCanceled": {
@@ -136,19 +136,19 @@
 		"description": "user.id does not match the required length."
 	},
 	"errorMessageCannotUseReferences": {
-		"message": "Username or password cannot contain references.",
+		"message": "Le nom d'utilisateur ou le mot de passe ne peut pas contenir de références.",
 		"description": "Username or password cannot contain references."
 	},
 	"errorMessagePasskeysEvalByCredentialNotSupported": {
-		"message": "evalByCredential is not supported at registration.",
+		"message": "evalByCredential n'est pas supporté lors de l'enregistrement.",
 		"description": "evalByCredential is not supported at registration."
 	},
 	"errorMessagePasskeysEvalByCredentialNotEmpty": {
-		"message": "evalByCredential is not empty, but allowedCredentials is.",
+		"message": "evalByCredential n'est pas vide, mais est allowedCredentials l'est.",
 		"description": "evalByCredential is not empty, but allowedCredentials is."
 	},
 	"errorMessagePasskeysEvalByCredentialNotFound": {
-		"message": "Credential ID provided in evalByCredential not found.",
+		"message": "L'identifiant fourni dans evalByCredential est introuvable.",
 		"description": "Credential ID provided in evalByCredential not found."
 	},
 	"loadingPasswords": {
