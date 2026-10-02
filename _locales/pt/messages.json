@@ -320,7 +320,7 @@
 		"description": "Restart required"
 	},
 	"modal.confirm.updateExternalBrowserUsage.text": {
-		"message": "The preference mailnews.oauth.useExternalBrowser is set to a value that is not compatible with KeePassXC-mail. It has to be changed and Thunderbird has to be restarted.\n\nDo you want to continue?",
+		"message": "A opção mailnews.oauth.useExternalBrowser está com um valor incompatível com KeePassXC-mail. Terá que ser alterado e o Thunderbird reiniciado.\n\nDeseja continuar?",
 		"description": "The preference mailnews.oauth.useExternalBrowser is set to a value that is not compatible with KeePassXC-mail. It has to be changed and Thunderbird has to be restarted.\n\nDo you want to continue?"
 	},
 	"modal.message.ok": {
