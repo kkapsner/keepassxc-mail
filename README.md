@@ -9,8 +9,9 @@ Based on [KeePassXC-Browser](https://github.com/keepassxreboot/keepassxc-browser
 *Hopefully we can get this as simple as for KeePassXC-Browser in the future.*
 
  1. Configure KeePassXC-Browser as described in [this document](https://keepassxc.org/docs/KeePassXC_GettingStarted.html#_configure_keepassxc_browser). Make sure to enable the integration for Firefox.
- 2. Create the configuration file for Native Messaging as described below in [Native Messaging configuration](#native-messaging-configuration).
- 3. Install the add-on in Thunderbird. Either install it from [addons.thunderbird.net](https://addons.thunderbird.net/thunderbird/addon/keepassxc-mail/) or download the [latest prebuilt xpi](https://github.com/kkapsner/keepassxc-mail/releases/latest) or build it yourself (`npm install`, `npm run build`, the xpi will be in the `mail-ext-artifacts` directory).
+ 2. Check that KeePassXC-Browser is working in a similar installed Firefox[^WindowsInstallationMethods][^LinuxInstallationMethods]
+ 3. Create the configuration file for Native Messaging as described below in [Native Messaging configuration](#native-messaging-configuration).
+ 4. Install the add-on in Thunderbird. Either install it from [addons.thunderbird.net](https://addons.thunderbird.net/thunderbird/addon/keepassxc-mail/) or download the [latest prebuilt xpi](https://github.com/kkapsner/keepassxc-mail/releases/latest) or build it yourself (`npm install`, `npm run build`, the xpi will be in the `mail-ext-artifacts` directory).
 
 ## Installation for KeePass 2
 
@@ -45,7 +46,9 @@ cat ~/.mozilla/native-messaging-hosts/org.keepassxc.keepassxc_browser.json \
  > ~/.mozilla/native-messaging-hosts/de.kkapsner.keepassxc_mail.json
 ```
 
-If Thunderbird is installed via Snap or flatpak you might need to enable the native messaging via the `widget.use-xdg-desktop-portal.native-messaging` setting (set it to 1 or 2) or do some deeper workarounds. See https://github.com/kkapsner/keepassxc-mail/issues/95 for further details.
+If Thunderbird is installed via Snap or flatpak you might need to enable the native messaging via the `widget.use-xdg-desktop-portal.native-messaging` or `widget.use-xdg-desktop-portal.native-messaging-proxy` setting (set it to 1 or 2).
+
+See https://github.com/kkapsner/keepassxc-mail/issues/95 for further details.
 
 ### Mac OS X
 
@@ -95,3 +98,6 @@ KeePassXC-Mail itself does not contact any server and does not store any private
  * https://github.com/dchest/tweetnacl-util-js/blob/v0.15.0/nacl-util.min.js
  * https://github.com/keepassxreboot/keepassxc-browser/blob/1.10.4.1/keepassxc-browser/background/client.js
  * https://github.com/keepassxreboot/keepassxc-browser/blob/1.10.4.1/keepassxc-browser/background/keepass.js
+
+[^WindowsInstallationMethods]: Windows examples: Microsoft Store, winget, downloading the program and installing it manually
+[^LinuxInstallationMethods]: Linux examples: native binary, flatpak, snap, not using the package manager
