@@ -104,20 +104,6 @@ export const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProto
 	
 	addDialogType({
 		protocol: "smtp",
-		title:  getBundleString("compose", "smtpEnterPasswordPromptTitle"),
-		dialog: getBundleString("compose", "smtpEnterPasswordPromptWithUsername"),
-		hostPlaceholder: "%1$S",
-		loginPlaceholder: "%2$S"
-	});
-	addDialogType({
-		protocol: "smtp",
-		title:  getBundleString("compose", "smtpEnterPasswordPromptTitle"),
-		dialog: getBundleString("compose", "smtpEnterPasswordPrompt"),
-		hostPlaceholder: "%S",
-		loginPlaceholder: ""
-	});
-	addDialogType({
-		protocol: "smtp",
 		title:  getBundleString("compose", "smtpEnterPasswordPromptTitleWithHostname"),
 		titleRegExp: true,
 		dialog: getBundleString("compose", "smtpEnterPasswordPromptWithUsername"),
@@ -131,33 +117,12 @@ export const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProto
 		dialog: getBundleString("compose", "smtpEnterPasswordPrompt"),
 		hostPlaceholder: "%S",
 		loginPlaceholder: ""
-	});
-	addDialogType({
-		protocol: "imap",
-		title:  getBundleString("imap", "imapEnterPasswordPromptTitle"),
-		dialog: getBundleString("imap", "imapEnterServerPasswordPrompt"),
-		hostPlaceholder: "%2$S",
-		loginPlaceholder: "%1$S"
 	});
 	addDialogType({
 		protocol: "imap",
 		title:  getBundleString("imap", "imapEnterPasswordPromptTitleWithUsername"),
 		titleRegExp: true,
 		dialog: getBundleString("imap", "imapEnterServerPasswordPrompt"),
-		hostPlaceholder: "%2$S",
-		loginPlaceholder: "%1$S"
-	});
-	addDialogType({
-		protocol: "pop3",
-		title:  getBundleString("local", "pop3EnterPasswordPromptTitle"),
-		dialog: getBundleString("local", "pop3EnterPasswordPrompt"),
-		hostPlaceholder: "%2$S",
-		loginPlaceholder: "%1$S"
-	});
-	addDialogType({
-		protocol: "pop3",
-		title:  getBundleString("local", "pop3EnterPasswordPromptTitle"),
-		dialog: getBundleString("local", "pop3PreviouslyEnteredPasswordIsInvalidPrompt"),
 		hostPlaceholder: "%2$S",
 		loginPlaceholder: "%1$S"
 	});
@@ -204,38 +169,10 @@ export const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProto
 	
 	addDialogType({
 		protocol: false,
-		title:  getBundleString("wcap", "loginDialog.label"),
-		dialog: getBundleString("commonDialog", "EnterPasswordFor"),
-		hostPlaceholder: "%2$S",
-		loginPlaceholder: "%1$S"
-	});
-	addDialogType({
-		protocol: false,
-		title:  getBundleString("wcap", "loginDialog.label"),
-		dialog: getBundleString("commonDialog", "EnterUserPasswordFor2"),
-		hostPlaceholder: "%1$S",
-		loginPlaceholder: ""
-	});
-	addDialogType({
-		protocol: false,
-		title:  getBundleString("commonDialog", "PromptUsernameAndPassword2"),
-		dialog: getBundleString("commonDialog", "EnterLoginForRealm3"),
-		hostPlaceholder: "%2$S",
-		loginPlaceholder: ""
-	});
-	addDialogType({
-		protocol: false,
 		title:  getBundleString("commonDialog", "PromptUsernameAndPassword3"),
 		titleRegExp: true,
 		dialog: getBundleString("commonDialog", "EnterLoginForRealm3"),
 		hostPlaceholder: "%2$S",
-		loginPlaceholder: ""
-	});
-	addDialogType({
-		protocol: false,
-		title:  getBundleString("commonDialog", "PromptUsernameAndPassword2"),
-		dialog: getBundleString("commonDialog", "EnterUserPasswordFor2"),
-		hostPlaceholder: "%1$S",
 		loginPlaceholder: ""
 	});
 	addDialogType({
@@ -246,26 +183,18 @@ export const {getCredentialInfoFromStrings, getCredentialInfoFromStringsAndProto
 		hostPlaceholder: "%1$S",
 		loginPlaceholder: ""
 	});
-	addDialogType({
+	
+	// master password is called primary password in the UI
+	const masterType = addDialogType({
 		protocol: false,
-		title:  getBundleString("commonDialog", "PromptPassword2"),
-		dialog: getBundleString("commonDialog", "EnterPasswordFor"),
-		hostPlaceholder: "%2$S",
-		loginPlaceholder: "%1$S"
+		title:  getBundleString("commonDialog", "PromptPassword3"),
+		dialog: getBundleString("pipnss", "CertPasswordPromptDefault"),
+		titleRegExp: true,
+		hostPlaceholder: "",
+		loginPlaceholder: "",
+		noLoginRequired: true,
 	});
-	["CertPassPromptDefault", "CertPasswordPromptDefault"].forEach(function(dialogStringName){
-		// master password is called primary password in the UI
-		const masterType = addDialogType({
-			protocol: false,
-			title:  getBundleString("commonDialog", "PromptPassword3"),
-			dialog: getBundleString("pipnss", dialogStringName),
-			titleRegExp: true,
-			hostPlaceholder: "",
-			loginPlaceholder: "",
-			noLoginRequired: true,
-		});
-		masterType.forcedHost = "masterPassword://Thunderbird";
-	});
+	masterType.forcedHost = "masterPassword://Thunderbird";
 	
 	const pgpI10n = new Localization(["messenger/openpgp/keyWizard.ftl"], true);
 	if (pgpI10n){

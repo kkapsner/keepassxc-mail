@@ -13,6 +13,7 @@ changes:
 fixes:
 	- remove unrelated title to modal messages
 	- do not show native messaging warning if the connection was established once before in the session
+	- remove unnecessary warnings
 
 Version 1.18
 

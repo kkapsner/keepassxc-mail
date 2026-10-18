@@ -79,13 +79,6 @@ const promptFunctions = [
 		authInfoIndex: 5,
 		passwordObjectIndex: 5,
 	},
-	{
-		name: "asyncPromptAuthBC",
-		promptType: "promptUserAndPass",
-		channelIndex: 2,
-		authInfoIndex: 6,
-		passwordObjectIndex: 6,
-	},
 ];
 initPromptFunctions(promptFunctions, Prompter.prototype, "Prompter");
 registerPromptFunctions(promptFunctions);
