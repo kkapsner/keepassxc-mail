@@ -1,9 +1,5 @@
 Version 1.19
 
-new features:
-
-	- 
-
 changes:
 
 	- bump version support to 160.*
