@@ -3,6 +3,7 @@ import { log } from "./log.js";
 import { messageModal } from "./modal.js";
 
 keepassClient.nativeHostName = "de.kkapsner.keepassxc_mail";
+let hadSuccessOnce = false;
 export async function connect(forceOptionSearch){
 	const savedNativeHostName = forceOptionSearch?
 		false:
@@ -11,6 +12,7 @@ export async function connect(forceOptionSearch){
 		keepassClient.nativeHostName = savedNativeHostName;
 		log("Use saved native application", keepassClient.nativeHostName);
 		if (await keepass.reconnect(null, 10000)){ // 10 second timeout for the first connect
+			hadSuccessOnce = true;
 			return true;
 		}
 	}
@@ -25,14 +27,17 @@ export async function connect(forceOptionSearch){
 			log("Try native application", keepassClient.nativeHostName);
 			if (await keepass.reconnect(null, 10000)){ // 10 second timeout for the first connect
 				browser.storage.local.set({nativeHostName: keepassClient.nativeHostName});
+				hadSuccessOnce = true;
 				return true;
 			}
 		}
 	}
-	messageModal(
-		browser.i18n.getMessage("nativeMessageConnectFailed.title"),
-		browser.i18n.getMessage("nativeMessageConnectFailed.message")
-	);
+	if (!hadSuccessOnce){
+		messageModal(
+			browser.i18n.getMessage("nativeMessageConnectFailed.title"),
+			browser.i18n.getMessage("nativeMessageConnectFailed.message")
+		);
+	}
 	throw "Unable to connect to native messaging";
 }
 
