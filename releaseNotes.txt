@@ -1,3 +1,17 @@
+Version 1.20
+
+new features:
+
+	- 
+
+changes:
+
+	- 
+
+fixes:
+
+	- 
+
 Version 1.19
 
 changes:
